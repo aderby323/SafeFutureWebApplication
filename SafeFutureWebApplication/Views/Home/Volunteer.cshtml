@@ -1,0 +1,31 @@
+﻿@model SafeFutureWebApplication.Models.Volunteer
+@{
+    ViewBag.Title = "Register New Volunteer Account";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>NewVolunteer</title>
+</head>
+<body>
+    <form asp-action="VolunteerAccount" method="post">
+        <p>
+            <label asp-for="userID">Username:</label>
+            <input asp-for="userID"/>
+        </p>
+        <p>
+            <label asp-for="password">Password:</label>
+            <input asp-for="password" />
+        </p>
+        <p>
+            <label asp-for="confirmPassword">Confirm Password:</label>
+            <input asp-for="confirmPassword" />
+        </p>
+        <p>
+            <button type="submit">Create Volunteer Account</button>        
+        </p>
+    </form>
+</body>
+</html>
