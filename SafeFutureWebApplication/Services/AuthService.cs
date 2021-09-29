@@ -18,7 +18,28 @@ namespace SafeFutureWebApplication.Services
             _tempDB = tempDB;
         }
 
-        // COLT COME BACK HERE
+        public string HashPassword(string password)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public User ValidateLogin(LoginViewModel login)
+        {
+            if (login is null || string.IsNullOrEmpty(login.Username) || string.IsNullOrEmpty(login.Password)) { return default; }
+
+            User user = _tempDB.Users.Find(x => x.Username.Equals(login.Username));
+
+            if (user is null) { return default; }
+
+            if (user.Password.Equals(login.Password))
+            {
+                return user;
+            }
+            else
+            {
+                return default;
+            }
+        }
 
     }
 }
