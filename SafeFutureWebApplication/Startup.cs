@@ -8,6 +8,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using SafeFutureWebApplication.Repository;
+using SafeFutureWebApplication.Services;
+using SafeFutureWebApplication.Services.Interfaces;
+using System.Security.Claims;
 
 namespace SafeFutureWebApplication
 {
@@ -24,6 +29,29 @@ namespace SafeFutureWebApplication
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+
+            services.AddTransient<IAuthService, AuthService>();
+            services.AddSingleton<TempDB>();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/Home/Login";
+                    options.Cookie.Name = "LoginCookie";
+                });
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Admin",
+                    policy => policy.RequireClaim(ClaimTypes.Role, "Admin"));
+            });
+
+            services.AddSession(options =>
+            {
+                options.Cookie.Name = "VMS.Session";
+                options.IdleTimeout = TimeSpan.FromMinutes(5);
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,7 +72,10 @@ namespace SafeFutureWebApplication
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
