@@ -52,10 +52,8 @@ namespace SafeFutureWebApplication.Controllers
 
             ClaimsIdentity identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
             identity.AddClaim(new Claim(ClaimTypes.Name, user.Username));
-            foreach (string role in user.Role)
-            {
-                identity.AddClaim(new Claim(ClaimTypes.Role, role));
-            }
+            identity.AddClaim(new Claim(ClaimTypes.Role, user.Role));
+            
 
             HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
             HttpContext.Session.SetString("SessionKey", login.Username);
