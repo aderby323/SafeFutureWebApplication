@@ -28,7 +28,7 @@ namespace SafeFutureWebApplication.Controllers
             _authService = authService;
         }
 
-        [Authorize("staff")]
+        [Authorize(Roles ="Staff, Admin")]
         public IActionResult Index()
         {
             return View();
