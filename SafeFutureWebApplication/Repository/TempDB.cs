@@ -10,10 +10,12 @@ namespace SafeFutureWebApplication.Repository
     public class TempDB
     {
         public List<User> Users;
+        public List<Participant> Participants;
 
         public TempDB()
         {
             Users = new List<User>();
+            Participants = new List<Participant>();
 
             Users.Add(new User()
             {
