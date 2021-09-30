@@ -8,7 +8,7 @@ using SafeFutureWebApplication.Models;
 
 namespace SafeFutureWebApplication.Controllers
 {
-    public class VolunteerController : Controller
+    public class UserController : Controller
     {
         public IActionResult Index()
         {

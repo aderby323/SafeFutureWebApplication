@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SafeFutureWebApplication.Models
 {
-    public class Volunteer
+    public class User
     {
         public string userID { get; set; }
         public string password { get; set; }
