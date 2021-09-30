@@ -1,8 +1,13 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    <!-- Home/Index.cshtml -->
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+    <div class="row">
+        @Html.ActionLink("Admin Portal", "Index", "Admin", null, new { @class = "btn btn-success m-2" })
+        @Html.ActionLink("Staff Portal", "Index", "Staff", null, new { @class = "btn btn-success m-2" })
+
+    </div>
+
 </div>

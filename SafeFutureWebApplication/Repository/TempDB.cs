@@ -15,18 +15,27 @@ namespace SafeFutureWebApplication.Repository
         {
             Users = new List<User>();
 
+            // WILL ASK CHRIS IF HE WANTS ADMIN TO HAVE ACCESS TO STUFF FUNCTIONALITY
             Users.Add(new User()
             {
                 Username = "admin",
                 Password = "admin",
-                Role = "Admin"
+                Roles = { "Admin" }
             });
 
             Users.Add(new User()
             {
                 Username = "staff",
                 Password = "staff",
-                Role = "Staff"
+                Roles = { "Staff" }
+            });
+
+            // WILL DELETE BEFORE DELIVERY
+            Users.Add(new User()
+            {
+                Username = "dev",
+                Password = "dev",
+                Roles = { "Staff", "Admin" }
             });
         }
 
