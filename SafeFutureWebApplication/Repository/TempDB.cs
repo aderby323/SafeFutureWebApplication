@@ -28,6 +28,14 @@ namespace SafeFutureWebApplication.Repository
                 Password = "staff",
                 Roles = { "Staff" }
             });
+
+            // WILL DELETE BEFORE DELIVERY
+            Users.Add(new User()
+            {
+                Username = "dev",
+                Password = "dev",
+                Roles = { "Staff", "Admin" }
+            });
         }
 
     }
