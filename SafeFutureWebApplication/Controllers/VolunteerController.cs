@@ -15,14 +15,22 @@ namespace SafeFutureWebApplication.Controllers
             return View();
         }
         [HttpGet]
-        public IActionResult Register()
+        public IActionResult Create()
         {
             return View();
         }
         [HttpPost]
-        public IActionResult Register(Volunteer _volunteer)
+        public IActionResult Create(Volunteer _volunteer)
         {
 
+            return View();
+        }
+        public IActionResult Edit(Volunteer _volunteer)
+        {
+            return View();
+        }
+        public IActionResult Delete(Volunteer _volunteer)
+        {
             return View();
         }
     }
