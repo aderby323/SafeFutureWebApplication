@@ -25,5 +25,10 @@ namespace SafeFutureWebApplication.Controllers
         {
             return View();
         }
+
+        public IActionResult Reports()
+        {
+            return View();
+        }
     }
 }
