@@ -15,6 +15,7 @@ namespace SafeFutureWebApplication.Repository
         {
             Users = new List<User>();
 
+            // WILL ASK CHRIS IF HE WANTS ADMIN TO HAVE ACCESS TO STUFF FUNCTIONALITY
             Users.Add(new User()
             {
                 Username = "admin",
