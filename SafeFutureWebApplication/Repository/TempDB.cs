@@ -19,14 +19,14 @@ namespace SafeFutureWebApplication.Repository
             {
                 Username = "admin",
                 Password = "admin",
-                Role = "Admin"
+                Roles = { "Admin" }
             });
 
             Users.Add(new User()
             {
                 Username = "staff",
                 Password = "staff",
-                Role = "Staff"
+                Roles = { "Staff" }
             });
         }
 
