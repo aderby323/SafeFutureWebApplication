@@ -28,9 +28,15 @@ namespace SafeFutureWebApplication.Controllers
         [HttpPost]
         public IActionResult Create(User user)
         {
-            _tempDB.AddUser(user);
-            
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                _tempDB.AddUser(user);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View();
+            }
         }
         public IActionResult Edit(User user)
         {
