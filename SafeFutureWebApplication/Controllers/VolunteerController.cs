@@ -1,34 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SafeFutureWebApplication.Models.ViewModels;
+using SafeFutureWebApplication.Models;
+using SafeFutureWebApplication.Services.Interfaces;
 
 namespace SafeFutureWebApplication.Controllers
 {
+    [Authorize("Admin")]
     public class VolunteerController : Controller
     {
+        private readonly IVolunteerService volunteerService;
+
+        public VolunteerController(IVolunteerService volunteerService)
+        {
+            this.volunteerService = volunteerService;
+        }
+
         public IActionResult Index()
         {
-            return View();
+            IEnumerable<Participant> participants = volunteerService.GetParticipants();
+            return View(participants);
         }
 
         [HttpGet]
-        public IActionResult Register()
+        public IActionResult AddParticipant()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Register(ParicipantFormViewModel viewModel)
+        public IActionResult AddParticipant(Participant participant)
         {
             if (!ModelState.IsValid)
             {
-                return View("Form not fully filled out.");
+                return View("AddParticipant", participant);
             }
 
-            return View();
+            bool result = volunteerService.AddParticipant(participant);
+            if (!result) { return BadRequest(); }
+
+            return RedirectToAction("Index");
         }
     }
 }

@@ -25,14 +25,14 @@ namespace SafeFutureWebApplication
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
 
-
             services.AddTransient<IAuthService, AuthService>();
             services.AddSingleton<TempDB>();
+
+            services.AddProjectServices();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
@@ -40,10 +40,14 @@ namespace SafeFutureWebApplication
                     options.LoginPath = "/Home/Login";
                     options.Cookie.Name = "LoginCookie";
                 });
+
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("Admin",
                     policy => policy.RequireClaim(ClaimTypes.Role, "Admin"));
+
+                options.AddPolicy("Volunteer",
+                    policy => policy.RequireClaim(ClaimTypes.Role, "Volunteer"));
             });
 
             services.AddSession(options =>

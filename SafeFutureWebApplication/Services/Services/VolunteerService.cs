@@ -3,8 +3,6 @@ using SafeFutureWebApplication.Repository;
 using SafeFutureWebApplication.Services.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SafeFutureWebApplication.Services
 {
@@ -16,6 +14,11 @@ namespace SafeFutureWebApplication.Services
             repo = tempDb;
         }
 
+        public IEnumerable<Participant> GetParticipants()
+        {
+            return repo.Participants;
+        }
+            
         public bool AddParticipant(Participant participant)
         {
             participant.ParticipantId = Guid.NewGuid();

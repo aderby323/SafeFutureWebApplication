@@ -1,5 +1,20 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model List<SafeFutureWebApplication.Models.Participant>
+
+<div class="container">
+    @if (Model != null)
+    {
+        <span>Participants: @Model.Count</span>
+    }
+    else
+    {
+        <span>No participants in database.</span>
+    }
+    @foreach (var x in Model)
+    {
+        <div>
+            <h3>@x.FirstName @x.LastName</h3>
+            <p>@x.ZipCode</p>
+            <p>@x.HouseholdSize</p>
+        </div>
+    }
+</div>
