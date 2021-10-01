@@ -11,17 +11,20 @@ namespace SafeFutureWebApplication.Repository
     {
         public List<User> Users;
         public List<Participant> Participants;
+        public List<Customer> Customers;
         public List<User> users = new List<User>();
         public TempDB()
         {
             Users = new List<User>();
             Participants = new List<Participant>();
+            Customers = new List<Customer>();
 
             // WILL ASK CHRIS IF HE WANTS ADMIN TO HAVE ACCESS TO STUFF FUNCTIONALITY
             Users.Add(new User()
             {
                 Username = "admin",
                 Password = "admin",
+                Role = "Admin",
                 Roles = { "Admin" }
             });
 
@@ -29,6 +32,7 @@ namespace SafeFutureWebApplication.Repository
             {
                 Username = "staff",
                 Password = "staff",
+                Role = "Staff",
                 Roles = { "Staff" }
             });
 
@@ -37,6 +41,7 @@ namespace SafeFutureWebApplication.Repository
             {
                 Username = "dev",
                 Password = "dev",
+                Role = "Admin",
                 Roles = { "Staff", "Admin" }
             });
 
