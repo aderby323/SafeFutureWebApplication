@@ -1,36 +1,31 @@
 ﻿@model SafeFutureWebApplication.Models.User
 @{
     ViewBag.Title = "Register New User Account";
-    Layout = null;
 }
-<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>NewUser</title>
-</head>
-<body>
+
+<h2>Create New User Account</h2>
+
+<div class="container">
     <form asp-action="Create" method="post">
-        <p>
+       <div asp-validation-summary="All"></div>
+        <div class="mb-3">
             <label asp-for="Username">Username:</label>
-            <input asp-for="Username"/>
-        </p>
-        <p>
+            <input asp-for="Username" type="text" class="form-control"/>
+        </div>
+        <div class="mb-3">
             <label asp-for="Password">Password:</label>
-            <input asp-for="Password" />
-        </p>
-        <p>
+            <input asp-for="Password" type="text" class="form-control" />
+        </div>
+        <div class="mb-3">
             <label asp-for="Role">Role:</label>
-            <select asp-for="Role">
+            <select asp-for="Role" class="form-control" >
                 <option value="">Choose a role:</option>
                 <option value="Admin">Admin</option>
                 <option value="Staff">Staff</option>
             </select>
-
-        </p>
+        </div>
         <p>
-            <button type="submit">Create User</button>        
+            <button type="submit" class="btn btn-primary">Create User</button>        
         </p>
     </form>
-</body>
-</html>
+</div>
