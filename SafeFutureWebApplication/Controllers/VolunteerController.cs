@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using SafeFutureWebApplication.Models;
-
+using Microsoft.AspNetCore.Mvc;
+using SafeFutureWebApplication.Models.ViewModels;
 
 namespace SafeFutureWebApplication.Controllers
 {
@@ -14,23 +13,21 @@ namespace SafeFutureWebApplication.Controllers
         {
             return View();
         }
-        [HttpGet]
-        public IActionResult Create()
-        {
-            return View();
-        }
-        [HttpPost]
-        public IActionResult Create(User _volunteer)
-        {
 
-            return View();
-        }
-        public IActionResult Edit(User _volunteer)
+        [HttpGet]
+        public IActionResult Register()
         {
             return View();
         }
-        public IActionResult Delete(User _volunteer)
+
+        [HttpPost]
+        public IActionResult Register(ParicipantFormViewModel viewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return View("Form not fully filled out.");
+            }
+
             return View();
         }
     }
