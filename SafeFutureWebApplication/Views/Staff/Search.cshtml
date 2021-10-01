@@ -37,14 +37,14 @@
                 <th>Email</th>
                 <th>Products Distributed</th>
             </tr>
-            @foreach (var x in Model) 
+            @foreach (var x in Model)
             {
                 <tr>
                     <td>@x.Name</td>
                     <td>@x.Zipcode</td>
                     <td>@x.HouseholdSize</td>
                     <td>@x.Email</td>
-            
+
                 </tr>
             }
 
@@ -53,12 +53,12 @@
 
 
         </table>
-    
-    
-    
+
+
+
     }
 
-
+    @Html.ActionLink("Go Back", "Index", "Staff", null, new { @class = "btn btn-success m-2" })
 
 
 </section>
