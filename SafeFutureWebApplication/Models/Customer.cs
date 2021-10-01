@@ -13,8 +13,8 @@ namespace SafeFutureWebApplication.Models
         }
 
         public string Name { get; set; }
-        public int Zipcode { get; set; }
-        public int HouseholdSize { get; set; }
+        public string Zipcode { get; set; }
+        public string HouseholdSize { get; set; }
         public string Email { get; set; }
         public List<string> ProductsDistributed { get; set; }
 

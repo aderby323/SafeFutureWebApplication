@@ -40,6 +40,35 @@ namespace SafeFutureWebApplication.Repository
                 Roles = { "Staff", "Admin" }
             });
 
+            Customers.Add(new Customer()
+            {
+                Name = "Bob Johns",
+                Zipcode = "32256",
+                HouseholdSize = "4",
+                Email = "bob.johns@outlook.com",
+                ProductsDistributed = {"Diapers", "School Supplies"}
+            });
+
+            Customers.Add(new Customer()
+            {
+                Name = "Nicole Washington",
+                Zipcode = "32259",
+                HouseholdSize = "6",
+                Email = "n.washington@outlook.com",
+                ProductsDistributed = { "Food", "Diapers" }
+            });
+
+            Customers.Add(new Customer()
+            {
+                Name = "Jim James",
+                Zipcode = "32250",
+                HouseholdSize = "2",
+                Email = "j.james@gmail.com",
+                ProductsDistributed = { "Soap", "Diapers" }
+            });
+
+
+
         }
         public void AddUser(User user)
         {

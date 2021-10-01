@@ -20,9 +20,34 @@ namespace SafeFutureWebApplication.Controllers
     [Authorize("Staff")]
     public class StaffController : Controller
     {
+
+        private  TempDB _tempDB;
+
+        public StaffController( TempDB tempDB)
+        {
+            _tempDB = tempDB;
+        }
+
         public IActionResult Index()
         {
             return View();
         }
+
+        public IActionResult Search([FromQuery] string filter, string searchString)
+        {
+            ViewData["CurrentSearch"] = searchString;
+            IEnumerable<Customer> customers = _tempDB.Customers;
+
+
+            if (!string.IsNullOrEmpty(filter)) { filter.ToLower(); }
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                customers = customers.Where(x => x.Name.Contains(searchString) || x.Zipcode.Contains(searchString) || x.HouseholdSize.Contains(searchString));
+            } // end if
+
+            return View(customers.ToList());
+        }
+
     }
 }
