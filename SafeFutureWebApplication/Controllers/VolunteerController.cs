@@ -1,41 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SafeFutureWebApplication.Models;
-using SafeFutureWebApplication.Repository;
+using SafeFutureWebApplication.Services.Interfaces;
 
 namespace SafeFutureWebApplication.Controllers
 {
     [Authorize("Admin")]
     public class VolunteerController : Controller
     {
-        private readonly TempDB provider;
+        private readonly IVolunteerService volunteerService;
 
-        public VolunteerController(TempDB provider)
+        public VolunteerController(IVolunteerService volunteerService)
         {
-            this.provider = provider;
+            this.volunteerService = volunteerService;
         }
 
         public IActionResult Index()
+        {
+            IEnumerable<Participant> participants = volunteerService.GetParticipants();
+            return View(participants);
+        }
+
+        [HttpGet]
+        public IActionResult AddParticipant()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Index(Participant participant)
+        public IActionResult AddParticipant(Participant participant)
         {
             if (!ModelState.IsValid)
             {
-                return View(participant);
+                return View("AddParticipant", participant);
             }
 
-            participant.ParticipantId = Guid.NewGuid();
-            provider.Participants.Add(participant);
+            bool result = volunteerService.AddParticipant(participant);
+            if (!result) { return BadRequest(); }
 
-            return View();
+            return RedirectToAction("Index");
         }
     }
 }

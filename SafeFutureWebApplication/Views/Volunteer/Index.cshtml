@@ -1,41 +1,20 @@
-﻿@model SafeFutureWebApplication.Models.Participant
-<form asp-action="Index" method="post">
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <label asp-for="FirstName">First Name</label>
-            <input asp-for="FirstName" type="text" class="form-control" placeholder="First Name">
-            <span asp-validation-for="FirstName" class="text-danger"></span>
-        </div>
-        <div class="form-group col-md-6">
-            <label asp-for="LastName">Last Name</label>
-            <input asp-for="LastName" type="text" class="form-control" placeholder="Last Name">
-            <span asp-validation-for="LastName" class="text-danger"></span>
-        </div>
-    </div>
+﻿@model List<SafeFutureWebApplication.Models.Participant>
 
-    <div class="form-group">
-        <label asp-for="Address">Address</label>
-        <input asp-for="Address" type="text" class="form-control" placeholder="Address">
-        <span asp-validation-for="LastName" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Address2">Address Line 2</label>
-        <input asp-for="Address2" type="text" class="form-control" placeholder="Address Line 2">
-        <span asp-validation-for="LastName" class="text-danger"></span>
-    </div>
-
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <label asp-for="City">City</label>
-            <input asp-for="City" type="text" class="form-control">
-            <span asp-validation-for="City" class="text-danger"></span>
+<div class="container">
+    @if (Model != null)
+    {
+        <span>Participants: @Model.Count</span>
+    }
+    else
+    {
+        <span>No participants in database.</span>
+    }
+    @foreach (var x in Model)
+    {
+        <div>
+            <h3>@x.FirstName @x.LastName</h3>
+            <p>@x.ZipCode</p>
+            <p>@x.HouseholdSize</p>
         </div>
-        <div class="form-group col-md-4">
-            <label asp-for="ZipCode">Zip Code</label>
-            <input asp-for="ZipCode" type="text" class="form-control">
-            <span asp-validation-for="LastName" class="text-danger"></span>
-        </div>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Register Participant</button>
-</form>
+    }
+</div>

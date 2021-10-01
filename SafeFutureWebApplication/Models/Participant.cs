@@ -10,11 +10,11 @@ namespace SafeFutureWebApplication.Models
     {
         public Guid ParticipantId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "First name is required.")]
         [StringLength(150, ErrorMessage = "First name must not exceed 150 characters.")]
         public string FirstName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Last name is required.")]
         [StringLength(150, ErrorMessage = "Last name must not exceed 150 characters.")]
         public string LastName { get; set; }
 
@@ -27,11 +27,12 @@ namespace SafeFutureWebApplication.Models
         [StringLength(200, ErrorMessage = "City must not exceed 200 characters.")]
         public string City { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Zip code is required.")]
         [DataType(DataType.PostalCode)]
         public string ZipCode { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Household size is required.")]
+        [Range(1, 15, ErrorMessage = "Householde size range is only from 1 to 15.")]
         public int HouseholdSize { get; set; }
     }
 }
