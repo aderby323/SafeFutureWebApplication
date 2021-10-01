@@ -11,12 +11,13 @@ namespace SafeFutureWebApplication.Repository
     {
         public List<User> Users;
         public List<Participant> Participants;
+        public List<User> users = new List<User>();
 
         public TempDB()
         {
             Users = new List<User>();
             Participants = new List<Participant>();
-
+           
             Users.Add(new User()
             {
                 Username = "admin",
@@ -31,6 +32,9 @@ namespace SafeFutureWebApplication.Repository
                 Role = "Staff"
             });
         }
-
+        public void AddUser(User user)
+        {
+            users.Add(user);
+        }
     }
 }

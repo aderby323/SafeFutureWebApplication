@@ -4,12 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SafeFutureWebApplication.Models;
+using SafeFutureWebApplication.Repository;
 
 
 namespace SafeFutureWebApplication.Controllers
 {
     public class UserController : Controller
     {
+        private TempDB _tempDB;
+        public UserController(TempDB tempDB)
+        {
+            _tempDB = tempDB;
+        }
         public IActionResult Index()
         {
             return View();
@@ -20,16 +26,16 @@ namespace SafeFutureWebApplication.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Create(User _volunteer)
+        public IActionResult Create(User user)
         {
-
+            _tempDB.AddUser(user);
+            return RedirectToAction("Index");
+        }
+        public IActionResult Edit(User user)
+        {
             return View();
         }
-        public IActionResult Edit(User _volunteer)
-        {
-            return View();
-        }
-        public IActionResult Delete(User _volunteer)
+        public IActionResult Delete(User user)
         {
             return View();
         }
