@@ -8,12 +8,15 @@ namespace SafeFutureWebApplication.Models
 {
     public class User
     {
-       [Required(ErrorMessage ="Please enter a username")]
+        public User()
+        {
+            Roles = new List<string>();
+        }
+
         public string Username { get; set; }
         [Required(ErrorMessage ="Please enter a password")]
         public string Password { get; set; }
-        [Required(ErrorMessage ="Please select a role")]
-        public string Role { get; set; }
+        public List<string> Roles { get; set; }
 
     }
 }

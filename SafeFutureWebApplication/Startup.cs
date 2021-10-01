@@ -46,8 +46,8 @@ namespace SafeFutureWebApplication
                 options.AddPolicy("Admin",
                     policy => policy.RequireClaim(ClaimTypes.Role, "Admin"));
 
-                options.AddPolicy("Volunteer",
-                    policy => policy.RequireClaim(ClaimTypes.Role, "Volunteer"));
+                options.AddPolicy("Staff",
+                    policy => policy.RequireClaim(ClaimTypes.Role, "Staff"));
             });
 
             services.AddSession(options =>
