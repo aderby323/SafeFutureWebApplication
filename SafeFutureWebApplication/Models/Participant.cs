@@ -14,18 +14,21 @@ namespace SafeFutureWebApplication.Models
         [StringLength(150, ErrorMessage = "First name must not exceed 150 characters.")]
         public string FirstName { get; set; }
 
+        [StringLength(150, ErrorMessage = "Middle name must not exceed 150 characters.")]
+        public string MiddleName { get; set; }
+
         [Required(ErrorMessage = "Last name is required.")]
         [StringLength(150, ErrorMessage = "Last name must not exceed 150 characters.")]
         public string LastName { get; set; }
 
-        [StringLength(200, ErrorMessage = "Address must not exceed 200 characters.")]
-        public string Address { get; set; }
+        //[StringLength(200, ErrorMessage = "Address must not exceed 200 characters.")]
+        //public string Address { get; set; }
 
-        [StringLength(200, ErrorMessage = "Address 2 must not exceed 200 characters.")]
-        public string Address2 { get; set; }
+        //[StringLength(200, ErrorMessage = "Address 2 must not exceed 200 characters.")]
+        //public string Address2 { get; set; }
 
-        [StringLength(200, ErrorMessage = "City must not exceed 200 characters.")]
-        public string City { get; set; }
+        //[StringLength(200, ErrorMessage = "City must not exceed 200 characters.")]
+        //public string City { get; set; }
 
         [Required(ErrorMessage = "Zip code is required.")]
         [DataType(DataType.PostalCode)]

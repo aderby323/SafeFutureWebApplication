@@ -3,6 +3,7 @@ using SafeFutureWebApplication.Repository;
 using SafeFutureWebApplication.Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SafeFutureWebApplication.Services
 {
@@ -33,12 +34,12 @@ namespace SafeFutureWebApplication.Services
             }
         }
 
-        Participant IVolunteerService.GetParticipant(Guid participantId)
+        public Participant GetParticipant(Guid participantId)
         {
-            throw new NotImplementedException();
+            return repo.Participants.FirstOrDefault(x => x.ParticipantId == participantId);
         }
 
-        Participant IVolunteerService.SearchParticipants(string searchString)
+        public Participant SearchParticipants(string searchString)
         {
             throw new NotImplementedException();
         }

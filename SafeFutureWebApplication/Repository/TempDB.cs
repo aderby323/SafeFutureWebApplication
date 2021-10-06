@@ -72,7 +72,23 @@ namespace SafeFutureWebApplication.Repository
                 ProductsDistributed = { "Soap", "Diapers" }
             });
 
+            Participants.Add(new Participant 
+            {
+                FirstName = "Stan",
+                MiddleName = "Jeremy",
+                LastName = "Smith",
+                ZipCode = "32256",
+                HouseholdSize = 4
+            });
 
+            Participants.Add(new Participant
+            {
+                FirstName = "Amy",
+                MiddleName = "Elizabeth",
+                LastName = "Wong",
+                ZipCode = "32224",
+                HouseholdSize = 1
+            });
 
         }
         public void AddUser(User user)
