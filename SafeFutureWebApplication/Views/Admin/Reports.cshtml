@@ -18,8 +18,82 @@
 
     </p>
 
-    @Html.ActionLink("Go Back", "Index", "Admin", null, new { @class = "btn btn-success m-2" })
-</section>
+    @Html.ActionLink("Report by Household Size", "Reports", "Admin", null, new { @class = "btn btn-success m-2" })
+    @Html.ActionLink("Report by Zipcode", "Reports", "Admin", null, new { @class = "btn btn-success m-2" })
+
+
+
+    @if (Model.Count <= 0)
+    {
+        <div class="alert alert-info" role="alert">
+            No customers found.
+        </div>
+    }
+    <div>
+        <!--Change this-->
+        <form asp-action="Index" method="get">
+            <div class="input-group mb-0">
+                <input type="text" class="form-control" name="searchString" value="@ViewData["CurrentSearch"]" placeholder="Search Customers">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="submit"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    @if (Model.Count > 0)
+    {
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Zip Code</th>
+                <th>Household Size</th>
+                <th>Email</th>
+                <th>Products Distributed</th>
+            </tr>
+            @foreach (var x in Model)
+            {
+                <tr>
+                    <td>@x.Name</td>
+                    <td>@x.Zipcode</td>
+                    <td>@x.HouseholdSize</td>
+                    <td>@x.Email</td>
+
+                </tr>
+            }
+
+
+
+
+
+        </table>
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        @Html.ActionLink("Go Back", "Index", "Admin", null, new { @class = "btn btn-success m-2" })
+
+
+
+
+
+
+
+    </section>
 
 
 
