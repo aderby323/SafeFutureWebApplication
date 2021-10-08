@@ -103,7 +103,8 @@
         {
             <table>
                 <tr>
-                    <th>Name</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
                     <th>Zip Code</th>
                     <th>Household Size</th>
                     <th>Email</th>
@@ -111,13 +112,14 @@
                 </tr>
                 @foreach (var x in Model)
                 {
-                    <tr>
-                        <td>@x.Name</td>
-                        <td>@x.Zipcode</td>
-                        <td>@x.HouseholdSize</td>
-                        <td>@x.Email</td>
+                <tr>
+                    <td>@x.FirstName</td>
+                    <td>@x.LastName</td>
+                    <td>@x.ZipCode</td>
+                    <td>@x.HouseholdSize</td>
+                    <td>@x.Email</td>
 
-                    </tr>
+                </tr>
                 }
 
 
