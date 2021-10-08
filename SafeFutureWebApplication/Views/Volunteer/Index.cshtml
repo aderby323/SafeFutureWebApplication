@@ -1,27 +1,52 @@
-﻿@model List<SafeFutureWebApplication.Models.Participant>
-
+﻿@model List<SafeFutureWebApplication.Models.Customer>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
 <div class="container">
     @if (Model != null)
     {
-        <span>Participants: @Model.Count</span>
+        <h3>Participants: @Model.Count</h3>
     }
     else
     {
-        <span>No participants in database.</span>
+        <h3>No participants in database.</h3>
     }
-    @foreach (var x in Model)
-    {
-        <div>
-            <h3>@x.FirstName @x.LastName</h3>
-            <p>@x.ZipCode</p>
-            <p>@x.HouseholdSize</p>
+       
+    <form asp-action="Index" method="get" style="margin-bottom: 5px;">
+        <div class="input-group mb-0">
+            <input type="text" class="form-control" name="searchString" value="@ViewData["CurrentSearch"]" placeholder="Search Participants">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="submit"><i class="fas fa-search"></i></button>
+            </div>
         </div>
-    }
+    </form>
+    <table class="table table-hover">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Zip Code</th>
+                <th scope="col">Household Size</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var x in Model)
+            {
+                <tr>
+                    <td>@x.FirstName</td>
+                    <td>@x.LastName</td>
+                    <td>@x.ZipCode</td>
+                    <td>@x.HouseholdSize</td>
+                    <td>
+                        @Html.ActionLink("Add an Order", "AddOrder", "Volunteer", null, new { @class = "btn btn-info" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
 
 <div class="container">
     <div class="row">
         @Html.ActionLink("Add a Participant", "AddParticipant", "Volunteer", null, new { @class = "btn btn-success m-2" })
     </div>
-
 </div>

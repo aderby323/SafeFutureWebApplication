@@ -6,9 +6,9 @@ namespace SafeFutureWebApplication.Services.Interfaces
 {
     public interface IVolunteerService
     {
-        IEnumerable<Participant> GetParticipants();
-        bool AddParticipant(Participant participant);
-        Participant GetParticipant(Guid participantId);
-        Participant SearchParticipants(string searchString);
+        IEnumerable<Customer> GetCustomers();
+        bool AddCustomer(Customer participant);
+        Customer GetCustomer(Guid participantId);
+        IEnumerable<Customer> SearchCustomers(string searchString);
     }
 }
