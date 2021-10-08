@@ -30,7 +30,7 @@ namespace SafeFutureWebApplication.Controllers
         {
             if (ModelState.IsValid)
             {
-                _tempDB.AddUser(user);
+                _tempDB.Users.Add(user);
                 return RedirectToAction("Index");
             }
             else

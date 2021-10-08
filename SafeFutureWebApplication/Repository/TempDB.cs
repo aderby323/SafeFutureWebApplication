@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using SafeFutureWebApplication.Models;
 
 
@@ -11,11 +8,13 @@ namespace SafeFutureWebApplication.Repository
     {
         public List<User> Users;
         public List<Customer> Customers;
+        public List<Participant> Participants;
 
         public TempDB()
         {
             Users = new List<User>();
             Customers = new List<Customer>();
+            Participants = new List<Participant>();
 
             // WILL ASK CHRIS IF HE WANTS ADMIN TO HAVE ACCESS TO STUFF FUNCTIONALITY
             Users.Add(new User()

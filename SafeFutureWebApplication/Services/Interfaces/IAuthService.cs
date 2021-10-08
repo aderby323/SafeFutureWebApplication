@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using SafeFutureWebApplication.Models;
+﻿using SafeFutureWebApplication.Models;
 using SafeFutureWebApplication.Models.ViewModels;
 
 namespace SafeFutureWebApplication.Services.Interfaces
 {
     public interface IAuthService
     {
-        string HashPassword(string password);
+        string HashPassword(string password, string salt);
+        string GetSalt();
         User ValidateLogin(LoginViewModel login);
+        User ValidateLogin2(LoginViewModel login);
+
     }
 }

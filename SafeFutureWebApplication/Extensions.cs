@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace SafeFutureWebApplication
 {
     public static class Extensions
     {
-        public static bool IsNullOrWhitespace(string value)
+        public static bool IsNullOrWhitespace(this string value)
         {
-            return !(value.Length <= 0 || value.Trim().Length <= 0) ? true : false;
+            return (value is null || value.Length <= 0 || value.Trim().Length <= 0);
         }
 
-        public static bool IsNullOrEmpty()
+        public static bool IsNullOrEmpty(this IEnumerable<object> data)
         {
-            throw new NotImplementedException();
+            return data != null && data.Any();
         }
     }
 }
