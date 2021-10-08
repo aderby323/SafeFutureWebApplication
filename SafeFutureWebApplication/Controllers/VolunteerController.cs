@@ -19,8 +19,8 @@ namespace SafeFutureWebApplication.Controllers
 
         public IActionResult Index()
         {
-            IEnumerable<Participant> participants = volunteerService.GetParticipants();
-            return View(participants);
+            IEnumerable<Customer> customers = volunteerService.GetCustomers();
+            return View(customers);
         }
 
         [HttpGet]
@@ -30,14 +30,14 @@ namespace SafeFutureWebApplication.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddParticipant(Participant participant)
+        public IActionResult AddParticipant(Customer customer)
         {
             if (!ModelState.IsValid)
             {
-                return View("AddParticipant", participant);
+                return View("AddParticipant", customer);
             }
 
-            bool result = volunteerService.AddParticipant(participant);
+            bool result = volunteerService.AddCustomer(customer);
             if (!result) { return BadRequest(); }
 
             return RedirectToAction("Index");

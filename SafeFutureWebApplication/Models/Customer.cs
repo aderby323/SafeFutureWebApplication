@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace SafeFutureWebApplication.Models
@@ -9,6 +10,8 @@ namespace SafeFutureWebApplication.Models
         {
             ProductsDistributed = new List<string>();
         }
+
+        public Guid CustomerId { get; set; }
 
         // public string Name { get; set; }
         [Required(ErrorMessage = "First name is required.")]

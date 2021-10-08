@@ -43,7 +43,19 @@ namespace SafeFutureWebApplication.Controllers
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                customers = customers.Where(x => x.Name.Contains(searchString) || x.Zipcode.Contains(searchString) || x.HouseholdSize.Contains(searchString));
+                int household = -1;
+                try
+                {
+                    household = int.Parse(searchString);
+                    customers = customers.Where(x => x.HouseholdSize == household);
+                    return View(customers.ToList());
+
+                }
+                catch (Exception)
+                {
+
+                }
+                customers = customers.Where(x => x.FirstName.Contains(searchString) || x.LastName.Contains(searchString) || x.ZipCode.Contains(searchString));
             } // end if
 
             return View(customers.ToList());

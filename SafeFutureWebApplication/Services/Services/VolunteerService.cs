@@ -15,17 +15,17 @@ namespace SafeFutureWebApplication.Services
             repo = tempDb;
         }
 
-        public IEnumerable<Participant> GetParticipants()
+        public IEnumerable<Customer> GetCustomers()
         {
-            return repo.Participants;
+            return repo.Customers;
         }
             
-        public bool AddParticipant(Participant participant)
+        public bool AddCustomer(Customer customer)
         {
-            participant.ParticipantId = Guid.NewGuid();
+            customer.CustomerId = Guid.NewGuid();
             try
             {
-                repo.Participants.Add(participant);
+                repo.Customers.Add(customer);
                 return true;
             }
             catch(Exception)
@@ -34,12 +34,12 @@ namespace SafeFutureWebApplication.Services
             }
         }
 
-        public Participant GetParticipant(Guid participantId)
+        public Customer GetCustomer(Guid customerId)
         {
-            return repo.Participants.FirstOrDefault(x => x.ParticipantId == participantId);
+            return repo.Customers.FirstOrDefault(x => x.CustomerId == customerId);
         }
 
-        public Participant SearchParticipants(string searchString)
+        public IEnumerable<Customer> SearchCustomers(string searchString)
         {
             throw new NotImplementedException();
         }
