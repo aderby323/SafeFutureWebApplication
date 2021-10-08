@@ -20,15 +20,42 @@ namespace SafeFutureWebApplication.Controllers
     [Authorize("Admin")]
     public class AdminController : Controller
     {
+        private TempDB _tempDB;
+
+        public AdminController(TempDB tempDB)
+        {
+            _tempDB = tempDB;
+        }
+
 
         public IActionResult Index()
         {
             return View();
         }
 
+        /*
+
         public IActionResult Reports()
         {
             return View();
+        }
+
+        */
+
+        public IActionResult Reports([FromQuery] string filter, string searchString)
+        {
+            ViewData["CurrentSearch"] = searchString;
+            IEnumerable<Customer> customers = _tempDB.Customers;
+
+
+            if (!string.IsNullOrEmpty(filter)) { filter.ToLower(); }
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                customers = customers.Where(x => x.Name.Contains(searchString) || x.Zipcode.Contains(searchString) || x.HouseholdSize.Contains(searchString));
+            } // end if
+
+            return View(customers.ToList());
         }
     }
 }
