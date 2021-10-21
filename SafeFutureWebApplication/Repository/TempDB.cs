@@ -7,12 +7,12 @@ namespace SafeFutureWebApplication.Repository
     public class TempDB
     {
         public List<User> Users;
-        public List<Customer> Customers;
+        public List<Participant> Participants;
 
         public TempDB()
         {
             Users = new List<User>();
-            Customers = new List<Customer>();
+            Participants = new List<Participant>();
 
             // WILL ASK CHRIS IF HE WANTS ADMIN TO HAVE ACCESS TO STUFF FUNCTIONALITY
             Users.Add(new User()
@@ -37,10 +37,10 @@ namespace SafeFutureWebApplication.Repository
                 Username = "dev",
                 Password = "dev",
                 Role = "Admin",
-                Roles = { "Staff", "Admin" }
+                Roles = { "Volunteer", "Admin" }
             });
 
-            Customers.Add(new Customer()
+            Participants.Add(new Participant()
             {
                 FirstName = "Bob",
                 LastName = "Johns",
@@ -50,7 +50,7 @@ namespace SafeFutureWebApplication.Repository
                 ProductsDistributed = { "Diapers", "School Supplies" }
             });
 
-            Customers.Add(new Customer()
+            Participants.Add(new Participant()
             {
                 FirstName = "Nicole",
                 LastName = "Washington",
@@ -60,7 +60,7 @@ namespace SafeFutureWebApplication.Repository
                 ProductsDistributed = { "Food", "Diapers" }
             });
 
-            Customers.Add(new Customer()
+            Participants.Add(new Participant()
             {
                 FirstName = "Jim",
                 LastName = "James",

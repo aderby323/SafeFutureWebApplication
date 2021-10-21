@@ -23,10 +23,10 @@
                         </li>
 
                         @{
-                            if (User.Identity.IsAuthenticated)
+                            if (User.Identity.IsAuthenticated && User.HasClaim(c => c.Value == "Admin"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Create">Create User Account</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Create">Create User Account</a>
                                 </li>
                             }
                             else

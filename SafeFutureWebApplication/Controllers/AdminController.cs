@@ -1,19 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using SafeFutureWebApplication.Models;
-using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using SafeFutureWebApplication.Models.ViewModels;
-using SafeFutureWebApplication.Services.Interfaces;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using SafeFutureWebApplication.Repository;
-using Microsoft.AspNetCore.Authentication;
 
 namespace SafeFutureWebApplication.Controllers
 {
@@ -33,19 +24,10 @@ namespace SafeFutureWebApplication.Controllers
             return View();
         }
 
-        /*
-
-        public IActionResult Reports()
-        {
-            return View();
-        }
-
-        */
-
         public IActionResult Reports([FromQuery] string filter, string searchString)
         {
             ViewData["CurrentSearch"] = searchString;
-            IEnumerable<Customer> customers = _tempDB.Customers;
+            IEnumerable<Participant> customers = _tempDB.Participants;
 
 
             if (!string.IsNullOrEmpty(filter)) { filter.ToLower(); }
@@ -65,6 +47,33 @@ namespace SafeFutureWebApplication.Controllers
             } // end if
 
             return View(customers.ToList());
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Create(User user)
+        {
+            if (ModelState.IsValid)
+            {
+                _tempDB.Users.Add(user);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View();
+            }
+        }
+        public IActionResult Edit(User user)
+        {
+            return View();
+        }
+        public IActionResult Delete(User user)
+        {
+            return View();
         }
     }
 }

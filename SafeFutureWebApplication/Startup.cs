@@ -38,7 +38,7 @@ namespace SafeFutureWebApplication
                 .AddCookie(options =>
                 {
                     options.LoginPath = "/Home/Login";
-                    options.Cookie.Name = "LoginCookie";
+                    options.Cookie.Name = "SFFISLogin";
                 });
 
             services.AddAuthorization(options =>
@@ -46,13 +46,13 @@ namespace SafeFutureWebApplication
                 options.AddPolicy("Admin",
                     policy => policy.RequireClaim(ClaimTypes.Role, "Admin"));
 
-                options.AddPolicy("Staff",
-                    policy => policy.RequireClaim(ClaimTypes.Role, "Staff"));
+                options.AddPolicy("Volunteer",
+                    policy => policy.RequireClaim(ClaimTypes.Role, "Volunteer"));
             });
 
             services.AddSession(options =>
             {
-                options.Cookie.Name = "VMS.Session";
+                options.Cookie.Name = "SFFIS.Session";
                 options.IdleTimeout = TimeSpan.FromMinutes(5);
             });
 
