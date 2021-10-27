@@ -22,17 +22,32 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Login">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Create">Create New Account</a>
-                        </li>
-
+                        @{
+                            if (User.Identity.IsAuthenticated && User.HasClaim(c => c.Value == "Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Create">Create User Account</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Login">Login</a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="navbar-nav float-right">
+                        @{ 
+                            if (User.Identity.IsAuthenticated)
+                            {
+                                <li class="nav-item">
+                                    <span class="nav-link text-dark">Hello, @User.Identity.Name</span>
+                                </li>
+                            }
+                        }
                     </ul>
                 </div>
             </div>

@@ -4,7 +4,6 @@ using SafeFutureWebApplication.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace SafeFutureWebApplication.Services
 {
@@ -16,9 +15,15 @@ namespace SafeFutureWebApplication.Services
             repo = tempDb;
         }
 
+        public IEnumerable<Participant> GetParticipants()
+        {
+            return repo.Participants;
+        }
+            
         public bool AddParticipant(Participant participant)
         {
-            participant.ParticipantId = Guid.NewGuid();
+            participant.CustomerId = Guid.NewGuid();
+            participant.SetModified(participant.CustomerId);
             try
             {
                 repo.Participants.Add(participant);
@@ -30,14 +35,19 @@ namespace SafeFutureWebApplication.Services
             }
         }
 
-        Participant IVolunteerService.GetParticipant(Guid participantId)
+        public Participant GetParticipant(Guid customerId)
         {
-            throw new NotImplementedException();
+            return repo.Participants.FirstOrDefault(x => x.CustomerId == customerId);
         }
 
-        Participant IVolunteerService.SearchParticipants(string searchString)
+        public IEnumerable<Participant> SearchParticipants(string searchString)
         {
-            throw new NotImplementedException();
+            if (searchString.IsNullOrWhitespace()) { return Enumerable.Empty<Participant>(); }
+
+            searchString.ToLower();
+            return repo.Participants
+                .Where(x => x.FirstName == searchString || x.LastName == searchString)
+                .ToList();
         }
     }
 }

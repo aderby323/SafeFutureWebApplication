@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SafeFutureWebApplication.Services
+namespace SafeFutureWebApplication.Services.Interfaces
 {
-    public class ProjectServices
+    public interface IAdminService
     {
     }
 }
