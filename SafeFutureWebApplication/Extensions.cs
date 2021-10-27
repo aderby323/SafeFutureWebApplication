@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using SafeFutureWebApplication.Models;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SafeFutureWebApplication
@@ -13,6 +15,12 @@ namespace SafeFutureWebApplication
         public static bool IsNullOrEmpty(this IEnumerable<object> data)
         {
             return data != null && data.Any();
+        }
+
+        public static void SetModified<T>(this T x, Guid requester) where T: IAuditable
+        {
+            x.CreatedOn = DateTime.UtcNow;
+            x.CreatedBy = requester;
         }
     }
 }

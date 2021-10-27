@@ -23,6 +23,7 @@ namespace SafeFutureWebApplication.Services
         public bool AddParticipant(Participant participant)
         {
             participant.CustomerId = Guid.NewGuid();
+            participant.SetModified(participant.CustomerId);
             try
             {
                 repo.Participants.Add(participant);

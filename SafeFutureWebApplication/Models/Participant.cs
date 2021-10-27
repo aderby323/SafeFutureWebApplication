@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SafeFutureWebApplication.Models
 {
-    public class Participant
+    public class Participant : IAuditable
     {
         public Participant()
         {
@@ -36,8 +36,10 @@ namespace SafeFutureWebApplication.Models
         public int HouseholdSize { get; set; }
 
         public string Email { get; set; }
+
         public List<string> ProductsDistributed { get; set; }
 
-
+        DateTime IAuditable.CreatedOn { get; set; }
+        Guid IAuditable.CreatedBy { get; set; }
     }
 }

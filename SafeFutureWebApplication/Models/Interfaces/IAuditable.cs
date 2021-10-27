@@ -5,11 +5,8 @@ using System.Threading.Tasks;
 
 namespace SafeFutureWebApplication.Models
 {
-    public class Order : IAuditable
+    public interface IAuditable
     {
-        public Guid OrderId { get; set; }
-        public Guid RecipientId { get; set; }
-        public bool RecievedItems { get; set; }
         public DateTime CreatedOn { get; set; }
         public Guid CreatedBy { get; set; }
     }
