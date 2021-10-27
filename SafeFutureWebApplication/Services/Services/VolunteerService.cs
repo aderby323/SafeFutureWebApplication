@@ -41,7 +41,12 @@ namespace SafeFutureWebApplication.Services
 
         public IEnumerable<Participant> SearchParticipants(string searchString)
         {
-            throw new NotImplementedException();
+            if (searchString.IsNullOrWhitespace()) { return Enumerable.Empty<Participant>(); }
+
+            searchString.ToLower();
+            return repo.Participants
+                .Where(x => x.FirstName == searchString || x.LastName == searchString)
+                .ToList();
         }
     }
 }
