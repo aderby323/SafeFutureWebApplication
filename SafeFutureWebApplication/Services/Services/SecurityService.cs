@@ -10,9 +10,9 @@ namespace SafeFutureWebApplication.Services
             return membership.Any(x => x.Contains("Admin"));
         }
 
-        public static bool IsVolunteer(IEnumerable<string> membership)
+        public static bool IsStaff(IEnumerable<string> membership)
         {
-            return membership.Any(x => x.Contains("Volunteer"));
+            return membership.Any(x => x.Contains("Staff"));
         }
     }
 }

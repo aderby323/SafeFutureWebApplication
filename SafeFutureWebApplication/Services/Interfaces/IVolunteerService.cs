@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 namespace SafeFutureWebApplication.Services.Interfaces
 {
-    public interface IVolunteerService
+    public interface IStaffService
     {
-        IEnumerable<Participant> GetParticipants();
-        bool AddParticipant(Participant participant);
-        Participant GetParticipant(Guid participantId);
-        IEnumerable<Participant> SearchParticipants(string searchString);
+        IEnumerable<Recipient> GetRecipients();
+        bool AddRecipient(Recipient Recipient);
+        Recipient GetRecipient(Guid RecipientId);
+        IEnumerable<Recipient> SearchRecipients(string searchString);
     }
 }

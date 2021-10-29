@@ -1,18 +1,18 @@
-﻿@model List<SafeFutureWebApplication.Models.Participant>
+﻿@model List<SafeFutureWebApplication.Models.Recipient>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
 <div class="container">
     @if (Model != null)
     {
-        <h3>Participants: @Model.Count</h3>
+        <h3>Recipients: @Model.Count</h3>
     }
     else
     {
-        <h3>No participants in database.</h3>
+        <h3>No Recipients in database.</h3>
     }
        
     <form asp-action="Index" method="get" style="margin-bottom: 5px;">
         <div class="input-group mb-0">
-            <input type="text" class="form-control" name="searchString" value="@ViewData["CurrentSearch"]" placeholder="Search Participants">
+            <input type="text" class="form-control" name="searchString" value="@ViewData["CurrentSearch"]" placeholder="Search Recipients">
             <div class="input-group-append">
                 <button class="btn btn-outline-secondary" type="submit"><i class="fas fa-search"></i></button>
             </div>
@@ -37,7 +37,7 @@
                     <td>@x.ZipCode</td>
                     <td>@x.HouseholdSize</td>
                     <td>
-                        @Html.ActionLink("Add an Order", "AddOrder", "Volunteer", null, new { @class = "btn btn-info" })
+                        @Html.ActionLink("Add an Order", "AddOrder", "Staff", null, new { @class = "btn btn-info" })
                     </td>
                 </tr>
             }
@@ -47,6 +47,6 @@
 
 <div class="container">
     <div class="row">
-        @Html.ActionLink("Add a Participant", "AddParticipant", "Volunteer", null, new { @class = "btn btn-success m-2" })
+        @Html.ActionLink("Add a Recipient", "AddRecipient", "Staff", null, new { @class = "btn btn-success m-2" })
     </div>
 </div>

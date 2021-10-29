@@ -1,13 +1,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using SafeFutureWebApplication.Repository;
 using SafeFutureWebApplication.Services;
@@ -44,10 +40,10 @@ namespace SafeFutureWebApplication
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("Admin",
-                    policy => policy.RequireClaim(ClaimTypes.Role, "Admin"));
+                    policy => policy.RequireClaim(ClaimTypes.Role, new string[] { "Admin", "Dev" }));
 
-                options.AddPolicy("Volunteer",
-                    policy => policy.RequireClaim(ClaimTypes.Role, "Volunteer"));
+                options.AddPolicy("Staff",
+                    policy => policy.RequireClaim(ClaimTypes.Role, new string[] { "Staff", "Dev" }));
             });
 
             services.AddSession(options =>

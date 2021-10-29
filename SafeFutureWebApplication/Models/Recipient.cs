@@ -4,14 +4,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SafeFutureWebApplication.Models
 {
-    public class Participant : IAuditable
+    public class Recipient : IAuditable
     {
-        public Participant()
+        public Recipient()
         {
             ProductsDistributed = new List<string>();
         }
 
-        public Guid CustomerId { get; set; }
+        public Guid recipientId { get; set; }
 
         // public string Name { get; set; }
         [Required(ErrorMessage = "First name is required.")]
