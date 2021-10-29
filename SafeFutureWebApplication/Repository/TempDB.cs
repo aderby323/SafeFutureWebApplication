@@ -8,7 +8,7 @@ namespace SafeFutureWebApplication.Repository
     {
         public List<User> Users;
         public List<Participant> Participants;
-        public List<User> users = new List<User>();
+        //public List<User> users = new List<User>();
 
         public TempDB()
         {
@@ -74,7 +74,11 @@ namespace SafeFutureWebApplication.Repository
         }
         public void AddUser(User user)
         {
-            users.Add(user);
+            Users.Add(user);
+        }
+        public void RemoveUser(User user)
+        {
+            Users.Remove(user);
         }
     }
 }

@@ -71,9 +71,17 @@ namespace SafeFutureWebApplication.Controllers
         {
             return View();
         }
-        public IActionResult Delete(User user)
+  
+        public IActionResult Remove(User user)
         {
-            return View();
+            //User user = _tempDB.Users.Where(x => @x.Username == username).FirstOrDefault();
+
+          
+            //_tempDB.Users.Remove(user);
+            _tempDB.RemoveUser(user);
+            return RedirectToAction("Index");
+
+
         }
     }
 }
