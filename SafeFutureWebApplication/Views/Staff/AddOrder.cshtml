@@ -1,0 +1,37 @@
+﻿@model SafeFutureWebApplication.Models.Order
+
+@{
+    ViewData["Title"] = "AddOrder";
+    SafeFutureWebApplication.Models.Recipient recipient = ViewBag.Recipient;
+}
+
+<h1>Add Order</h1>
+
+<h4>Creating Order for: @recipient.FirstName @recipient.LastName</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddOrder">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group" style="display:none">
+                <input asp-for="RecipientId" class="form-control" value="@recipient.RecipientId"/>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="RecievedItems" /> Did the recipient recieve any items from this event?
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to Search Recipients</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,18 +1,22 @@
 ﻿using System.Collections.Generic;
 using SafeFutureWebApplication.Models;
-
+using System;
+using System.Linq;
 
 namespace SafeFutureWebApplication.Repository
 {
     public class TempDB
     {
+        private const string SYSTEM = "System";
         public List<User> Users;
         public List<Recipient> Recipients;
+        public List<Order> Orders;
 
         public TempDB()
         {
             Users = new List<User>();
             Recipients = new List<Recipient>();
+            Orders = new List<Order>();
 
             Users.Add(new User()
             {
@@ -38,6 +42,7 @@ namespace SafeFutureWebApplication.Repository
 
             Recipients.Add(new Recipient()
             {
+                RecipientId = Guid.NewGuid(),
                 FirstName = "Bob",
                 LastName = "Johns",
                 ZipCode = "32256",
@@ -48,6 +53,7 @@ namespace SafeFutureWebApplication.Repository
 
             Recipients.Add(new Recipient()
             {
+                RecipientId = Guid.NewGuid(),
                 FirstName = "Nicole",
                 LastName = "Washington",
                 ZipCode = "32259",
@@ -58,6 +64,7 @@ namespace SafeFutureWebApplication.Repository
 
             Recipients.Add(new Recipient()
             {
+                RecipientId = Guid.NewGuid(),
                 FirstName = "Jim",
                 LastName = "James",
                 ZipCode = "32250",
@@ -66,6 +73,41 @@ namespace SafeFutureWebApplication.Repository
                 ProductsDistributed = { "Soap", "Diapers" }
             });
 
+            Orders.Add(new Order()
+            {
+                OrderId = Guid.NewGuid(),
+                RecipientId = Recipients.FirstOrDefault(x => x.FirstName == "Jim").RecipientId,
+                RecievedItems = true,
+                CreatedOn = DateTime.UtcNow.AddDays(-13),
+                CreatedBy = SYSTEM
+            });
+
+            Orders.Add(new Order()
+            {
+                OrderId = Guid.NewGuid(),
+                RecipientId = Recipients.FirstOrDefault(x => x.FirstName == "Jim").RecipientId,
+                RecievedItems = true,
+                CreatedOn = DateTime.UtcNow.AddDays(-3),
+                CreatedBy = SYSTEM
+            });
+
+            Orders.Add(new Order()
+            {
+                OrderId = Guid.NewGuid(),
+                RecipientId = Recipients.FirstOrDefault(x => x.FirstName == "Nicole").RecipientId,
+                RecievedItems = true,
+                CreatedOn = DateTime.UtcNow.AddDays(-71),
+                CreatedBy = SYSTEM
+            });
+
+            Orders.Add(new Order()
+            {
+                OrderId = Guid.NewGuid(),
+                RecipientId = Recipients.FirstOrDefault(x => x.FirstName == "Bob").RecipientId,
+                RecievedItems = true,
+                CreatedOn = DateTime.UtcNow.AddDays(-22),
+                CreatedBy = SYSTEM
+            });
         }
 
     }
