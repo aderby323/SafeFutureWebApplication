@@ -8,37 +8,37 @@ using SafeFutureWebApplication.Services.Interfaces;
 
 namespace SafeFutureWebApplication.Controllers
 {
-    [Authorize("Volunteer")]
-    public class VolunteerController : Controller
+    [Authorize("Staff")]
+    public class StaffController : Controller
     {
-        private readonly IVolunteerService volunteerService;
+        private readonly IStaffService StaffService;
 
-        public VolunteerController(IVolunteerService volunteerService)
+        public StaffController(IStaffService StaffService)
         {
-            this.volunteerService = volunteerService;
+            this.StaffService = StaffService;
         }
 
         public IActionResult Index()
         {
-            IEnumerable<Participant> customers = volunteerService.GetParticipants();
-            return View(customers);
+            IEnumerable<Recipient> recipients = StaffService.GetRecipients();
+            return View(recipients);
         }
 
         [HttpGet]
-        public IActionResult AddParticipant()
+        public IActionResult AddRecipient()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult AddParticipant(Participant participant)
+        public IActionResult AddRecipient(Recipient Recipient)
         {
             if (!ModelState.IsValid)
             {
-                return View("AddParticipant", participant);
+                return View("AddRecipient", Recipient);
             }
 
-            bool result = volunteerService.AddParticipant(participant);
+            bool result = StaffService.AddRecipient(Recipient);
             if (!result) { return BadRequest(); }
 
             return RedirectToAction("Index");
@@ -48,7 +48,7 @@ namespace SafeFutureWebApplication.Controllers
         public IActionResult Search([FromQuery] string filter, string searchString)
         {
             ViewData["CurrentSearch"] = searchString;
-            IEnumerable<Participant> customers = volunteerService.GetParticipants();
+            IEnumerable<Recipient> recipients = StaffService.GetRecipients();
 
 
             if (!string.IsNullOrEmpty(filter)) { filter.ToLower(); }
@@ -59,18 +59,18 @@ namespace SafeFutureWebApplication.Controllers
                 try
                 {
                     household = int.Parse(searchString);
-                    customers = customers.Where(x => x.HouseholdSize == household);
-                    return View(customers.ToList());
+                    recipients = recipients.Where(x => x.HouseholdSize == household);
+                    return View(recipients.ToList());
 
                 }
                 catch (Exception)
                 {
 
                 }
-                customers = customers.Where(x => x.FirstName.Contains(searchString) || x.LastName.Contains(searchString) || x.ZipCode.Contains(searchString));
+                recipients = recipients.Where(x => x.FirstName.Contains(searchString) || x.LastName.Contains(searchString) || x.ZipCode.Contains(searchString));
             }
 
-            return View(customers.ToList());
+            return View(recipients.ToList());
         }
     }
 }

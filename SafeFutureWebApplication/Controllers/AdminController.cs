@@ -27,7 +27,7 @@ namespace SafeFutureWebApplication.Controllers
         public IActionResult Reports([FromQuery] string filter, string searchString)
         {
             ViewData["CurrentSearch"] = searchString;
-            IEnumerable<Participant> customers = _tempDB.Participants;
+            IEnumerable<Recipient> recipients = _tempDB.Recipients;
 
 
             if (!string.IsNullOrEmpty(filter)) { filter.ToLower(); }
@@ -38,15 +38,15 @@ namespace SafeFutureWebApplication.Controllers
                 try 
                 {
                     household = int.Parse(searchString);
-                    customers = customers.Where(x => x.HouseholdSize == household);
-                    return View(customers.ToList());
+                    recipients = recipients.Where(x => x.HouseholdSize == household);
+                    return View(recipients.ToList());
 
                 }
                 catch(Exception){ }
-                customers = customers.Where(x => x.FirstName.Contains(searchString) || x.ZipCode.Contains(searchString));
+                recipients = recipients.Where(x => x.FirstName.Contains(searchString) || x.ZipCode.Contains(searchString));
             } // end if
 
-            return View(customers.ToList());
+            return View(recipients.ToList());
         }
 
         [HttpGet]

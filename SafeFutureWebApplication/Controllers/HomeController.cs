@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using SafeFutureWebApplication.Models;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
@@ -15,16 +14,14 @@ namespace SafeFutureWebApplication.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly IAuthService _authService;
 
-        public HomeController(ILogger<HomeController> logger, IAuthService authService, TempDB tempDB)
+        public HomeController(IAuthService authService, TempDB tempDB)
         {
-            _logger = logger;
             _authService = authService;
         }
 
-        [Authorize(Roles ="Staff, Admin")]
+        [Authorize(Roles = "Staff, Admin, Dev")]
         public IActionResult Index()
         {
             return View();
@@ -50,27 +47,20 @@ namespace SafeFutureWebApplication.Controllers
             identity.AddClaim(new Claim(ClaimTypes.Name, user.Username));
             identity.AddClaim(new Claim(ClaimTypes.Role, user.Role));
 
-
-            foreach (string role in user.Roles)
-            {
-                identity.AddClaim(new Claim(ClaimTypes.Role, role));
-            }
-
-
             HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
             HttpContext.Session.SetString("SessionKey", login.Username);
-            return RedirectToAction("Index");
+
+            if (user.Role.Equals("Admin"))
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+
+            return RedirectToAction("Index", "Staff");
         }
 
         public IActionResult Privacy()
         {
             return View();
-        }
-
-        [HttpGet]
-        public IActionResult Volunteer()
-        {
-            return RedirectToAction("Index", "Volunteer");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

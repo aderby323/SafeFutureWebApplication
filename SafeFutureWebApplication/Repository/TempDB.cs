@@ -7,28 +7,25 @@ namespace SafeFutureWebApplication.Repository
     public class TempDB
     {
         public List<User> Users;
-        public List<Participant> Participants;
+        public List<Recipient> Recipients;
 
         public TempDB()
         {
             Users = new List<User>();
-            Participants = new List<Participant>();
+            Recipients = new List<Recipient>();
 
-            // WILL ASK CHRIS IF HE WANTS ADMIN TO HAVE ACCESS TO STUFF FUNCTIONALITY
             Users.Add(new User()
             {
                 Username = "admin",
                 Password = "admin",
-                Role = "Admin",
-                Roles = { "Admin" }
+                Role = "Admin"
             });
 
             Users.Add(new User()
             {
                 Username = "staff",
                 Password = "staff",
-                Role = "Staff",
-                Roles = { "Staff" }
+                Role = "Staff"
             });
 
             // WILL DELETE BEFORE DELIVERY
@@ -36,11 +33,10 @@ namespace SafeFutureWebApplication.Repository
             {
                 Username = "dev",
                 Password = "dev",
-                Role = "Admin",
-                Roles = { "Volunteer", "Admin" }
+                Role = "Dev"
             });
 
-            Participants.Add(new Participant()
+            Recipients.Add(new Recipient()
             {
                 FirstName = "Bob",
                 LastName = "Johns",
@@ -50,7 +46,7 @@ namespace SafeFutureWebApplication.Repository
                 ProductsDistributed = { "Diapers", "School Supplies" }
             });
 
-            Participants.Add(new Participant()
+            Recipients.Add(new Recipient()
             {
                 FirstName = "Nicole",
                 LastName = "Washington",
@@ -60,7 +56,7 @@ namespace SafeFutureWebApplication.Repository
                 ProductsDistributed = { "Food", "Diapers" }
             });
 
-            Participants.Add(new Participant()
+            Recipients.Add(new Recipient()
             {
                 FirstName = "Jim",
                 LastName = "James",

@@ -7,26 +7,26 @@ using System.Linq;
 
 namespace SafeFutureWebApplication.Services
 {
-    public class VolunteerService : IVolunteerService
+    public class StaffService : IStaffService
     {
         private readonly TempDB repo;
-        public VolunteerService(TempDB tempDb)
+        public StaffService(TempDB tempDb)
         {
             repo = tempDb;
         }
 
-        public IEnumerable<Participant> GetParticipants()
+        public IEnumerable<Recipient> GetRecipients()
         {
-            return repo.Participants;
+            return repo.Recipients;
         }
             
-        public bool AddParticipant(Participant participant)
+        public bool AddRecipient(Recipient Recipient)
         {
-            participant.CustomerId = Guid.NewGuid();
-            participant.SetModified(participant.CustomerId);
+            Recipient.recipientId = Guid.NewGuid();
+            Recipient.SetModified(Recipient.recipientId);
             try
             {
-                repo.Participants.Add(participant);
+                repo.Recipients.Add(Recipient);
                 return true;
             }
             catch(Exception)
@@ -35,17 +35,17 @@ namespace SafeFutureWebApplication.Services
             }
         }
 
-        public Participant GetParticipant(Guid customerId)
+        public Recipient GetRecipient(Guid recipientId)
         {
-            return repo.Participants.FirstOrDefault(x => x.CustomerId == customerId);
+            return repo.Recipients.FirstOrDefault(x => x.recipientId == recipientId);
         }
 
-        public IEnumerable<Participant> SearchParticipants(string searchString)
+        public IEnumerable<Recipient> SearchRecipients(string searchString)
         {
-            if (searchString.IsNullOrWhitespace()) { return Enumerable.Empty<Participant>(); }
+            if (searchString.IsNullOrWhitespace()) { return Enumerable.Empty<Recipient>(); }
 
             searchString.ToLower();
-            return repo.Participants
+            return repo.Recipients
                 .Where(x => x.FirstName == searchString || x.LastName == searchString)
                 .ToList();
         }
