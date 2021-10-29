@@ -67,6 +67,14 @@ namespace SafeFutureWebApplication.Repository
             });
 
         }
+        public void AddUser(User user)
+        {
+            Users.Add(user);
+        }
+        public void RemoveUser(User user)
+        {
+            Users.Remove(user);
+        }
 
     }
 }
