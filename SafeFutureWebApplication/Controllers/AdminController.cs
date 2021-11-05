@@ -48,6 +48,11 @@ namespace SafeFutureWebApplication.Controllers
 
             return View(recipients.ToList());
         }
+        public IActionResult Manage()
+        {
+            IEnumerable<User> users = _tempDB.Users;
+            return View(users.ToList());
+        }
 
         [HttpGet]
         public IActionResult Create()
@@ -71,9 +76,15 @@ namespace SafeFutureWebApplication.Controllers
         {
             return View();
         }
-        public IActionResult Delete(User user)
+        [HttpPost]
+        public IActionResult Remove(string id)
         {
-            return View();
+            User user = _tempDB.Users.Where(x => x.Username == (id)).FirstOrDefault();
+            if (user is null)
+            { return NotFound($"User with Username: {id} not found."); }
+
+            _tempDB.Users.Remove(user);
+            return RedirectToAction("Manage");
         }
     }
 }
