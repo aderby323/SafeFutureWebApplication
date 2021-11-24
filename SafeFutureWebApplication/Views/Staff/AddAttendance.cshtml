@@ -1,17 +1,17 @@
-﻿@model SafeFutureWebApplication.Models.Order
+﻿@model SafeFutureWebApplication.Models.Attendance;
 
 @{
-    ViewData["Title"] = "AddOrder";
+    ViewData["Title"] = "Add Attendance";
     SafeFutureWebApplication.Models.Recipient recipient = ViewBag.Recipient;
 }
 
-<h1>Add Order</h1>
+<h1>Add Attendance</h1>
 
-<h4>Creating Order for: @recipient.FirstName @recipient.LastName</h4>
+<h4>Creating Attendance for: @recipient.FirstName @recipient.LastName</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="AddOrder">
+        <form asp-action="AddAttendance">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group" style="display:none">
                 <input asp-for="RecipientId" class="form-control" value="@recipient.RecipientId"/>
