@@ -72,5 +72,44 @@ namespace SafeFutureWebApplication.Controllers
 
             return View(recipients.ToList());
         }
+
+        [HttpGet]
+        public IActionResult AddOrder(Guid recipientId)
+        {
+            Recipient recipient = StaffService.GetRecipient(recipientId);
+
+            if (recipient is null) { return BadRequest(); }
+
+            ViewBag.Recipient = recipient;
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddOrder(Order order)
+        {
+            order.OrderId = Guid.NewGuid();
+            if (!ModelState.IsValid)
+            {
+                return View("AddOrder", order);
+            }
+
+            bool result = StaffService.AddOrder(order, User.Identity.Name);
+            if (!result) { return BadRequest(); }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult ViewOrders(Guid recipientId)
+        {
+            Recipient recipient = StaffService.GetRecipient(recipientId);
+
+            if (recipient is null) { return BadRequest(); }
+
+            ViewBag.Recipient = recipient;
+            IEnumerable<Order> orders = StaffService.ViewOrders(recipientId);
+
+            return View(orders);
+        }
     }
 }

@@ -22,8 +22,7 @@ namespace SafeFutureWebApplication.Services
             
         public bool AddRecipient(Recipient Recipient)
         {
-            Recipient.recipientId = Guid.NewGuid();
-            Recipient.SetModified(Recipient.recipientId);
+            Recipient.RecipientId = Guid.NewGuid();
             try
             {
                 repo.Recipients.Add(Recipient);
@@ -37,7 +36,7 @@ namespace SafeFutureWebApplication.Services
 
         public Recipient GetRecipient(Guid recipientId)
         {
-            return repo.Recipients.FirstOrDefault(x => x.recipientId == recipientId);
+            return repo.Recipients.FirstOrDefault(x => x.RecipientId == recipientId);
         }
 
         public IEnumerable<Recipient> SearchRecipients(string searchString)
@@ -48,6 +47,32 @@ namespace SafeFutureWebApplication.Services
             return repo.Recipients
                 .Where(x => x.FirstName == searchString || x.LastName == searchString)
                 .ToList();
+        }
+
+        public bool AddOrder(Order order, string requester)
+        {
+            Recipient recipient = repo.Recipients.FirstOrDefault(x => x.RecipientId == order.RecipientId);
+            if (recipient is null) { return false; }
+
+            order.SetModified(requester);
+
+            try
+            {
+                repo.Orders.Add(order);
+            }
+            catch(Exception) { return false; }
+
+            return true;
+        }
+
+        public IEnumerable<Order> ViewOrders(Guid recipientId)
+        {
+            return repo.Orders.Where(x => x.RecipientId == recipientId).ToList();
+        }
+
+        public bool RecipientExists(Guid recipientId)
+        {
+            return repo.Recipients.Any(x => x.RecipientId == recipientId);
         }
     }
 }

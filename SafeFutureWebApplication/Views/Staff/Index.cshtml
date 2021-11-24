@@ -37,7 +37,8 @@
                     <td>@x.ZipCode</td>
                     <td>@x.HouseholdSize</td>
                     <td>
-                        @Html.ActionLink("Add an Order", "AddOrder", "Staff", null, new { @class = "btn btn-info" })
+                        <a asp-action="AddOrder" asp-controller="Staff" asp-route-recipientId="@x.RecipientId" class="btn btn-info">Add Order</a>
+                        <a asp-action="ViewOrders" asp-controller="Staff" asp-route-recipientId="@x.RecipientId" class="btn btn-info">View Orders</a>
                     </td>
                 </tr>
             }
