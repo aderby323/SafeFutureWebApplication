@@ -74,7 +74,7 @@ namespace SafeFutureWebApplication.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddOrder(Guid recipientId)
+        public IActionResult AddAttendance(Guid recipientId)
         {
             Recipient recipient = StaffService.GetRecipient(recipientId);
 
@@ -85,29 +85,29 @@ namespace SafeFutureWebApplication.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddOrder(Order order)
+        public IActionResult AddAttendance(Attendance attendance)
         {
-            order.OrderId = Guid.NewGuid();
+            attendance.AttendanceId = Guid.NewGuid();
             if (!ModelState.IsValid)
             {
-                return View("AddOrder", order);
+                return View("AddOrder", attendance);
             }
 
-            bool result = StaffService.AddOrder(order, User.Identity.Name);
+            bool result = StaffService.AddAttendance(attendance, User.Identity.Name);
             if (!result) { return BadRequest(); }
 
             return RedirectToAction("Index");
         }
 
         [HttpGet]
-        public IActionResult ViewOrders(Guid recipientId)
+        public IActionResult ViewAttendances(Guid recipientId)
         {
             Recipient recipient = StaffService.GetRecipient(recipientId);
 
             if (recipient is null) { return BadRequest(); }
 
             ViewBag.Recipient = recipient;
-            IEnumerable<Order> orders = StaffService.ViewOrders(recipientId);
+            IEnumerable<Attendance> orders = StaffService.ViewAttendances(recipientId);
 
             return View(orders);
         }

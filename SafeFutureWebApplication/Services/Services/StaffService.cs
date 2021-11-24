@@ -49,25 +49,25 @@ namespace SafeFutureWebApplication.Services
                 .ToList();
         }
 
-        public bool AddOrder(Order order, string requester)
+        public bool AddAttendance(Attendance attendance, string requester)
         {
-            Recipient recipient = repo.Recipients.FirstOrDefault(x => x.RecipientId == order.RecipientId);
+            Recipient recipient = repo.Recipients.FirstOrDefault(x => x.RecipientId == attendance.RecipientId);
             if (recipient is null) { return false; }
 
-            order.SetModified(requester);
+            attendance.SetModified(requester);
 
             try
             {
-                repo.Orders.Add(order);
+                repo.Attendances.Add(attendance);
             }
             catch(Exception) { return false; }
 
             return true;
         }
 
-        public IEnumerable<Order> ViewOrders(Guid recipientId)
+        public IEnumerable<Attendance> ViewAttendances(Guid recipientId)
         {
-            return repo.Orders.Where(x => x.RecipientId == recipientId).ToList();
+            return repo.Attendances.Where(x => x.RecipientId == recipientId).ToList();
         }
 
         public bool RecipientExists(Guid recipientId)

@@ -3,10 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SafeFutureWebApplication.Models
 {
-    public class Order : IAuditable
+    public class Attendance : IAuditable
     {
 
-        public Guid OrderId { get; set; }
+        public Guid AttendanceId { get; set; }
 
         public Guid RecipientId { get; set; }
 

@@ -10,13 +10,13 @@ namespace SafeFutureWebApplication.Repository
         private const string SYSTEM = "System";
         public List<User> Users;
         public List<Recipient> Recipients;
-        public List<Order> Orders;
+        public List<Attendance> Attendances;
 
         public TempDB()
         {
             Users = new List<User>();
             Recipients = new List<Recipient>();
-            Orders = new List<Order>();
+            Attendances = new List<Attendance>();
 
             Users.Add(new User()
             {
@@ -73,36 +73,36 @@ namespace SafeFutureWebApplication.Repository
                 ProductsDistributed = { "Soap", "Diapers" }
             });
 
-            Orders.Add(new Order()
+            Attendances.Add(new Attendance()
             {
-                OrderId = Guid.NewGuid(),
+                AttendanceId = Guid.NewGuid(),
                 RecipientId = Recipients.FirstOrDefault(x => x.FirstName == "Jim").RecipientId,
                 RecievedItems = true,
                 CreatedOn = DateTime.UtcNow.AddDays(-13),
                 CreatedBy = SYSTEM
             });
 
-            Orders.Add(new Order()
+            Attendances.Add(new Attendance()
             {
-                OrderId = Guid.NewGuid(),
+                AttendanceId = Guid.NewGuid(),
                 RecipientId = Recipients.FirstOrDefault(x => x.FirstName == "Jim").RecipientId,
                 RecievedItems = true,
                 CreatedOn = DateTime.UtcNow.AddDays(-3),
                 CreatedBy = SYSTEM
             });
 
-            Orders.Add(new Order()
+            Attendances.Add(new Attendance()
             {
-                OrderId = Guid.NewGuid(),
+                AttendanceId = Guid.NewGuid(),
                 RecipientId = Recipients.FirstOrDefault(x => x.FirstName == "Nicole").RecipientId,
                 RecievedItems = true,
                 CreatedOn = DateTime.UtcNow.AddDays(-71),
                 CreatedBy = SYSTEM
             });
 
-            Orders.Add(new Order()
+            Attendances.Add(new Attendance()
             {
-                OrderId = Guid.NewGuid(),
+                AttendanceId = Guid.NewGuid(),
                 RecipientId = Recipients.FirstOrDefault(x => x.FirstName == "Bob").RecipientId,
                 RecievedItems = true,
                 CreatedOn = DateTime.UtcNow.AddDays(-22),
