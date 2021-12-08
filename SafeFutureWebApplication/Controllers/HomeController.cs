@@ -36,7 +36,7 @@ namespace SafeFutureWebApplication.Controllers
         public IActionResult Login(LoginViewModel login)
         {
             ViewData["ErrorMessage"] = null;
-            User user = _authService.ValidateLogin(login);
+            User user = _authService.ValidateLogin2(login);
             if (user is null)
             {
                 ViewData["ErrorMessage"] = "Username or password is incorrect.";

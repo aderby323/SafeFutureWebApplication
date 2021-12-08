@@ -1,40 +1,33 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
+using SafeFutureWebApplication.Repository.Models;
 
 // Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
 // If you have enabled NRTs for your project, then un-comment the following line:
 // #nullable disable
 
-namespace SafeFutureWebApplication.Repository.Models
+namespace SafeFutureWebApplication.Repository
 {
-    public partial class SFFDatabaseContext : DbContext
+    public partial class AppDbContext : DbContext
     {
-        public SFFDatabaseContext()
+        public AppDbContext()
         {
         }
 
-        public SFFDatabaseContext(DbContextOptions<SFFDatabaseContext> options)
+        public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
         {
         }
 
         public virtual DbSet<User> User { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=tcp:sffserver1.database.windows.net;Initial Catalog=SFFDatabase;Persist Security Info=False;User ID=serveradmin;Password=LTc,@65z;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;");
-            }
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey("UserId");
+
+                entity.Property(e => e.UserId)
+                    .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.Password)
                     .IsRequired()

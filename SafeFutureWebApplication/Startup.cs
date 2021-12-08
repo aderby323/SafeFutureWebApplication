@@ -9,6 +9,7 @@ using SafeFutureWebApplication.Repository;
 using SafeFutureWebApplication.Services;
 using SafeFutureWebApplication.Services.Interfaces;
 using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
 
 namespace SafeFutureWebApplication
 {
@@ -27,6 +28,11 @@ namespace SafeFutureWebApplication
 
             services.AddTransient<IAuthService, AuthService>();
             services.AddSingleton<TempDB>();
+
+            services.AddDbContext<AppDbContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("AppDb"));
+            });
 
             services.AddProjectServices();
 

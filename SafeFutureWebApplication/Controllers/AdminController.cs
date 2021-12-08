@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using SafeFutureWebApplication.Models;
 using Microsoft.AspNetCore.Authorization;
 using SafeFutureWebApplication.Repository;
+using SafeFutureWebApplication.Services.Interfaces;
+using SafeFutureWebApplication.Repository.Models;
 
 namespace SafeFutureWebApplication.Controllers
 {
@@ -12,10 +14,12 @@ namespace SafeFutureWebApplication.Controllers
     public class AdminController : Controller
     {
         private TempDB _tempDB;
+        private readonly IAdminService adminService;
 
-        public AdminController(TempDB tempDB)
+        public AdminController(TempDB tempDB, IAdminService adminService)
         {
             _tempDB = tempDB;
+            this.adminService = adminService;
         }
 
 
@@ -50,8 +54,8 @@ namespace SafeFutureWebApplication.Controllers
         }
         public IActionResult Manage()
         {
-            IEnumerable<User> users = _tempDB.Users;
-            return View(users.ToList());
+            IEnumerable<Repository.Models.User> users = adminService.GetUsers();
+            return View(users);
         }
 
         [HttpGet]
@@ -60,11 +64,15 @@ namespace SafeFutureWebApplication.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Create(User user)
+        public IActionResult Create(Repository.Models.User user)
         {
             if (ModelState.IsValid)
             {
-                _tempDB.Users.Add(user);
+                bool result = adminService.CreateUser(user);
+                if (!result)
+                {
+                    return View();
+                }
                 return RedirectToAction("Index");
             }
             else
@@ -72,14 +80,14 @@ namespace SafeFutureWebApplication.Controllers
                 return View();
             }
         }
-        public IActionResult Edit(User user)
+        public IActionResult Edit(Models.User user)
         {
             return View();
         }
         [HttpPost]
         public IActionResult Remove(string id)
         {
-            User user = _tempDB.Users.Where(x => x.Username == (id)).FirstOrDefault();
+            Models.User user = _tempDB.Users.Where(x => x.Username == (id)).FirstOrDefault();
             if (user is null)
             { return NotFound($"User with Username: {id} not found."); }
 
