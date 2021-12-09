@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using SafeFutureWebApplication.Models;
 using Microsoft.AspNetCore.Authorization;
 using SafeFutureWebApplication.Repository;
+using SafeFutureWebApplication.Services.Interfaces;
+using SafeFutureWebApplication.Repository.Models;
 
 namespace SafeFutureWebApplication.Controllers
 {
@@ -12,10 +14,12 @@ namespace SafeFutureWebApplication.Controllers
     public class AdminController : Controller
     {
         private TempDB _tempDB;
+        private readonly IAdminService adminService;
 
-        public AdminController(TempDB tempDB)
+        public AdminController(TempDB tempDB, IAdminService adminService)
         {
             _tempDB = tempDB;
+            this.adminService = adminService;
         }
 
 
@@ -27,7 +31,7 @@ namespace SafeFutureWebApplication.Controllers
         public IActionResult Reports([FromQuery] string filter, string searchString)
         {
             ViewData["CurrentSearch"] = searchString;
-            IEnumerable<Participant> customers = _tempDB.Participants;
+            IEnumerable<Recipient> recipients = _tempDB.Recipients;
 
 
             if (!string.IsNullOrEmpty(filter)) { filter.ToLower(); }
@@ -38,15 +42,20 @@ namespace SafeFutureWebApplication.Controllers
                 try 
                 {
                     household = int.Parse(searchString);
-                    customers = customers.Where(x => x.HouseholdSize == household);
-                    return View(customers.ToList());
+                    recipients = recipients.Where(x => x.HouseholdSize == household);
+                    return View(recipients.ToList());
 
                 }
                 catch(Exception){ }
-                customers = customers.Where(x => x.FirstName.Contains(searchString) || x.ZipCode.Contains(searchString));
+                recipients = recipients.Where(x => x.FirstName.Contains(searchString) || x.ZipCode.Contains(searchString));
             } // end if
 
-            return View(customers.ToList());
+            return View(recipients.ToList());
+        }
+        public IActionResult Manage()
+        {
+            IEnumerable<Repository.Models.User> users = adminService.GetUsers();
+            return View(users);
         }
         public IActionResult Manage()
         {
@@ -60,11 +69,15 @@ namespace SafeFutureWebApplication.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Create(User user)
+        public IActionResult Create(Repository.Models.User user)
         {
             if (ModelState.IsValid)
             {
-                _tempDB.Users.Add(user);
+                bool result = adminService.CreateUser(user);
+                if (!result)
+                {
+                    return View();
+                }
                 return RedirectToAction("Index");
             }
             else
@@ -72,7 +85,7 @@ namespace SafeFutureWebApplication.Controllers
                 return View();
             }
         }
-        public IActionResult Edit(User user)
+        public IActionResult Edit(Models.User user)
         {
             return View();
         }

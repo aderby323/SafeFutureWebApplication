@@ -12,10 +12,12 @@ namespace SafeFutureWebApplication.Services
     public class AuthService : IAuthService
     {
         private TempDB _tempDB;
+        private readonly AppDbContext context;
 
-        public AuthService(TempDB tempDB)
+        public AuthService(TempDB tempDB, AppDbContext context)
         {
             _tempDB = tempDB;
+            this.context = context;
         }
 
         public string HashPassword(string password, string salt)

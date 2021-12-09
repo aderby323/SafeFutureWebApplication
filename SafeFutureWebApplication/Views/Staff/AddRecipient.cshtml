@@ -1,8 +1,8 @@
-﻿@model SafeFutureWebApplication.Models.Participant
+﻿@model SafeFutureWebApplication.Models.Recipient
 
 <div class="container">
-    <h2>Add a Participant</h2>
-    <form asp-action="AddParticipant" method="post">
+    <h2>Add a Recipient</h2>
+    <form asp-action="AddRecipient" method="post">
         <div class="form-row">
             <div class="form-group col-md-4">
                 <label asp-for="FirstName">First Name</label>
@@ -51,6 +51,6 @@
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary">Register Participant</button>
+        <button type="submit" class="btn btn-primary">Register Recipient</button>
     </form>
 </div>

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SafeFutureWebApplication.Models
 {
@@ -16,9 +12,10 @@ namespace SafeFutureWebApplication.Models
         public string Username { get; set; }
         [Required(ErrorMessage ="Please enter a password")]
         public string Password { get; set; }
+
         public string Salt { get; set; }
+
         public string Role { get; set; }
-        public List<string> Roles { get; set; }
 
     }
 }

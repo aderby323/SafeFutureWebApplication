@@ -1,18 +1,15 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using SafeFutureWebApplication.Repository;
 using SafeFutureWebApplication.Services;
 using SafeFutureWebApplication.Services.Interfaces;
 using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
 
 namespace SafeFutureWebApplication
 {
@@ -32,6 +29,11 @@ namespace SafeFutureWebApplication
             services.AddTransient<IAuthService, AuthService>();
             services.AddSingleton<TempDB>();
 
+            services.AddDbContext<AppDbContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("AppDb"));
+            });
+
             services.AddProjectServices();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -44,10 +46,10 @@ namespace SafeFutureWebApplication
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("Admin",
-                    policy => policy.RequireClaim(ClaimTypes.Role, "Admin"));
+                    policy => policy.RequireClaim(ClaimTypes.Role, new string[] { "Admin", "Dev" }));
 
-                options.AddPolicy("Volunteer",
-                    policy => policy.RequireClaim(ClaimTypes.Role, "Volunteer"));
+                options.AddPolicy("Staff",
+                    policy => policy.RequireClaim(ClaimTypes.Role, new string[] { "Staff", "Dev" }));
             });
 
             services.AddSession(options =>

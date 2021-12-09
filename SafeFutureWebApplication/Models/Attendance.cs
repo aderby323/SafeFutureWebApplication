@@ -1,16 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace SafeFutureWebApplication.Models
 {
-    public class Order : IAuditable
+    public class Attendance : IAuditable
     {
-        public Guid OrderId { get; set; }
+
+        public Guid AttendanceId { get; set; }
+
         public Guid RecipientId { get; set; }
+
+        [Required]
         public bool RecievedItems { get; set; }
+
         public DateTime CreatedOn { get; set; }
-        public Guid CreatedBy { get; set; }
+
+        public string CreatedBy { get; set; }
+
     }
 }
