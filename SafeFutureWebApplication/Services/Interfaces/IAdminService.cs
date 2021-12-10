@@ -11,5 +11,8 @@ namespace SafeFutureWebApplication.Services.Interfaces
         IEnumerable<User> GetUsers();
 
         bool CreateUser(User user);
+        bool DeleteUser(User user);
+        bool EditUser(User user);
+        User GetUser(string username);
     }
 }

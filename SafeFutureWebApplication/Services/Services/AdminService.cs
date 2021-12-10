@@ -37,5 +37,41 @@ namespace SafeFutureWebApplication.Services
                 return false;
             }
         }
+        public bool DeleteUser(User user)
+        {
+            user.Salt = authService.GetSalt();
+            user.Password = authService.HashPassword(user.Password, user.Salt);
+
+            try
+            {
+                context.Remove(user);
+                context.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        public User GetUser(string username)
+        {
+            return context.User.FirstOrDefault(x => x.Username == username);
+        }
+        public bool EditUser(User user)
+        {
+            user.Salt = authService.GetSalt();
+            user.Password = authService.HashPassword(user.Password, user.Salt);
+
+            try
+            {
+                context.Update(user);
+                context.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }
