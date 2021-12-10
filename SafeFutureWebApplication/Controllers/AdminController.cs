@@ -55,7 +55,7 @@ namespace SafeFutureWebApplication.Controllers
         public IActionResult Manage()
         {
             IEnumerable<Repository.Models.User> users = adminService.GetUsers();
-            return View(users.ToList());
+            return View(users);
         }
         
 
@@ -83,32 +83,55 @@ namespace SafeFutureWebApplication.Controllers
         }
         public IActionResult Edit(string id)
         {
-            Models.User user = _tempDB.Users.Where(x => x.Username == id).FirstOrDefault();
-            if (user is null) { return NotFound($"User with Username: {id} not found."); }
-            return View(user);
+
+            Repository.Models.User user = adminService.GetUser(id);
+
+            if (user is null) { return BadRequest(); }
+
+            ViewBag.User = user;
+            return View();
         }
         [HttpPost]
         public IActionResult Edit(Repository.Models.User user)
         {
-            if (!ModelState.IsValid) { return View(user); }
-            Models.User oldUser = _tempDB.Users.Where(x => x.Username == user.Username).FirstOrDefault();
-
-            Remove(oldUser.Username);
-            Create(user);
-
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                bool result = adminService.EditUser(user);
+                if (!result)
+                {
+                    return View();
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View();
+            }
         }
      
             [HttpPost]
             public IActionResult Remove(string id)
             {
-                Models.User user = _tempDB.Users.Where(x => x.Username == (id)).FirstOrDefault();
-                if (user is null)
-                { return NotFound($"User with Username: {id} not found."); }
-
-                _tempDB.Users.Remove(user);
+            if (ModelState.IsValid)
+            {
+                Repository.Models.User user = adminService.GetUser(id);
+                // Repository.Models.User user = _tempDB.Users.Where(x => x.Username == (id)).FirstOrDefault();
+                bool result = adminService.DeleteUser(user);
+                if (!result)
+                {
+                    return View();
+                }
                 return RedirectToAction("Index");
             }
+            else
+            {
+                return View();
+            }
+            
+
+
+            }
+            
 
         }
     }
