@@ -1,6 +1,6 @@
 ﻿
 <h2>List of Accounts</h2>
-@Html.ActionLink("Create New Account", "Create", "User", null, new { @class = "btn btn-success m-2" })
+@Html.ActionLink("Create New Account", "Create", "Admin", null, new { @class = "btn btn-success m-2" })
 @if (Model.Count <= 0)
 {
     <div class="alert alert-info" role="alert">
@@ -24,8 +24,8 @@
                 <td>
                     <form method="post">
 
-                        <button type="submit" class="btn btn-success m-2" asp-controller="User" asp-action="Remove" asp-route-id="@x.Username">Remove</button>
-                        <button type="submit" class="btn btn-success m-2" asp-controller="User" asp-action="Edit" asp-route-id="@x.Username">Edit</button>
+                        <button type="submit" class="btn btn-success m-2" asp-controller="Admin" asp-action="Remove" asp-route-id="@x.Username">Remove</button>
+                        <button type="submit" class="btn btn-success m-2" asp-controller="Admin" asp-action="Edit" asp-route-id="@x.Username">Edit</button>
                     </form>
                 </td>
             </tr>

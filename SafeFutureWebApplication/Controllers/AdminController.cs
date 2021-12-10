@@ -55,13 +55,9 @@ namespace SafeFutureWebApplication.Controllers
         public IActionResult Manage()
         {
             IEnumerable<Repository.Models.User> users = adminService.GetUsers();
-            return View(users);
-        }
-        public IActionResult Manage()
-        {
-            IEnumerable<User> users = _tempDB.Users;
             return View(users.ToList());
         }
+        
 
         [HttpGet]
         public IActionResult Create()
@@ -85,33 +81,34 @@ namespace SafeFutureWebApplication.Controllers
                 return View();
             }
         }
-        public IActionResult Edit(Models.User user)
+        public IActionResult Edit(string id)
         {
-            return View();
+            Models.User user = _tempDB.Users.Where(x => x.Username == id).FirstOrDefault();
+            if (user is null) { return NotFound($"User with Username: {id} not found."); }
+            return View(user);
         }
-<<<<<<< Updated upstream
-  
-        public IActionResult Remove(User user)
-        {
-            //User user = _tempDB.Users.Where(x => @x.Username == username).FirstOrDefault();
-
-          
-            //_tempDB.Users.Remove(user);
-            _tempDB.RemoveUser(user);
-            return RedirectToAction("Index");
-
-
-=======
         [HttpPost]
-        public IActionResult Remove(string id)
+        public IActionResult Edit(Repository.Models.User user)
         {
-            User user = _tempDB.Users.Where(x => x.Username == (id)).FirstOrDefault();
-            if (user is null)
-            { return NotFound($"User with Username: {id} not found."); }
+            if (!ModelState.IsValid) { return View(user); }
+            Models.User oldUser = _tempDB.Users.Where(x => x.Username == user.Username).FirstOrDefault();
 
-            _tempDB.Users.Remove(user);
+            Remove(oldUser.Username);
+            Create(user);
+
             return RedirectToAction("Index");
->>>>>>> Stashed changes
+        }
+     
+            [HttpPost]
+            public IActionResult Remove(string id)
+            {
+                Models.User user = _tempDB.Users.Where(x => x.Username == (id)).FirstOrDefault();
+                if (user is null)
+                { return NotFound($"User with Username: {id} not found."); }
+
+                _tempDB.Users.Remove(user);
+                return RedirectToAction("Index");
+            }
+
         }
     }
-}

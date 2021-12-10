@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SafeFutureWebApplication.Models
 {
@@ -17,5 +18,6 @@ namespace SafeFutureWebApplication.Models
 
         public string Role { get; set; }
 
+        public List<string> Roles { get; set; }
     }
 }
