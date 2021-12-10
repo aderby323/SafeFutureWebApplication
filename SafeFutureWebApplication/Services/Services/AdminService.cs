@@ -39,8 +39,8 @@ namespace SafeFutureWebApplication.Services
         }
         public bool DeleteUser(User user)
         {
-            user.Salt = authService.GetSalt();
-            user.Password = authService.HashPassword(user.Password, user.Salt);
+           user.Salt = authService.GetSalt();
+           user.Password = authService.HashPassword(user.Password, user.Salt);
 
             try
             {
