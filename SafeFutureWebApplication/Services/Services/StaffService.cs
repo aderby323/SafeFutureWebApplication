@@ -1,5 +1,5 @@
-﻿using SafeFutureWebApplication.Models;
-using SafeFutureWebApplication.Repository;
+﻿using SafeFutureWebApplication.Repository;
+using SafeFutureWebApplication.Repository.Models;
 using SafeFutureWebApplication.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -9,23 +9,58 @@ namespace SafeFutureWebApplication.Services
 {
     public class StaffService : IStaffService
     {
-        private readonly TempDB repo;
-        public StaffService(TempDB tempDb)
+        private readonly AppDbContext context;
+
+        public StaffService(AppDbContext context)
         {
-            repo = tempDb;
+            this.context = context;
         }
 
-        public IEnumerable<Recipient> GetRecipients()
+        public IEnumerable<Recipient> GetRecipients() => context.Recipients.ToList();
+
+        public IEnumerable<Recipient> GetRecipientsBySearchTerm(string search)
         {
-            return repo.Recipients;
+            IQueryable<Recipient> recipients = context.Recipients;
+
+            if (search.IsNullOrWhitespace())
+            { 
+                return Enumerable.Empty<Recipient>();
+            }
+
+            int household;
+            if(int.TryParse(search, out household))
+            {
+                return recipients.Where(x => x.HouseholdSize == household);
+            }
+
+            return recipients.Where(x => x.FirstName == search|| x.LastName == search || x.ZipCode == search).ToList();
         }
-            
-        public bool AddRecipient(Recipient Recipient)
+
+        public IEnumerable<Attendance> ViewAttendances(Guid recipientId) => context.Attendances
+            .Where(x => x.RecipientId == recipientId)
+            .OrderByDescending(x => x.EventDate)
+            .ToList();
+
+        public Recipient GetRecipient(Guid recipientId) => context.Recipients.FirstOrDefault(x => x.RecipientId == recipientId);
+
+        public IEnumerable<Recipient> SearchRecipients(string searchString)
         {
-            Recipient.RecipientId = Guid.NewGuid();
+            if (searchString.IsNullOrWhitespace()) { return Enumerable.Empty<Recipient>(); }
+
+            searchString.ToLower();
+            return context.Recipients
+                .Where(x => x.FirstName == searchString || x.LastName == searchString)
+                .ToList();
+        }
+
+        public bool AddRecipient(Recipient recipient, string requester)
+        {
+            recipient.SetModified(requester);
+
             try
             {
-                repo.Recipients.Add(Recipient);
+                context.Recipients.Add(recipient);
+                context.SaveChanges();
                 return true;
             }
             catch(Exception)
@@ -34,45 +69,26 @@ namespace SafeFutureWebApplication.Services
             }
         }
 
-        public Recipient GetRecipient(Guid recipientId)
-        {
-            return repo.Recipients.FirstOrDefault(x => x.RecipientId == recipientId);
-        }
-
-        public IEnumerable<Recipient> SearchRecipients(string searchString)
-        {
-            if (searchString.IsNullOrWhitespace()) { return Enumerable.Empty<Recipient>(); }
-
-            searchString.ToLower();
-            return repo.Recipients
-                .Where(x => x.FirstName == searchString || x.LastName == searchString)
-                .ToList();
-        }
-
         public bool AddAttendance(Attendance attendance, string requester)
         {
-            Recipient recipient = repo.Recipients.FirstOrDefault(x => x.RecipientId == attendance.RecipientId);
+            Recipient recipient = context.Recipients.FirstOrDefault(x => x.RecipientId == attendance.RecipientId);
             if (recipient is null) { return false; }
 
+            attendance.EventDate = DateTime.UtcNow;
             attendance.SetModified(requester);
 
             try
             {
-                repo.Attendances.Add(attendance);
+                context.Attendances.Add(attendance);
+                context.SaveChanges();
+                return true;
             }
-            catch(Exception) { return false; }
-
-            return true;
+            catch(Exception) 
+            {
+                return false; 
+            }
         }
 
-        public IEnumerable<Attendance> ViewAttendances(Guid recipientId)
-        {
-            return repo.Attendances.Where(x => x.RecipientId == recipientId).ToList();
-        }
-
-        public bool RecipientExists(Guid recipientId)
-        {
-            return repo.Recipients.Any(x => x.RecipientId == recipientId);
-        }
+        public bool RecipientExists(Guid recipientId) => context.Recipients.Any(x => x.RecipientId == recipientId);
     }
 }
