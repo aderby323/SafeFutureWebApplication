@@ -8,7 +8,7 @@ namespace SafeFutureWebApplication.Repository.Models
         public Guid AttendanceId { get; set; }
         public Guid RecipientId { get; set; }
         public DateTime EventDate { get; set; }
-        public string ItemsDistrubuted { get; set; }
+        public string ItemsDistributed { get; set; }
         public DateTime CreatedOn { get; set; }
         public string CreatedBy { get; set; }
 

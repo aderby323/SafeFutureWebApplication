@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SafeFutureWebApplication.Repository.Models;
@@ -18,9 +17,9 @@ namespace SafeFutureWebApplication.Controllers
             this.StaffService = StaffService;
         }
 
-        public IActionResult Index()
+        public IActionResult Index([FromQuery] string searchString)
         {
-            IEnumerable<Recipient> recipients = StaffService.GetRecipients();
+            IEnumerable<Recipient> recipients = !searchString.IsNullOrWhitespace() ? StaffService.GetRecipientsBySearchTerm(searchString) :StaffService.GetRecipients();
             return View(recipients);
         }
 
@@ -42,15 +41,6 @@ namespace SafeFutureWebApplication.Controllers
             if (!result) { return BadRequest(); }
 
             return RedirectToAction("Index");
-        }
-
-        [HttpGet]
-        public IActionResult Search(string searchString)
-        {
-            ViewData["CurrentSearch"] = searchString;
-            IEnumerable<Recipient> recipients = StaffService.GetRecipientsBySearchTerm(searchString);
-
-            return View(recipients.ToList());
         }
 
         [HttpGet]

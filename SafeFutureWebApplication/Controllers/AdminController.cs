@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using SafeFutureWebApplication.Repository;
 using SafeFutureWebApplication.Services.Interfaces;
 using SafeFutureWebApplication.Repository.Models;
 
@@ -12,13 +11,11 @@ namespace SafeFutureWebApplication.Controllers
     [Authorize("Admin")]
     public class AdminController : Controller
     {
-        private readonly AppDbContext context;
         private readonly IAdminService adminService;
         private readonly IStaffService staffService;
 
-        public AdminController(AppDbContext context, IAdminService adminService, IStaffService staffService)
+        public AdminController(IAdminService adminService, IStaffService staffService)
         {
-            this.context = context;
             this.adminService = adminService;
             this.staffService = staffService;
         }
@@ -53,18 +50,19 @@ namespace SafeFutureWebApplication.Controllers
 
             return View(recipients.ToList());
         }
+
         public IActionResult Manage()
         {
             IEnumerable<User> users = adminService.GetUsers();
             return View(users);
         }
         
-
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
+
         [HttpPost]
         public IActionResult Create(User user)
         {
@@ -82,30 +80,55 @@ namespace SafeFutureWebApplication.Controllers
                 return View();
             }
         }
-        public IActionResult Edit(string id)
+
+        [HttpGet]
+        public IActionResult Edit(Guid id)
         {
-            Models.User user = _tempDB.Users.Where(x => x.Username == id).FirstOrDefault();
-            if (user is null) { return NotFound($"User with Username: {id} not found."); }
-            return View(user);
+            if (id == Guid.Empty)
+            {
+                TempData["Error"] = "User id is invalid.";
+                return RedirectToAction("Manage");
+            }
+
+            User result = adminService.GetUserById(id);
+
+            if (result == null) 
+            {
+                TempData["Error"] = "User id is invalid.";
+                return RedirectToAction("Manage");
+            }
+
+            return View(result);
         }
+
         [HttpPost]
-        public IActionResult Edit(Repository.Models.User user)
+        public IActionResult Edit(User user)
         {
             if (!ModelState.IsValid) { return View(user); }
-            Models.User oldUser = _tempDB.Users.Where(x => x.Username == user.Username).FirstOrDefault();
 
-            Remove(oldUser.Username);
-            Create(user);
+            bool result = adminService.UpdateUser(user);
 
-            return RedirectToAction("Index");
+            if (!result) { return View(); }
+
+            return RedirectToAction("Manage");
         }
      
-            [HttpPost]
-            public IActionResult Remove(string id)
+        [HttpPost]
+        public IActionResult Remove(Guid id)
+        {
+            if (id == Guid.Empty)
             {
-                Models.User user = _tempDB.Users.Where(x => x.Username == (id)).FirstOrDefault();
-                if (user is null)
-                { return NotFound($"User with Username: {id} not found."); }
+                TempData["Error"] = "User id is invalid.";
+                return RedirectToAction("Manage");
+            }
+
+            bool result = adminService.DeleteUser(id);
+
+            if (!result) 
+            {
+                TempData["Error"] = "Unable to remove user from system.";
+                return RedirectToAction("Manage"); 
+            }
 
             return RedirectToAction("Manage");
         }

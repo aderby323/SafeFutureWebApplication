@@ -1,4 +1,4 @@
-﻿@model SafeFutureWebApplication.Models.User
+﻿@model SafeFutureWebApplication.Repository.Models.User
 @{
     ViewBag.Title = "Edit User Account";
 }
@@ -6,16 +6,14 @@
 <h2>Create Edit Account</h2>
 
 <div class="container">
-    <form asp-action="Edit" method="post">
+    <form asp-controller="Admin" asp-action="Edit" method="post">
+        <input asp-for="UserId" type="text" class="form-control" hidden/>
         <div asp-validation-summary="All"></div>
         <div class="mb-3">
-            <label asp-for="Username">Username:</label>
+            <label asp-for="Username">Username</label>
             <input asp-for="Username" type="text" class="form-control" />
         </div>
-        <div class="mb-3">
-            <label asp-for="Password">Password:</label>
-            <input asp-for="Password" type="text" class="form-control" />
-        </div>
+        <input asp-for="Password" type="text" class="form-control" hidden/>
         <div class="mb-3">
             <label asp-for="Role">Role:</label>
             <select asp-for="Role" class="form-control">

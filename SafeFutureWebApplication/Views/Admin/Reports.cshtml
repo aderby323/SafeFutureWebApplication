@@ -1,16 +1,243 @@
 ﻿@model List<SafeFutureWebApplication.Repository.Models.Recipient>
 
-
 <div class="container">
     <h1>Generate Reports</h1>
 
 </div>
 
+<!-- DEFAULT REPORTS -->
 <section class="container">
+    <h2>Default Reports</h2>
+
+    @Html.ActionLink("Weekly", "Reports", "Admin", null, new { @class = "btn btn-success m-2" })
+    @Html.ActionLink("Monthly", "Reports", "Admin", null, new { @class = "btn btn-success m-2" })
+    @Html.ActionLink("Quarterly", "Reports", "Admin", null, new { @class = "btn btn-success m-2" })
+
+    <hr style="border-width:5px; color:black" />
+
+</section>
+
+<!-- CUSTOM REPORTS -->
+<section class="container">
+    <h2>Custom Reports</h2>
+
+    <form name="customReport " id="customReport">
+        <!-- ADD VALIDATION LATER, PERHAPS JAVASCRIPT -->
+        <fieldset>
+            <legend>Date Range: </legend>
+            <input type="date" name="dateMin" id="dateMin" />
+            to
+            <input type="date" name="dateMax" id="dateMax" />
+
+        </fieldset>
+
+        <fieldset>
+            <legend>Fields to Include: </legend>
+            <table>
+                <tr>
+                    <th>
+                        <input type="checkbox" name="name" id="name" />
+                        <label for="name">
+                            Name
+
+
+                        </label>
+
+                    </th>
+
+                    <th>
+                        <input type="checkbox" name="zipcode" id="zipcode" />
+                        <label for="zipcode">
+                            Zipcode
+
+
+                        </label>
+
+                    </th>
+
+                    <th>
+                        <input type="checkbox" name="email" id="email" />
+                        <label for="email">
+                            Email
+
+
+                        </label>
+
+                    </th>
+
+                </tr>
+
+                <tr>
+                    <th>
+                        <input type="checkbox" name="householdSize" id="householdSize" />
+                        <label for="householdSize">
+                            Household Size
+
+
+                        </label>
+
+                    </th>
+
+                    <th>
+                        <input type="checkbox" name="ethnicity" id="ethnicity" />
+                        <label for="ethnicity">
+                            Ethnicity
+
+
+                        </label>
+
+                    </th>
+
+                </tr>
+
+                <tr>
+                    <th>
+                        <input type="checkbox" name="productsDistributed" id="productsDistributed" />
+                        <label for="productsDistributed">
+                            Products Distributed
+
+
+                        </label>
+
+                    </th>
+
+                    <th>
+                        <input type="checkbox" name="profileNotes" id="profileNotes" />
+                        <label for="profileNotes">
+                            Profile Notes
+
+
+                        </label>
+
+                    </th>
+
+                </tr>
+
+            </table>
+
+
+        </fieldset>
+
+        <br /><button type="reset" class="btn btn-danger">Reset Fields</button>
+        <button type="button" class="btn btn-danger">Select All Fields (nonfunctional)</button><br /><br />
+
+        <!-- TESTING ALTERNATIVE DOWNLOAD METHODS -->
+        <!-- DOES NOT WORK -->
+        <button type="submit" class="btn btn-success" onclick="window.location.href='~/sampleDownload.txt'">Generate Custom Report</button>
+
+        <!-- WORKS, BUT I WANT A BUTTON -->
+        <a href="~/sampleDownload.txt" download>Link to Download Report</a>
+
+        <!-- WORKS, BUT THE BUTTON IMAGE DOESN'T LOAD-->
+        <a href="~/sampleDownload.txt" download><img src="~/testButton.png" alt="testButton.png" /></a>
+
+        <!-- SAME AS ABOVE -->
+        <a href="~/sampleDownload.txt" download><img src="../../testButton.png" alt="testButton.png" /></a>
+
+    </form>
+
+    <hr style="border-width:5px; color:black" />
+
+</section>
+
+<!-- PREVIEW INFORMATION -->
+<section class="container">
+    <h2>Preview Information</h2>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+    <div class="container">
+        @if (Model != null)
+        {
+            <h3>Participants: @Model.Count</h3>
+
+        }
+        else
+        {
+            <h3>No participants in database.</h3>
+
+        }
+
+        <form asp-action="Reports" method="get" style="margin-bottom: 5px;">
+            <div class="input-group mb-0">
+                <input type="text" class="form-control" name="searchString" value="@ViewData["CurrentSearch"]" placeholder="Search Participants">
+
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="submit"><i class="fas fa-search"></i></button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+        <table class="table table-hover">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Zip Code</th>
+                    <th scope="col">Household Size</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+                @foreach (var x in Model)
+                {
+                    <tr>
+                        <td>@x.FirstName</td>
+                        <td>@x.LastName</td>
+                        <td>@x.ZipCode</td>
+                        <td>@x.HouseholdSize</td>
+                       
+                    </tr>
+
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+<footer>
+    @Html.ActionLink("Go Back", "Index", "Admin", null, new { @class = "btn btn-success m-2" })
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="container" hidden>
     <p>
         For this part, we will need to sit down with Chris
         and see the specific reports he would like to generate.
 
+    </p>
+
+    <p style="color:red">
+        testing from Mac
     </p>
 
 
@@ -85,14 +312,14 @@
         @if (Model.Count <= 0)
         {
             <div class="alert alert-info" role="alert">
-                No recipients found.
+                No customers found.
             </div>
         }
         <div>
             <!--Change this-->
             <form asp-action="Index" method="get">
                 <div class="input-group mb-0">
-                    <input type="text" class="form-control" name="searchString" value="@ViewData["CurrentSearch"]" placeholder="Search recipients">
+                    <input type="text" class="form-control" name="searchString" value="@ViewData["CurrentSearch"]" placeholder="Search Customers">
                     <div class="input-group-append">
                         <button class="btn btn-outline-secondary" type="submit"><i class="fas fa-search"></i></button>
                     </div>
@@ -139,6 +366,5 @@
 
 
 </section>
-
 
 

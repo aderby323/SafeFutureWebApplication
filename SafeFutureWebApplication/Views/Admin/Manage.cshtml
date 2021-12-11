@@ -1,35 +1,56 @@
-﻿
+﻿@model List<SafeFutureWebApplication.Repository.Models.User>
+@{
+    string error = TempData["Error"] as string;
+}
 <h2>List of Accounts</h2>
 @Html.ActionLink("Create New Account", "Create", "Admin", null, new { @class = "btn btn-success m-2" })
+
+<hr />
+
 @if (Model.Count <= 0)
 {
     <div class="alert alert-info" role="alert">
         No accounts found.
     </div>
 }
+
+@if (error != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @error
+    </div>
+}
+
 @if (Model.Count > 0)
 {
-    <table>
+    <table class="table table-hover" style="width:50%">
+        <thead class="thead-light">
+            <tr>
+                <th>Username</th>
+                <th>Role</th>
+                <th width=40%>Options</th>
+            </tr>
+        </thead>
 
-        <tr>
-            <th>Username:</th>
-        </tr>
         @foreach (var x in Model)
         {
 
             <tr>
                 <td>@x.Username</td>
                 <td>@x.Role</td>
-
                 <td>
-                    <form method="post">
-
-                        <button type="submit" class="btn btn-success m-2" asp-controller="Admin" asp-action="Remove" asp-route-id="@x.Username">Remove</button>
-                        <button type="submit" class="btn btn-success m-2" asp-controller="Admin" asp-action="Edit" asp-route-id="@x.Username">Edit</button>
-                    </form>
+                    <div style="display:flex">
+                        <a class="btn btn-info m-2" asp-controller="Admin" asp-action="Edit" asp-route-id="@x.UserId">Edit</a>
+                        <form method="post">
+                            <button type="submit" class="btn btn-danger m-2" asp-controller="Admin" asp-action="Remove" asp-route-id="@x.UserId">Remove</button>
+                        </form>
+                    </div>
                 </td>
             </tr>
         }
-
     </table>
 }
+
+<div>
+    <a asp-action="Index">Back to Admin portal</a>
+</div>

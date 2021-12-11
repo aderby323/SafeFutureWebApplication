@@ -4,6 +4,8 @@ using SafeFutureWebApplication.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Ganss.XSS;
+using Microsoft.EntityFrameworkCore;
 
 namespace SafeFutureWebApplication.Services
 {
@@ -18,8 +20,9 @@ namespace SafeFutureWebApplication.Services
             this.authService = authService;
         }
 
-        public IEnumerable<User> GetUsers()
-            => context.Users.ToList();
+        public IEnumerable<User> GetUsers() => context.Users.AsNoTracking().ToList();
+
+        public User GetUserById(Guid id) => context.Users.AsNoTracking().FirstOrDefault(x => x.UserId == id);
 
         public bool CreateUser(User user, string requester)
         {
@@ -38,14 +41,50 @@ namespace SafeFutureWebApplication.Services
             }
         }
 
-        bool IAdminService.UpdateUser(User user, string requester)
+        public bool UpdateUser(User update)
         {
-            throw new NotImplementedException();
+            User existing = context.Users.FirstOrDefault(x => x.UserId == update.UserId);
+
+            if (existing == null) { return false; }
+
+            existing.Username = SanitizeText(update.Username);
+            existing.Role = SanitizeText(update.Role);
+
+            try
+            {
+                context.Update(existing);
+                context.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
-        bool IAdminService.DeleteUser(Guid id)
+        public bool DeleteUser(Guid id)
         {
-            throw new NotImplementedException();
+            User user = context.Users.FirstOrDefault(x => x.UserId == id);
+
+            if (user == null) { return false; }
+
+            try
+            {
+                context.Remove(user);
+                context.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
-    }
+
+        private string SanitizeText(string value)
+        {
+            HtmlSanitizer sanitizer = new HtmlSanitizer();
+            return sanitizer.Sanitize(value);
+        }
+
+}
 }

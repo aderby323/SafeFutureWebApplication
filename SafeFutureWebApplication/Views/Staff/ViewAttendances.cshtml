@@ -4,7 +4,7 @@
 }
 
 <h1>View Attendances</h1>
-
+<br />
 <h4>Viewing previous attendances for: @recipient.FirstName @recipient.LastName</h4>
 <hr />
 <table class="table table-hover">
@@ -22,8 +22,12 @@
             <tr>
                 <td>@x.EventDate</td>
                 <td>@x.CreatedBy</td>
-                <td>@x.ItemsDistrubuted</td>
+                <td>@x.ItemsDistributed</td>
             </tr>
         }
     </tbody>
 </table>
+
+<div>
+    <a asp-action="Index">Back to Search Recipients</a>
+</div>

@@ -9,11 +9,14 @@ namespace SafeFutureWebApplication.Services.Interfaces
         /// <summary>Returns all users in the database</summary>
         IEnumerable<User> GetUsers();
 
+        /// <summary>Returns a specific user by their user id</summary>
+        User GetUserById(Guid id);
+
         /// <summary>Adds a new user to the database</summary>
         bool CreateUser(User user, string requester);
 
         /// <summary>Updates an existing user to the database</summary>
-        bool UpdateUser(User user, string requester);
+        bool UpdateUser(User user);
 
         /// <summary>Deletes a user from the database</summary>
         bool DeleteUser(Guid id); 

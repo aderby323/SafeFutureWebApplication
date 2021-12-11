@@ -10,7 +10,6 @@ namespace SafeFutureWebApplication.Services.Interfaces
         IEnumerable<Recipient> GetRecipientsBySearchTerm(string search);
         bool AddRecipient(Recipient Recipient, string requester);
         Recipient GetRecipient(Guid RecipientId);
-        IEnumerable<Recipient> SearchRecipients(string searchString);
         bool AddAttendance(Attendance attendance, string requester);
         IEnumerable<Attendance> ViewAttendances(Guid recipientId);
         bool RecipientExists(Guid recipientId);

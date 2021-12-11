@@ -30,7 +30,7 @@ namespace SafeFutureWebApplication.Services
             int household;
             if(int.TryParse(search, out household))
             {
-                return recipients.Where(x => x.HouseholdSize == household);
+                return recipients.Where(x => x.HouseholdSize == household).ToList();
             }
 
             return recipients.Where(x => x.FirstName == search|| x.LastName == search || x.ZipCode == search).ToList();
@@ -42,16 +42,6 @@ namespace SafeFutureWebApplication.Services
             .ToList();
 
         public Recipient GetRecipient(Guid recipientId) => context.Recipients.FirstOrDefault(x => x.RecipientId == recipientId);
-
-        public IEnumerable<Recipient> SearchRecipients(string searchString)
-        {
-            if (searchString.IsNullOrWhitespace()) { return Enumerable.Empty<Recipient>(); }
-
-            searchString.ToLower();
-            return context.Recipients
-                .Where(x => x.FirstName == searchString || x.LastName == searchString)
-                .ToList();
-        }
 
         public bool AddRecipient(Recipient recipient, string requester)
         {
@@ -75,6 +65,9 @@ namespace SafeFutureWebApplication.Services
             if (recipient is null) { return false; }
 
             attendance.EventDate = DateTime.UtcNow;
+            attendance.ItemsDistributed = attendance.ItemsDistributed ?? "N/A";
+            attendance.ItemsDistributed.Trim();
+
             attendance.SetModified(requester);
 
             try

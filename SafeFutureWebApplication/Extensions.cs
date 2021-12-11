@@ -14,7 +14,7 @@ namespace SafeFutureWebApplication
 
         public static bool IsNullOrEmpty(this IEnumerable<object> data)
         {
-            return data != null && data.Any();
+            return data == null || !data.Any();
         }
 
         public static void SetModified<T>(this T x, string requester) where T: IAuditable
