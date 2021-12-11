@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SafeFutureWebApplication.Models;
+using SafeFutureWebApplication.Repository.Models;
 using SafeFutureWebApplication.Services.Interfaces;
 
 namespace SafeFutureWebApplication.Controllers
@@ -38,37 +38,17 @@ namespace SafeFutureWebApplication.Controllers
                 return View("AddRecipient", Recipient);
             }
 
-            bool result = StaffService.AddRecipient(Recipient);
+            bool result = StaffService.AddRecipient(Recipient, User.Identity.Name);
             if (!result) { return BadRequest(); }
 
             return RedirectToAction("Index");
         }
 
         [HttpGet]
-        public IActionResult Search([FromQuery] string filter, string searchString)
+        public IActionResult Search(string searchString)
         {
             ViewData["CurrentSearch"] = searchString;
-            IEnumerable<Recipient> recipients = StaffService.GetRecipients();
-
-
-            if (!string.IsNullOrEmpty(filter)) { filter.ToLower(); }
-
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                int household = -1;
-                try
-                {
-                    household = int.Parse(searchString);
-                    recipients = recipients.Where(x => x.HouseholdSize == household);
-                    return View(recipients.ToList());
-
-                }
-                catch (Exception)
-                {
-
-                }
-                recipients = recipients.Where(x => x.FirstName.Contains(searchString) || x.LastName.Contains(searchString) || x.ZipCode.Contains(searchString));
-            }
+            IEnumerable<Recipient> recipients = StaffService.GetRecipientsBySearchTerm(searchString);
 
             return View(recipients.ToList());
         }

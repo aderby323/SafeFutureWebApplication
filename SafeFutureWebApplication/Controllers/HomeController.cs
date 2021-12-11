@@ -9,6 +9,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using SafeFutureWebApplication.Repository;
 using Microsoft.AspNetCore.Authentication;
+using SafeFutureWebApplication.Repository.Models;
 
 namespace SafeFutureWebApplication.Controllers
 {
@@ -16,7 +17,7 @@ namespace SafeFutureWebApplication.Controllers
     {
         private readonly IAuthService _authService;
 
-        public HomeController(IAuthService authService, TempDB tempDB)
+        public HomeController(IAuthService authService)
         {
             _authService = authService;
         }

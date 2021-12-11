@@ -2,21 +2,19 @@
 using System.Linq;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
-using SafeFutureWebApplication.Models;
 using SafeFutureWebApplication.Models.ViewModels;
 using SafeFutureWebApplication.Repository;
+using SafeFutureWebApplication.Repository.Models;
 using SafeFutureWebApplication.Services.Interfaces;
 
 namespace SafeFutureWebApplication.Services
 {
     public class AuthService : IAuthService
     {
-        private TempDB _tempDB;
         private readonly AppDbContext context;
 
-        public AuthService(TempDB tempDB, AppDbContext context)
+        public AuthService(AppDbContext context)
         {
-            _tempDB = tempDB;
             this.context = context;
         }
 
@@ -42,7 +40,7 @@ namespace SafeFutureWebApplication.Services
         {
             if (login is null || login.Username.IsNullOrWhitespace() || login.Password.IsNullOrWhitespace()) { return default; }
 
-            User user = _tempDB.Users.FirstOrDefault(x => x.Username.Equals(login.Username) && x.Password.Equals(login.Password));
+            User user = context.Users.FirstOrDefault(x => x.Username.Equals(login.Username) && x.Password.Equals(login.Password));
 
             return user ?? null;
         }
@@ -52,10 +50,12 @@ namespace SafeFutureWebApplication.Services
         {
             if (login is null || string.IsNullOrEmpty(login.Username) || string.IsNullOrEmpty(login.Password)) { return default; }
 
-            User user = _tempDB.Users.FirstOrDefault(x => x.Username.Equals(login.Username) && x.Password.Equals(login.Password));
-            login.Password = HashPassword(login.Password, user.Salt);
+            User user = context.Users.FirstOrDefault(x => x.Username.Equals(login.Username));
+            if (user == null) { return default; }
 
-            return user.Password.Equals(login.Password) ? user : null;
+            string hash = HashPassword(login.Password, user.Salt);
+
+            return user.Password.Equals(hash) ? user : null;
         }
     }
 }

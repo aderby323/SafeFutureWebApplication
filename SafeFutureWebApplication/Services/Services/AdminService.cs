@@ -19,9 +19,9 @@ namespace SafeFutureWebApplication.Services
         }
 
         public IEnumerable<User> GetUsers()
-            => context.User.ToList();
+            => context.Users.ToList();
 
-        public bool CreateUser(User user)
+        public bool CreateUser(User user, string requester)
         {
             user.Salt = authService.GetSalt();
             user.Password = authService.HashPassword(user.Password, user.Salt);
@@ -36,6 +36,16 @@ namespace SafeFutureWebApplication.Services
             {
                 return false;
             }
+        }
+
+        bool IAdminService.UpdateUser(User user, string requester)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool IAdminService.DeleteUser(Guid id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

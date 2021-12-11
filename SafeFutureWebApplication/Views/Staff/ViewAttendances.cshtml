@@ -1,6 +1,6 @@
-﻿@model List<SafeFutureWebApplication.Models.Attendance>
+﻿@model List<SafeFutureWebApplication.Repository.Models.Attendance>
 @{
-    SafeFutureWebApplication.Models.Recipient recipient = ViewBag.Recipient;
+    SafeFutureWebApplication.Repository.Models.Recipient recipient = ViewBag.Recipient;
 }
 
 <h1>View Attendances</h1>
@@ -10,21 +10,19 @@
 <table class="table table-hover">
     <thead class="thead-light">
         <tr>
-            <th scope="col">Attendance ID</th>
-            <th scope="col">Recieved Items?</th>
-            <th scope="col">Date of Order</th>
+            <th scope="col">Event Date</th>
             <th scope="col">Ordered By</th>
+            <th scope="col" width="70%">Items Recieved</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (Attendance x in Model)
+        @foreach (var x in Model)
         {
             <tr>
-                <td>@x.AttendanceId</td>
-                <td>@x.RecievedItems</td>
-                <td>@x.CreatedOn</td>
+                <td>@x.EventDate</td>
                 <td>@x.CreatedBy</td>
+                <td>@x.ItemsDistrubuted</td>
             </tr>
         }
     </tbody>

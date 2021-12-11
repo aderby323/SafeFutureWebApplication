@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-
-// Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
-// If you have enabled NRTs for your project, then un-comment the following line:
-// #nullable disable
 
 namespace SafeFutureWebApplication.Repository.Models
 {
@@ -12,10 +7,10 @@ namespace SafeFutureWebApplication.Repository.Models
     {
         public Guid UserId { get; set; }
 
-        [Required(ErrorMessage = "Please enter a username")]
+        [Required(ErrorMessage = "Username is required")]
         public string Username { get; set; }
 
-        [Required(ErrorMessage = "Please enter a password")]
+        [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; }
         public string Salt { get; set; }
         public string Role { get; set; }

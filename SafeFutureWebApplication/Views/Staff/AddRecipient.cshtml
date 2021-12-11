@@ -1,4 +1,4 @@
-﻿@model SafeFutureWebApplication.Models.Recipient
+﻿@model SafeFutureWebApplication.Repository.Models.Recipient
 
 <div class="container">
     <h2>Add a Recipient</h2>
@@ -21,23 +21,12 @@
             </div>
         </div>
 
-        @*<div class="form-group">
-            <label asp-for="Address">Address</label>
-            <input asp-for="Address" type="text" class="form-control" placeholder="Address">
-            <span asp-validation-for="Address" class="text-danger"></span>
-        </div>
         <div class="form-group">
-            <label asp-for="Address2">Address Line 2</label>
-            <input asp-for="Address2" type="text" class="form-control" placeholder="Address Line 2">
-            <span asp-validation-for="Address2" class="text-danger"></span>
-        </div>*@
+            <label asp-for="Address1">Address</label>
+            <input asp-for="Address1" type="text" class="form-control" placeholder="Address">
+        </div>
 
         <div class="form-row">
-            @*<div class="form-group col-md-6">
-                <label asp-for="City">City</label>
-                <input asp-for="City" type="text" class="form-control" placeholder="City">
-                <span asp-validation-for="City" class="text-danger"></span>
-            </div>*@
             <div class="form-group col-md-4">
                 <label asp-for="ZipCode">Zip Code</label>
                 <input asp-for="ZipCode" type="text" class="form-control" placeholder="Zip Code">

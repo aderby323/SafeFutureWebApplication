@@ -27,7 +27,6 @@ namespace SafeFutureWebApplication
             services.AddControllersWithViews();
 
             services.AddTransient<IAuthService, AuthService>();
-            services.AddSingleton<TempDB>();
 
             services.AddDbContext<AppDbContext>(options =>
             {
@@ -70,7 +69,6 @@ namespace SafeFutureWebApplication
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
             app.UseHttpsRedirection();

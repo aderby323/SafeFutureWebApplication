@@ -1,5 +1,5 @@
-﻿using SafeFutureWebApplication.Models;
-using SafeFutureWebApplication.Models.ViewModels;
+﻿using SafeFutureWebApplication.Models.ViewModels;
+using SafeFutureWebApplication.Repository.Models;
 
 namespace SafeFutureWebApplication.Services.Interfaces
 {
