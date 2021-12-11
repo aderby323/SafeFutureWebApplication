@@ -10,6 +10,9 @@ using SafeFutureWebApplication.Services;
 using SafeFutureWebApplication.Services.Interfaces;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
+using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
+using Azure.Core;
 
 namespace SafeFutureWebApplication
 {
@@ -28,9 +31,23 @@ namespace SafeFutureWebApplication
 
             services.AddTransient<IAuthService, AuthService>();
 
+            SecretClientOptions scOptions = new SecretClientOptions()
+            {
+                Retry =
+                {
+                    Delay= TimeSpan.FromSeconds(2),
+                    MaxDelay = TimeSpan.FromSeconds(16),
+                    MaxRetries = 5,
+                    Mode = RetryMode.Exponential
+                }
+            };
+
+            var client = new SecretClient(new Uri("https://sffinfosysprod.vault.azure.net/"), new DefaultAzureCredential(), scOptions);
+            KeyVaultSecret secret = client.GetSecret("DbConnection");
+
             services.AddDbContext<AppDbContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("AppDb"));
+                options.UseSqlServer(secret.Value);
             });
 
             services.AddProjectServices();
