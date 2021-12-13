@@ -10,5 +10,5 @@
 </div>
 
 <div>
-    <button class="btn btn-outline-success m-2" asp-controller="Home" asp-action="Index">Back to Home</button>
+    @Html.ActionLink("Back to Home", "Index", "Home", null, new { @class = "btn btn-outline-success m-2" })
 </div>

@@ -52,5 +52,5 @@
 }
 
 <div>
-    <button type="submit" class="btn btn-outline-success m-2"asp-action="Index">Back to Admin Portal</button>
+    @Html.ActionLink("Back to Admin Portal", "Index", "Admin", null, new { @class = "btn btn-outline-success m-2" })
 </div>
