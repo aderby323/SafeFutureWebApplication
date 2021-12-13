@@ -10,6 +10,8 @@
         <h3>No Recipients in database.</h3>
     }
        
+    <div id="Placeholder"></div>
+
     <form asp-action="Index" method="get" style="margin-bottom: 5px;">
         <div class="input-group mb-0">
             <input type="text" class="form-control" placeholder="Search Recipients" name="searchString">
@@ -37,7 +39,7 @@
                     <td>@x.ZipCode</td>
                     <td>@x.HouseholdSize</td>
                     <td>
-                        <a asp-action="AddAttendance" asp-controller="Staff" asp-route-recipientId="@x.RecipientId" class="btn btn-info">Add Attendance</a>
+                        <a asp-action="AddAttendance" asp-controller="Staff" asp-route-recipientId="@x.RecipientId" class="btn btn-info" data-toggle="ajax-modal" data-target="#addAttendance" data-url="@Url.Action("AddAttendance")">Add Attendance</a>
                         <a asp-action="ViewAttendances" asp-controller="Staff" asp-route-recipientId="@x.RecipientId" class="btn btn-info">View Attendances</a>
                     </td>
                 </tr>
@@ -48,6 +50,6 @@
 
 <div class="container">
     <div class="row">
-        @Html.ActionLink("Add a Recipient", "AddRecipient", "Staff", null, new { @class = "btn btn-success m-2" })
+        <button type="button" class="btn btn-info" data-toggle="ajax-modal" data-target="#addRecipient" data-url="@Url.Action("AddRecipient")">Add Recipient</button>
     </div>
 </div>

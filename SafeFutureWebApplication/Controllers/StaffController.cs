@@ -26,7 +26,7 @@ namespace SafeFutureWebApplication.Controllers
         [HttpGet]
         public IActionResult AddRecipient()
         {
-            return View();
+            return PartialView("_AddRecipientPartial");
         }
 
         [HttpPost]
@@ -34,13 +34,15 @@ namespace SafeFutureWebApplication.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View("AddRecipient", Recipient);
+                ViewBag.ValidRecipient = "False";
+                return PartialView("_AddRecipientPartial", Recipient);
             }
 
             bool result = StaffService.AddRecipient(Recipient, User.Identity.Name);
             if (!result) { return BadRequest(); }
 
-            return RedirectToAction("Index");
+            ViewBag.ValidRecipient = "True";
+            return PartialView("_AddRecipientPartial");
         }
 
         [HttpGet]
