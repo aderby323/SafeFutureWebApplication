@@ -39,7 +39,10 @@ namespace SafeFutureWebApplication.Controllers
             }
 
             bool result = StaffService.AddRecipient(Recipient, User.Identity.Name);
-            if (!result) { return BadRequest(); }
+            if (!result) 
+            { 
+                return PartialView("_AddRecipientPartial", Recipient);
+            }
 
             ViewBag.ValidRecipient = "True";
             return PartialView("_AddRecipientPartial");

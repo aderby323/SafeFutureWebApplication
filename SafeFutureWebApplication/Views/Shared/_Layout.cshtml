@@ -10,31 +10,24 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/thumbnail_image0.jpg" style="max-width: 80px; max-height: 80px"/></a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="navbar-nav float-right">
-                        @{ 
+                <a asp-controller="Home" asp-action="Index" class="navbar-brand">
+                    <img src="~/thumbnail_image0.jpg" width="45" alt="" class="d-inline-block align-middle mr-2">
+                    <span>Safe Future Foundation</span>
+                 </a>
+                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                  <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active"><a asp-controller="Home" asp-action="Index" class="nav-link">Home <span class="sr-only">(current)</span></a></li>
+                    @{ 
                             if (User.Identity.IsAuthenticated)
                             {
                                 <li class="nav-item">
-                                    <span class="nav-link text-dark">Hello, @User.Identity.Name</span>
+                                    <span class="nav-link">Hello, @User.Identity.Name</span>
                                 </li>
                             }
                         }
-                    </ul>
+                  </ul>
                 </div>
             </div>
         </nav>
@@ -47,7 +40,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2021 - SafeFutureWebApplication - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2021 - Safe Future Foundation - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
