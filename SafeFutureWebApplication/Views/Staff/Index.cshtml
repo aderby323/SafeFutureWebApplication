@@ -1,11 +1,7 @@
 ﻿@model List<SafeFutureWebApplication.Models.Recipient>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
 <div class="container">
-    @if (Model != null)
-    {
-        <h3>Recipients: @Model.Count</h3>
-    }
-    else
+    @if (Model == null || Model.Count < 1)
     {
         <h3>No Recipients in database.</h3>
     }
@@ -46,6 +42,15 @@
             }
         </tbody>
     </table>
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-end">
+        <li class="page-item"><a class="page-link" href="#"><i class="fas fa-chevron-left"></i></a></li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item"><a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a></li>
+      </ul>
+    </nav>
 </div>
 
 <div class="container">
