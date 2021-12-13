@@ -4,7 +4,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using SafeFutureWebApplication.Services.Interfaces;
-using SafeFutureWebApplication.Repository.Models;
+using SafeFutureWebApplication.Models;
 
 namespace SafeFutureWebApplication.Controllers
 {

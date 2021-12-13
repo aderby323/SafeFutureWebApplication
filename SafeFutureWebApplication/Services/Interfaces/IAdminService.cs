@@ -1,4 +1,4 @@
-﻿using SafeFutureWebApplication.Repository.Models;
+﻿using SafeFutureWebApplication.Models;
 using System;
 using System.Collections.Generic;
 

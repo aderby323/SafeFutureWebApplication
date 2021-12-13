@@ -1,5 +1,5 @@
 ﻿using SafeFutureWebApplication.Repository;
-using SafeFutureWebApplication.Repository.Models;
+using SafeFutureWebApplication.Models;
 using SafeFutureWebApplication.Services.Interfaces;
 using System;
 using System.Collections.Generic;
