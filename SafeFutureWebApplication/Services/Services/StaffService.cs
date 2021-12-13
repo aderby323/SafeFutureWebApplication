@@ -26,14 +26,26 @@ namespace SafeFutureWebApplication.Services
             { 
                 return Enumerable.Empty<Recipient>();
             }
-
+            
             int household;
             if(int.TryParse(search, out household))
             {
-                return recipients.Where(x => x.HouseholdSize == household).ToList();
-            }
+                if (household < 10000) 
+                {
+                    return recipients.Where(x => x.HouseholdSize == household).ToList();
+                }
 
+
+
+                
+            }
+            
             return recipients.Where(x => x.FirstName == search|| x.LastName == search || x.ZipCode == search).ToList();
+            
+            
+
+
+
         }
 
         public IEnumerable<Attendance> ViewAttendances(Guid recipientId) => context.Attendances
