@@ -10,6 +10,7 @@ namespace SafeFutureWebApplication.Services
     public class StaffService : IStaffService
     {
         private readonly AppDbContext context;
+        private const int DEFAULT_PAGE_SIZE = 20;
 
         public StaffService(AppDbContext context)
         {
@@ -17,6 +18,27 @@ namespace SafeFutureWebApplication.Services
         }
 
         public IEnumerable<Recipient> GetRecipients() => context.Recipients.ToList();
+
+        public IEnumerable<Recipient> GetRecipientsBySearchTerm(string search, int page = 0)
+        {
+            IQueryable<Recipient> recipients = context.Recipients;
+
+            if (search.IsNullOrWhitespace())
+            {
+                return Enumerable.Empty<Recipient>();
+            }
+
+            int household;
+            if (int.TryParse(search, out household))
+            {
+                return recipients.Where(x => x.HouseholdSize == household).ToList();
+            }
+
+            return recipients.Where(x => x.FirstName == search || x.LastName == search || x.ZipCode == search)
+                .Skip(page * DEFAULT_PAGE_SIZE)
+                .Take(DEFAULT_PAGE_SIZE)
+                .ToList();
+        }
 
         public IEnumerable<Recipient> GetRecipientsBySearchTerm(string search)
         {
@@ -30,22 +52,10 @@ namespace SafeFutureWebApplication.Services
             int household;
             if(int.TryParse(search, out household))
             {
-                if (household < 10000) 
-                {
-                    return recipients.Where(x => x.HouseholdSize == household).ToList();
-                }
-
-
-
-                
+                return recipients.Where(x => x.HouseholdSize == household).ToList();
             }
             
             return recipients.Where(x => x.FirstName == search|| x.LastName == search || x.ZipCode == search).ToList();
-            
-            
-
-
-
         }
 
         public IEnumerable<Attendance> ViewAttendances(Guid recipientId) => context.Attendances
