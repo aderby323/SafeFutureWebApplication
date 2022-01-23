@@ -49,7 +49,7 @@ namespace SafeFutureWebApplication
             {
                 services.AddDbContext<AppDbContext>(options =>
                 {
-                    options.UseSqlServer(Configuration.GetConnectionString("AppDb"));
+                    options.UseSqlServer(Environment.GetEnvironmentVariable("SQLCONNSTR_AppDb"));
                 });
             }          
 
