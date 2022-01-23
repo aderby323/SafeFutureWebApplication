@@ -50,7 +50,7 @@ namespace SafeFutureWebApplication.Services
         {
             if (login is null || string.IsNullOrEmpty(login.Username) || string.IsNullOrEmpty(login.Password)) { return default; }
 
-            User user = context.Users.FirstOrDefault(x => x.Username.Equals(login.Username));
+            User user = context.Users.FirstOrDefault(x => x.Username == login.Username);
             if (user == null) { return default; }
 
             string hash = HashPassword(login.Password, user.Salt);
