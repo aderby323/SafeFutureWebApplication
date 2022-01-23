@@ -45,6 +45,13 @@ namespace SafeFutureWebApplication
                     options.UseSqlServer(connectionString);
                 });
             }
+            else
+            {
+                services.AddDbContext<AppDbContext>(options =>
+                {
+                    options.UseSqlServer(Configuration.GetConnectionString("AppDb"));
+                });
+            }          
 
             services.AddProjectServices();
 
