@@ -19,6 +19,36 @@ namespace SafeFutureWebApplication.Services
 
         public IEnumerable<Recipient> GetRecipients() => context.Recipients.ToList();
 
+        public (IEnumerable<Recipient>, int numOfPages) GetRecipients(string search, int page = 0)
+        {
+            IQueryable<Recipient> query = context.Recipients.AsQueryable();
+            decimal pages = context.Recipients.Count() / DEFAULT_PAGE_SIZE;
+            int maxPages = (int)Math.Ceiling(pages); 
+
+            if (page < 0) { page = 0; }
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                query.Where(x => x.FirstName.Contains(search) || x.LastName.Contains(search));
+            }
+
+            IEnumerable<Recipient> recipients = query.Skip(page * DEFAULT_PAGE_SIZE)
+                .Take(DEFAULT_PAGE_SIZE)
+                .ToList();
+
+            return (recipients, maxPages);
+
+        }
+
+        public IEnumerable<Recipient> GetRecipients(int page = 0)
+        {
+            if (page < 0) { page = 0; }
+
+            return context.Recipients
+                .Skip(page * DEFAULT_PAGE_SIZE)
+                .Take(DEFAULT_PAGE_SIZE)
+                .ToList();
+        }
+
         public IEnumerable<Recipient> GetRecipientsBySearchTerm(string search, int page = 0)
         {
             IQueryable<Recipient> recipients = context.Recipients;

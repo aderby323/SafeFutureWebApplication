@@ -23,6 +23,8 @@ namespace SafeFutureWebApplication.Models
         public string LastName { get; set; }
         public string Address1 { get; set; }
 
+        public string Address2 { get; set; }
+
         [Required(ErrorMessage = "Zip code is required")]
         
         public string ZipCode { get; set; }

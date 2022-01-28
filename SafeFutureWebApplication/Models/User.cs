@@ -14,6 +14,6 @@ namespace SafeFutureWebApplication.Models
         [StringLength(int.MaxValue ,MinimumLength = 8, ErrorMessage = "Password must be at least 8 characters.")]
         public string Password { get; set; }
         public string Salt { get; set; }
-        public string Role { get; set; }
+        public Role Role { get; set; }
     }
 }

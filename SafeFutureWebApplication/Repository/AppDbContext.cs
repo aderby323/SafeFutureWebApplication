@@ -59,6 +59,10 @@ namespace SafeFutureWebApplication.Repository
                     .HasMaxLength(200)
                     .IsUnicode(false);
 
+                entity.Property(e => e.Address2)
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.CreatedBy)
                     .IsRequired()
                     .HasMaxLength(50)
@@ -104,6 +108,7 @@ namespace SafeFutureWebApplication.Repository
 
                 entity.Property(e => e.Role)
                     .IsRequired()
+                    .HasConversion<string>()
                     .HasMaxLength(15)
                     .IsUnicode(false);
 

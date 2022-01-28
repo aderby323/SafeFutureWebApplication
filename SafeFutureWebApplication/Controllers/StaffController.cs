@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SafeFutureWebApplication.Models;
+using SafeFutureWebApplication.Models.ViewModels;
 using SafeFutureWebApplication.Services.Interfaces;
 
 namespace SafeFutureWebApplication.Controllers
@@ -17,10 +18,12 @@ namespace SafeFutureWebApplication.Controllers
             this.StaffService = StaffService;
         }
 
-        public IActionResult Index([FromQuery] string searchString)
+
+        public IActionResult Index([FromQuery] int page, [FromQuery] string searchString)
         {
-            IEnumerable<Recipient> recipients = !searchString.IsNullOrWhitespace() ? StaffService.GetRecipientsBySearchTerm(searchString) :StaffService.GetRecipients();
-            return View(recipients);
+            (IEnumerable<Recipient>, int) recipients = StaffService.GetRecipients(searchString, page);
+            var viewModel = new GetRecipientsViewModel(recipients.Item1, page, recipients.Item2);
+            return View(viewModel);
         }
 
         [HttpGet]
