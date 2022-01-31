@@ -5,7 +5,6 @@ namespace SafeFutureWebApplication.Models.ViewModels
 {
     public partial class GetRecipientsViewModel
     {
-        
         public IEnumerable<Recipient> Recipients { get; set; }
         public int CurrentPage { get; set; }
         public int NumOfPages { get; private set; }

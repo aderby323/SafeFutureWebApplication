@@ -68,8 +68,8 @@ namespace SafeFutureWebApplication.Services
             if (recipient is null) { return false; }
 
             attendance.EventDate = DateTime.UtcNow;
-            attendance.ItemsDistributed = attendance.ItemsDistributed ?? "N/A";
-            attendance.ItemsDistributed.Trim();
+            attendance.Notes = attendance.Notes ?? "N/A";
+            attendance.Notes.Trim();
 
             attendance.SetModified(requester);
 
