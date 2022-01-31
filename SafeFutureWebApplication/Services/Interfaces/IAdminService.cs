@@ -1,4 +1,4 @@
-﻿using SafeFutureWebApplication.Repository.Models;
+﻿using SafeFutureWebApplication.Models;
 using System;
 using System.Collections.Generic;
 
@@ -8,6 +8,9 @@ namespace SafeFutureWebApplication.Services.Interfaces
     {
         /// <summary>Returns all users in the database</summary>
         IEnumerable<User> GetUsers();
+
+        /// <summary>Generates an array of bytes representing the CSV file</summary>
+        byte[] GetReport();
 
         /// <summary>Returns a specific user by their user id</summary>
         User GetUserById(Guid id);

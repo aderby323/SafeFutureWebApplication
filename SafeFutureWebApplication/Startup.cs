@@ -14,12 +14,14 @@ namespace SafeFutureWebApplication
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment host)
         {
             Configuration = configuration;
+            Host = host;
         }
 
         public IConfiguration Configuration { get; }
+        public IWebHostEnvironment Host { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -27,10 +29,29 @@ namespace SafeFutureWebApplication
 
             services.AddTransient<IAuthService, AuthService>();
 
-            services.AddDbContext<AppDbContext>(options =>
+            if (Host.EnvironmentName == "Development")
             {
-                options.UseSqlServer(Configuration.GetConnectionString("AppDb"));
-            });
+                var connectionString = Environment.GetEnvironmentVariable("SFFDb");
+ 
+                if (string.IsNullOrEmpty(connectionString))
+                {
+                    throw new Exception("Connection string is empty");
+                }
+
+                var bytes = Convert.FromBase64String(connectionString);
+                connectionString = System.Text.Encoding.UTF8.GetString(bytes);
+                services.AddDbContext<AppDbContext>(options =>
+                {
+                    options.UseSqlServer(connectionString);
+                });
+            }
+            else
+            {
+                services.AddDbContext<AppDbContext>(options =>
+                {
+                    options.UseSqlServer(Environment.GetEnvironmentVariable("SQLCONNSTR_AppDb"));
+                });
+            }          
 
             services.AddProjectServices();
 

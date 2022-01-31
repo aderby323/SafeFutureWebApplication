@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace SafeFutureWebApplication.Repository.Models
+namespace SafeFutureWebApplication.Models
 {
     public class User
     {

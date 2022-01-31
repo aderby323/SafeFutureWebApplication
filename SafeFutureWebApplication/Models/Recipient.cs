@@ -1,9 +1,8 @@
-﻿using SafeFutureWebApplication.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace SafeFutureWebApplication.Repository.Models
+namespace SafeFutureWebApplication.Models
 {
     public class Recipient : IAuditable
     {
@@ -25,10 +24,14 @@ namespace SafeFutureWebApplication.Repository.Models
         public string Address1 { get; set; }
 
         [Required(ErrorMessage = "Zip code is required")]
+        
         public string ZipCode { get; set; }
 
         [Required(ErrorMessage = "Household size is required and must be greater than 0")]
+        [Range(1, 1000, ErrorMessage = "Please enter a valid household size (1 - 1000)")]
         public int HouseholdSize { get; set; }
+
+        [EmailAddress(ErrorMessage = "Please enter a valid email address")]
         public string Email { get; set; }
         public DateTime CreatedOn { get; set; }
         public string CreatedBy { get; set; }

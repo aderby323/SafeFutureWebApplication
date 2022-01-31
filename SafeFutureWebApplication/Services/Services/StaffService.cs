@@ -1,5 +1,5 @@
 ﻿using SafeFutureWebApplication.Repository;
-using SafeFutureWebApplication.Repository.Models;
+using SafeFutureWebApplication.Models;
 using SafeFutureWebApplication.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -10,6 +10,7 @@ namespace SafeFutureWebApplication.Services
     public class StaffService : IStaffService
     {
         private readonly AppDbContext context;
+        private const int DEFAULT_PAGE_SIZE = 20;
 
         public StaffService(AppDbContext context)
         {
@@ -17,6 +18,27 @@ namespace SafeFutureWebApplication.Services
         }
 
         public IEnumerable<Recipient> GetRecipients() => context.Recipients.ToList();
+
+        public IEnumerable<Recipient> GetRecipientsBySearchTerm(string search, int page = 0)
+        {
+            IQueryable<Recipient> recipients = context.Recipients;
+
+            if (search.IsNullOrWhitespace())
+            {
+                return Enumerable.Empty<Recipient>();
+            }
+
+            int household;
+            if (int.TryParse(search, out household))
+            {
+                return recipients.Where(x => x.HouseholdSize == household).ToList();
+            }
+
+            return recipients.Where(x => x.FirstName == search || x.LastName == search || x.ZipCode == search)
+                .Skip(page * DEFAULT_PAGE_SIZE)
+                .Take(DEFAULT_PAGE_SIZE)
+                .ToList();
+        }
 
         public IEnumerable<Recipient> GetRecipientsBySearchTerm(string search)
         {
@@ -26,13 +48,13 @@ namespace SafeFutureWebApplication.Services
             { 
                 return Enumerable.Empty<Recipient>();
             }
-
+            
             int household;
             if(int.TryParse(search, out household))
             {
                 return recipients.Where(x => x.HouseholdSize == household).ToList();
             }
-
+            
             return recipients.Where(x => x.FirstName == search|| x.LastName == search || x.ZipCode == search).ToList();
         }
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SafeFutureWebApplication.Repository.Models;
+using SafeFutureWebApplication.Models;
 using SafeFutureWebApplication.Services.Interfaces;
 
 namespace SafeFutureWebApplication.Controllers

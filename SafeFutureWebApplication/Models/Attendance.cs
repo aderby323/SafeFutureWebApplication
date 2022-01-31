@@ -1,7 +1,6 @@
-﻿using SafeFutureWebApplication.Models;
-using System;
+﻿using System;
 
-namespace SafeFutureWebApplication.Repository.Models
+namespace SafeFutureWebApplication.Models
 {
     public class Attendance : IAuditable
     {

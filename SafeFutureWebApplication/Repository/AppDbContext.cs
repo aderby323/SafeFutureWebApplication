@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SafeFutureWebApplication.Repository.Models;
+using SafeFutureWebApplication.Models;
 
 namespace SafeFutureWebApplication.Repository
 {

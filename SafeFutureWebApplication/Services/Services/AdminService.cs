@@ -1,11 +1,14 @@
 ﻿using SafeFutureWebApplication.Repository;
-using SafeFutureWebApplication.Repository.Models;
+using SafeFutureWebApplication.Models;
 using SafeFutureWebApplication.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Ganss.XSS;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
+using CsvHelper;
+using System.Globalization;
 
 namespace SafeFutureWebApplication.Services
 {
@@ -23,6 +26,20 @@ namespace SafeFutureWebApplication.Services
         public IEnumerable<User> GetUsers() => context.Users.AsNoTracking().ToList();
 
         public User GetUserById(Guid id) => context.Users.AsNoTracking().FirstOrDefault(x => x.UserId == id);
+
+        public byte[] GetReport()
+        {
+            IEnumerable<Recipient> recipients = context.Recipients.ToList();
+            MemoryStream ms = new MemoryStream();
+
+            using var writer = new StreamWriter(ms);
+            using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
+            csv.WriteRecords(recipients);
+
+            ms.Flush();
+
+            return ms.ToArray();
+        }
 
         public bool CreateUser(User user, string requester)
         {
@@ -80,11 +97,13 @@ namespace SafeFutureWebApplication.Services
             }
         }
 
+        #region Private
         private string SanitizeText(string value)
         {
             HtmlSanitizer sanitizer = new HtmlSanitizer();
             return sanitizer.Sanitize(value);
         }
+        #endregion
 
-}
+    }
 }

@@ -7,9 +7,7 @@ using SafeFutureWebApplication.Models.ViewModels;
 using SafeFutureWebApplication.Services.Interfaces;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using SafeFutureWebApplication.Repository;
 using Microsoft.AspNetCore.Authentication;
-using SafeFutureWebApplication.Repository.Models;
 
 namespace SafeFutureWebApplication.Controllers
 {
