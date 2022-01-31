@@ -31,7 +31,7 @@ namespace SafeFutureWebApplication.Models
         public string ZipCode { get; set; }
 
         [Required(ErrorMessage = "Household size is required and must be greater than 0")]
-        [Range(1, 1000, ErrorMessage = "Please enter a valid household size (1 - 1000)")]
+        [Range(1, 50, ErrorMessage = "Please enter a valid household size (1 - 50)")]
         public int HouseholdSize { get; set; }
 
         [EmailAddress(ErrorMessage = "Please enter a valid email address")]
