@@ -38,7 +38,8 @@ namespace SafeFutureWebApplication.Repository
                 entity.Property(e => e.EventDate)
                     .HasColumnType("datetime");
 
-                entity.Property(e => e.ItemsDistributed)
+                entity.Property(e => e.Notes)
+                    .HasColumnName("ItemsDistributed")
                     .IsUnicode(false);
 
                 entity.HasOne(d => d.Recipient)
@@ -56,6 +57,10 @@ namespace SafeFutureWebApplication.Repository
                     .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.Address1)
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Address2)
                     .HasMaxLength(200)
                     .IsUnicode(false);
 
@@ -104,6 +109,7 @@ namespace SafeFutureWebApplication.Repository
 
                 entity.Property(e => e.Role)
                     .IsRequired()
+                    .HasConversion<string>()
                     .HasMaxLength(15)
                     .IsUnicode(false);
 

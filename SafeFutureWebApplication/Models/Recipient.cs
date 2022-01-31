@@ -23,8 +23,11 @@ namespace SafeFutureWebApplication.Models
         public string LastName { get; set; }
         public string Address1 { get; set; }
 
+        public string Address2 { get; set; }
+
         [Required(ErrorMessage = "Zip code is required")]
         
+        [RegularExpression(@"^\d{5}(?:[-\s]\d{4})?$", ErrorMessage = "Please enter a valid US zip code")]
         public string ZipCode { get; set; }
 
         [Required(ErrorMessage = "Household size is required and must be greater than 0")]

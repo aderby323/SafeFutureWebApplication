@@ -65,7 +65,7 @@ namespace SafeFutureWebApplication.Services
             if (existing == null) { return false; }
 
             existing.Username = SanitizeText(update.Username);
-            existing.Role = SanitizeText(update.Role);
+            existing.Role = update.Role;
 
             try
             {
