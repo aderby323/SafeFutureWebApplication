@@ -60,12 +60,12 @@ namespace SafeFutureWebApplication.Controllers
             HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
             HttpContext.Session.SetString("SessionKey", login.Username);
 
-            if (user.Role.Equals("Admin"))
+            if (user.Role == Role.Admin)
             {
                 return RedirectToAction("Index", "Admin");
             }
 
-            return Redirect("Index/5");
+            return RedirectToAction("Index", "Staff");
         }
 
         public IActionResult Privacy() => View();

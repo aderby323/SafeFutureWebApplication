@@ -8,7 +8,7 @@ using SafeFutureWebApplication.Services.Interfaces;
 
 namespace SafeFutureWebApplication.Controllers
 {
-    [Authorize("Staff")]
+    [Authorize(Roles = "Staff, Dev, Admin")]
     public class StaffController : Controller
     {
         private readonly IStaffService StaffService;
@@ -18,9 +18,11 @@ namespace SafeFutureWebApplication.Controllers
             this.StaffService = StaffService;
         }
 
-
-        public IActionResult Index([FromQuery] int page, [FromQuery] string searchString)
+        public IActionResult Index(string searchString, int page = 1)
         {
+            ViewData["CurrentSearch"] = searchString;
+
+
             (IEnumerable<Recipient>, int) recipients = StaffService.GetRecipients(searchString, page);
             var viewModel = new GetRecipientsViewModel(recipients.Item1, page, recipients.Item2);
             return View(viewModel);

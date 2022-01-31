@@ -8,9 +8,9 @@ namespace SafeFutureWebApplication.Models.ViewModels
         
         public IEnumerable<Recipient> Recipients { get; set; }
         public int CurrentPage { get; set; }
-        public int PreviousPage { get; set; }
-        public int NextPage { get; set; }
-        public int NumOfPages { get; set; }
+        public int NumOfPages { get; private set; }
+        public int PreviousPage { get; private set; }
+        public int NextPage { get; private set; }
 
         public GetRecipientsViewModel(IEnumerable<Recipient> Recipients, int CurrentPage, int NumOfPages)
         {

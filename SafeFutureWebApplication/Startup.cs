@@ -6,7 +6,6 @@ using System;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using SafeFutureWebApplication.Repository;
 using SafeFutureWebApplication.Services;
-using SafeFutureWebApplication.Services.Interfaces;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
@@ -25,13 +24,12 @@ namespace SafeFutureWebApplication
         public IWebHostEnvironment Host { get; }
 
         public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddControllersWithViews();
+        {              
+            services.AddProjectServices();
 
-            services.AddTransient<IAuthService, AuthService>();
-
-            if (Host.EnvironmentName == "Development")
+            if (Host.IsDevelopment())
             {
+                services.AddControllersWithViews().AddRazorRuntimeCompilation();
                 var connectionString = Environment.GetEnvironmentVariable("SFFDb");
  
                 if (string.IsNullOrEmpty(connectionString))
@@ -48,13 +46,12 @@ namespace SafeFutureWebApplication
             }
             else
             {
+                services.AddControllersWithViews();
                 services.AddDbContext<AppDbContext>(options =>
                 {
                     options.UseSqlServer(Environment.GetEnvironmentVariable("SQLCONNSTR_AppDb"));
                 });
             }          
-
-            services.AddProjectServices();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>

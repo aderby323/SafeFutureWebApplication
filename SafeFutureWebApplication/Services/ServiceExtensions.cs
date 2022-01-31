@@ -10,6 +10,7 @@ namespace SafeFutureWebApplication.Services
         {
             services.AddScoped<IStaffService, StaffService>();
             services.AddScoped<IAdminService, AdminService>();
+            services.AddScoped<IAuthService, AuthService>();
 
             return services;
         }
