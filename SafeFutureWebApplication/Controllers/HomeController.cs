@@ -8,29 +8,40 @@ using SafeFutureWebApplication.Services.Interfaces;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
+using System;
+using SafeFutureWebApplication.Repository;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace SafeFutureWebApplication.Controllers
 {
     public class HomeController : Controller
     {
         private readonly IAuthService _authService;
+        private readonly AppDbContext context;
 
-        public HomeController(IAuthService authService)
+        public HomeController(IAuthService authService, AppDbContext context)
         {
             _authService = authService;
+            this.context = context;
         }
 
         [Authorize(Roles = "Staff, Admin, Dev")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var user = await context.Users.FirstOrDefaultAsync(x => x.Username == User.Identity.Name);
+            if (user is null) { return BadRequest("User is not logged in or not authenticated"); }
+            return user.Role switch
+            {
+                Role.Admin => RedirectToAction("Index", "Admin"),
+                Role.Staff => RedirectToAction("Index", "Staff", 1),
+                _ => throw new NotImplementedException(),
+            };
         }
 
-        public IActionResult Login()
-        {
-            return View();
-        }
-
+        [HttpGet]
+        public IActionResult Login() => View();
+        
         [HttpPost]
         public IActionResult Login(LoginViewModel login)
         {
@@ -44,12 +55,12 @@ namespace SafeFutureWebApplication.Controllers
 
             ClaimsIdentity identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
             identity.AddClaim(new Claim(ClaimTypes.Name, user.Username));
-            identity.AddClaim(new Claim(ClaimTypes.Role, user.Role));
+            identity.AddClaim(new Claim(ClaimTypes.Role, user.Role.ToString()));
 
             HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
             HttpContext.Session.SetString("SessionKey", login.Username);
 
-            if (user.Role.Equals("Admin"))
+            if (user.Role == Role.Admin)
             {
                 return RedirectToAction("Index", "Admin");
             }
@@ -57,15 +68,10 @@ namespace SafeFutureWebApplication.Controllers
             return RedirectToAction("Index", "Staff");
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+        public IActionResult Privacy() => View();
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+
     }
 }

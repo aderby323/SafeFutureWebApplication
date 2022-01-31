@@ -4,58 +4,39 @@ using SafeFutureWebApplication.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace SafeFutureWebApplication.Services
 {
     public class StaffService : IStaffService
     {
         private readonly AppDbContext context;
-        private const int DEFAULT_PAGE_SIZE = 20;
+        private const int DEFAULT_PAGE_SIZE = 5;
 
         public StaffService(AppDbContext context)
         {
             this.context = context;
         }
 
-        public IEnumerable<Recipient> GetRecipients() => context.Recipients.ToList();
-
-        public IEnumerable<Recipient> GetRecipientsBySearchTerm(string search, int page = 0)
+        public (IEnumerable<Recipient>, int numOfPages) GetRecipients(string search, int page = 1)
         {
-            IQueryable<Recipient> recipients = context.Recipients;
+            IQueryable<Recipient> query = context.Recipients.AsQueryable();
 
-            if (search.IsNullOrWhitespace())
+            if (page < 1) { page = 1; }
+            if (!string.IsNullOrWhiteSpace(search))
             {
-                return Enumerable.Empty<Recipient>();
+                query = query.Where(x => x.FirstName.Contains(search) || x.LastName.Contains(search) || x.ZipCode.Contains(search));
             }
 
-            int household;
-            if (int.TryParse(search, out household))
-            {
-                return recipients.Where(x => x.HouseholdSize == household).ToList();
-            }
-
-            return recipients.Where(x => x.FirstName == search || x.LastName == search || x.ZipCode == search)
-                .Skip(page * DEFAULT_PAGE_SIZE)
-                .Take(DEFAULT_PAGE_SIZE)
+            IEnumerable<Recipient> recipients = query
+                .OrderBy(x => x.LastName)
+                .AsNoTracking()
                 .ToList();
-        }
 
-        public IEnumerable<Recipient> GetRecipientsBySearchTerm(string search)
-        {
-            IQueryable<Recipient> recipients = context.Recipients;
+            decimal pages = (recipients.Count() / DEFAULT_PAGE_SIZE) + 1;
+            int maxPages = (int)Math.Ceiling(pages);
+            return (recipients.Skip((page - 1) * DEFAULT_PAGE_SIZE).Take(DEFAULT_PAGE_SIZE), maxPages);
 
-            if (search.IsNullOrWhitespace())
-            { 
-                return Enumerable.Empty<Recipient>();
-            }
-            
-            int household;
-            if(int.TryParse(search, out household))
-            {
-                return recipients.Where(x => x.HouseholdSize == household).ToList();
-            }
-            
-            return recipients.Where(x => x.FirstName == search|| x.LastName == search || x.ZipCode == search).ToList();
         }
 
         public IEnumerable<Attendance> ViewAttendances(Guid recipientId) => context.Attendances
@@ -87,8 +68,8 @@ namespace SafeFutureWebApplication.Services
             if (recipient is null) { return false; }
 
             attendance.EventDate = DateTime.UtcNow;
-            attendance.ItemsDistributed = attendance.ItemsDistributed ?? "N/A";
-            attendance.ItemsDistributed.Trim();
+            attendance.Notes = attendance.Notes ?? "N/A";
+            attendance.Notes.Trim();
 
             attendance.SetModified(requester);
 
@@ -103,7 +84,5 @@ namespace SafeFutureWebApplication.Services
                 return false; 
             }
         }
-
-        public bool RecipientExists(Guid recipientId) => context.Recipients.Any(x => x.RecipientId == recipientId);
     }
 }

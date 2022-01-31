@@ -26,13 +26,11 @@ namespace SafeFutureWebApplication.Controllers
             return View();
         }
 
-        public IActionResult Reports([FromQuery] string filter, string searchString)
+        public IActionResult Reports([FromQuery] string searchString)
         {
             ViewData["CurrentSearch"] = searchString;
-            IEnumerable<Recipient> recipients = staffService.GetRecipients();
-
-
-            if (!string.IsNullOrEmpty(filter)) { filter.ToLower(); }
+            if (!string.IsNullOrEmpty(searchString)) { searchString.ToLower(); }
+            (IEnumerable<Recipient>, int maxPages) recipients = staffService.GetRecipients(searchString, 0);
 
             if (!string.IsNullOrEmpty(searchString))
             {
@@ -40,15 +38,15 @@ namespace SafeFutureWebApplication.Controllers
                 try 
                 {
                     household = int.Parse(searchString);
-                    recipients = recipients.Where(x => x.HouseholdSize == household);
-                    return View(recipients.ToList());
+                    recipients.Item1 = recipients.Item1.Where(x => x.HouseholdSize == household);
+                    return View(recipients.Item1.ToList());
 
                 }
                 catch(Exception){ }
-                recipients = recipients.Where(x => x.FirstName.Contains(searchString) || x.ZipCode.Contains(searchString));
+                recipients.Item1 = recipients.Item1.Where(x => x.FirstName.Contains(searchString) || x.ZipCode.Contains(searchString));
             }
 
-            return View(recipients.ToList());
+            return View(recipients.Item1.ToList());
         }
 
         public IActionResult Manage()

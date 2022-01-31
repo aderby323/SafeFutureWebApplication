@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SafeFutureWebApplication.Models;
+using SafeFutureWebApplication.Models.ViewModels;
 using SafeFutureWebApplication.Services.Interfaces;
 
 namespace SafeFutureWebApplication.Controllers
 {
-    [Authorize("Staff")]
+    [Authorize(Roles = "Staff, Dev, Admin")]
     public class StaffController : Controller
     {
         private readonly IStaffService StaffService;
@@ -17,10 +18,14 @@ namespace SafeFutureWebApplication.Controllers
             this.StaffService = StaffService;
         }
 
-        public IActionResult Index([FromQuery] string searchString)
+        public IActionResult Index(string searchString, int page = 1)
         {
-            IEnumerable<Recipient> recipients = !searchString.IsNullOrWhitespace() ? StaffService.GetRecipientsBySearchTerm(searchString) :StaffService.GetRecipients();
-            return View(recipients);
+            ViewData["CurrentSearch"] = searchString;
+
+
+            (IEnumerable<Recipient>, int) recipients = StaffService.GetRecipients(searchString, page);
+            var viewModel = new GetRecipientsViewModel(recipients.Item1, page, recipients.Item2);
+            return View(viewModel);
         }
 
         [HttpGet]
