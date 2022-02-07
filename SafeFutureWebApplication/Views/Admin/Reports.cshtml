@@ -121,6 +121,7 @@
         <br /><button type="reset" class="btn btn-danger">Reset Fields</button>
         <button type="button" class="btn btn-danger">Select All Fields (nonfunctional)</button><br /><br />
 
+        
         <!-- TESTING ALTERNATIVE DOWNLOAD METHODS -->
         <!-- DOES NOT WORK -->
         <button type="submit" class="btn btn-success" onclick="window.location.href='~/sampleDownload.txt'">Generate Custom Report</button>
@@ -133,6 +134,9 @@
 
         <!-- SAME AS ABOVE -->
         <a href="~/sampleDownload.txt" download><img src="../../testButton.png" alt="testButton.png" /></a>
+
+        <!-- working (?) -->
+        <button type="submit" asp-controller="Admin" asp-action="GetReport">Click HERE for testing</button>
 
     </form>
 
