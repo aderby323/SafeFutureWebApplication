@@ -41,6 +41,23 @@ namespace SafeFutureWebApplication.Services
             return ms.ToArray();
         }
 
+        // COLT TESTING FOR REPORT GENERATION
+        public byte[] ColtReportTesting()
+        {
+            IEnumerable<Recipient> recipients = context.Recipients.ToList();
+            IEnumerable<Attendance> attendances = context.Attendances.ToList();
+            MemoryStream ms = new MemoryStream();
+
+            using var writer = new StreamWriter(ms);
+            using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
+            csv.WriteRecords(attendances);
+
+            ms.Flush();
+
+            return ms.ToArray();
+        }
+
+
         public bool CreateUser(User user, string requester)
         {
             user.Salt = authService.GetSalt();
