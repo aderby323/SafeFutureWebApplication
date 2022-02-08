@@ -54,7 +54,7 @@ namespace SafeFutureWebApplication.Controllers
         {
             byte[] ReportData = adminService.GetReport();
 
-            return File(ReportData, "text/csv");
+            return File(ReportData, "text/csv", "report.csv");
         
         }
 
