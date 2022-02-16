@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using SafeFutureWebApplication.Services.Interfaces;
 using SafeFutureWebApplication.Models;
+using System.Globalization;
 
 namespace SafeFutureWebApplication.Controllers
 {
@@ -13,6 +14,7 @@ namespace SafeFutureWebApplication.Controllers
     {
         private readonly IAdminService adminService;
         private readonly IStaffService staffService;
+        private readonly CultureInfo enUs = new CultureInfo("en-US");
 
         public AdminController(IAdminService adminService, IStaffService staffService)
         {
@@ -50,9 +52,23 @@ namespace SafeFutureWebApplication.Controllers
         }
 
         // downloads recipient table
-        public IActionResult GetReport()
+        public IActionResult GetReport([FromQuery] string fromDate, [FromQuery] string toDate)
         {
-            byte[] ReportData = adminService.GetReport();
+            if (!DateTime.TryParseExact(fromDate, "s", enUs, DateTimeStyles.None, out DateTime from))
+            {
+                from = DateTime.MinValue;
+            }
+            if (DateTime.TryParseExact(toDate, "s", enUs, DateTimeStyles.None, out DateTime to))
+            {
+                to = DateTime.MinValue;
+            }
+
+            if (to >= from)
+            {
+                return BadRequest("Invalid date range provided");
+            }
+
+            byte[] ReportData = adminService.GetReport(from, to);
 
             return File(ReportData, "text/csv", "report.csv");
         
@@ -149,5 +165,6 @@ namespace SafeFutureWebApplication.Controllers
 
             return RedirectToAction("Manage");
         }
+
     }
 }

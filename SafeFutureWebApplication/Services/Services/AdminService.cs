@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using System.IO;
 using CsvHelper;
 using System.Globalization;
+using SafeFutureWebApplication.Services.Models;
 
 namespace SafeFutureWebApplication.Services
 {
@@ -27,14 +28,32 @@ namespace SafeFutureWebApplication.Services
 
         public User GetUserById(Guid id) => context.Users.AsNoTracking().FirstOrDefault(x => x.UserId == id);
 
-        public byte[] GetReport()
+        public byte[] GetReport(DateTime from = default, DateTime to = default)
         {
-            IEnumerable<Recipient> recipients = context.Recipients.ToList();
+            IQueryable<Attendance> query = context.Attendances.AsQueryable();
+
+            if (from != DateTime.MinValue && to != DateTime.MinValue)
+            {
+                query = query.Where(x => x.EventDate > from && x.EventDate < to);
+            }
+
+            IEnumerable<AttendanceReportResult> result = query.ToList().Select(x => new AttendanceReportResult
+            {
+                AttendanceId = x.AttendanceId,
+                FirstName = x.Recipient.FirstName,
+                MiddleName = x.Recipient.MiddleName,
+                LastName = x.Recipient.LastName,
+                ZipCode = x.Recipient.ZipCode,
+                HouseholdSize = x.Recipient.HouseholdSize,
+                EventDate = x.EventDate,
+                Notes = x.Notes
+            });
+
             MemoryStream ms = new MemoryStream();
 
             using var writer = new StreamWriter(ms);
             using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
-            csv.WriteRecords(recipients);
+            csv.WriteRecords(result);
 
             ms.Flush();
 

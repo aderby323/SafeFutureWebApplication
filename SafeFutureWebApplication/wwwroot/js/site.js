@@ -34,3 +34,15 @@ $(function () {
         })
     });
 })
+
+function getFromDate() {
+    return document.getElementById("fromDate").value;
+}
+
+function getToDate() {
+    return document.getElementById("toDate").value;
+}
+
+function getReport() {
+
+}

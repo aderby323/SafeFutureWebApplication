@@ -10,7 +10,7 @@ namespace SafeFutureWebApplication.Services.Interfaces
         IEnumerable<User> GetUsers();
 
         /// <summary>Generates an array of bytes representing the CSV file</summary>
-        byte[] GetReport();
+        byte[] GetReport(DateTime from, DateTime to);
 
         /// COLT REPORT TESTING <summary>Generates an array of bytes representing the CSV file</summary>
         byte[] ColtReportTesting();

@@ -121,9 +121,18 @@
         <br /><button type="reset" class="btn btn-danger">Reset Fields</button>
         <button type="button" class="btn btn-danger">Select All Fields (nonfunctional)</button><br /><br />
 
-
+        <div class="container">
+            <div>
+                <label for="fromDate">From:</label>
+                <input type="date" name="fromDate" />
+            </div>
+            <div>
+                <label for="toDate">To:</label>
+                <input type="date" name="toDate" />
+            </div>
+        </div>
         <!-- working (?) -->
-        <button type="submit" class="btn btn-success" asp-controller="Admin" asp-action="GetReport">Click HERE for GetReport test (functional but basic)</button>
+        <button type="submit" class="btn btn-success" onclick="getReport();">Click HERE for GetReport test (functional but basic)</button>
 
         <!-- COLT REPORT TESTING -->
         <button type="submit" class="btn btn-danger"asp-controller="Admin" asp-action="ColtReportTesting">Click HERE for Reports test (TESTING)</button>
