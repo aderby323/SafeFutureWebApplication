@@ -36,8 +36,10 @@
                     <td>@x.ZipCode</td>
                     <td>@x.HouseholdSize</td>
                     <td style="text-align: center">
-                        <a asp-action="AddAttendance" asp-controller="Staff" asp-route-recipientId="@x.RecipientId" class="btn btn-info" data-toggle="ajax-modal" data-target="#addAttendance" data-url="@Url.Action("AddAttendance")">Add Attendance</a>
-                        <a asp-action="ViewAttendances" asp-controller="Staff" asp-route-recipientId="@x.RecipientId" class="btn btn-info">View Attendances</a>
+                        <div>
+                            <a asp-action="AddAttendance" asp-controller="Staff" asp-route-recipientId="@x.RecipientId" class="btn btn-info" data-toggle="ajax-modal" data-target="#addAttendance" data-url="@Url.Action("AddAttendance")">Add Attendance</a>
+                            <a asp-action="ViewAttendances" asp-controller="Staff" asp-route-recipientId="@x.RecipientId" class="btn btn-info">View Attendances</a>
+                        </div>
                     </td>
                 </tr>
             }
@@ -48,16 +50,19 @@
         @{
             if (Model.CurrentPage <= 1)
             {
-                <li class="page-item disabled"><a class="page-link"><i class="fas fa-chevron-left disabled"></i></a></li>
+                <li class="page-item disabled"><a class="page-link" asp-action="Index" asp-route-searchString="@ViewData["CurrentSearch"]" asp-route-page="1"><i class="fas fa-angle-double-left"></i></a></li>
+                <li class="page-item disabled"><a class="page-link"><i class="fas fa-angle-left"></i></a></li>
             }
             else
             {
-                <li class="page-item"><a class="page-link" asp-action="Index" asp-route-searchString="@ViewData["CurrentSearch"]" asp-route-page="@Model.PreviousPage"><i class="fas fa-chevron-left"></i></a></li>
-                <li class="page-item"><a class="page-link" asp-action="Index" asp-route-searchString="@ViewData["CurrentSearch"]" asp-route-page="@Model.PreviousPage">@Model.PreviousPage</a></li>
-                
+                <li class="page-item"><a class="page-link" asp-action="Index" asp-route-searchString="@ViewData["CurrentSearch"]" asp-route-page="1"><i class="fas fa-angle-double-left"></i></a></li>
+                <li class="page-item"><a class="page-link" asp-action="Index" asp-route-searchString="@ViewData["CurrentSearch"]" asp-route-page="@Model.PreviousPage"><i class="fas fa-angle-left"></i></a></li>
+                if (Model.CurrentPage == Model.NumOfPages)
+                {
+                    <li class="page-item"><a class="page-link" asp-action="Index" asp-route-searchString="@ViewData["CurrentSearch"]" asp-route-page="@(Model.PreviousPage - 1)">@(Model.PreviousPage - 1)</a></li>                        
+                }
+                <li class="page-item"><a class="page-link" asp-action="Index" asp-route-searchString="@ViewData["CurrentSearch"]" asp-route-page="@Model.PreviousPage">@Model.PreviousPage</a></li>                
             }
-
-
 
             <li class="page-item active">
                 <a class="page-link" asp-action="Index" asp-route-searchString="@ViewData["CurrentSearch"]" asp-route-page="@Model.CurrentPage">@Model.CurrentPage</a>
@@ -66,12 +71,20 @@
             if (Model.CurrentPage >= Model.NumOfPages)
             {  
                 <li class="page-item disabled"><a class="page-link"><i class="fas fa-chevron-right disabled"></i></a></li>
+                <li class="page-item disabled"><a class="page-link" asp-action="Index" asp-route-searchString="@ViewData["CurrentSearch"]" asp-route-page="@Model.NumOfPages"><i class="fas fa-angle-double-right"></i></a></li>
             }
             else
             {
                 <li class="page-item"><a class="page-link" asp-action="Index" asp-route-searchString="@ViewData["CurrentSearch"]" asp-route-page="@Model.NextPage">@Model.NextPage</a></li>
-                <li class="page-item"><a class="page-link" asp-action="Index" asp-route-searchString="@ViewData["CurrentSearch"]" asp-route-page="@Model.NextPage"><i class="fas fa-chevron-right"></i></a></li>                    
+                if (Model.CurrentPage == 1 && Model.NumOfPages > 2)
+                {
+                    <li class="page-item"><a class="page-link" asp-action="Index" asp-route-searchString="@ViewData["CurrentSearch"]" asp-route-page="@(Model.NextPage + 1)">@(Model.NextPage + 1)</a></li>                        
+                }
+
+                <li class="page-item"><a class="page-link" asp-action="Index" asp-route-searchString="@ViewData["CurrentSearch"]" asp-route-page="@Model.NextPage"><i class="fas fa-angle-right"></i></a></li>                    
+                <li class="page-item"><a class="page-link" asp-action="Index" asp-route-searchString="@ViewData["CurrentSearch"]" asp-route-page="@Model.NumOfPages"><i class="fas fa-angle-double-right"></i></a></li>
             }
+
         }
       </ul>
     </nav>
