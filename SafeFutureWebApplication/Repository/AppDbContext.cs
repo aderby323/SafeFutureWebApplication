@@ -123,6 +123,17 @@ namespace SafeFutureWebApplication.Repository
                     .HasMaxLength(50)
                     .IsUnicode(false);
             });
+
+            modelBuilder.Entity<Question>(entity => 
+            {
+                entity.ToTable("Question");
+
+                entity.Property(e => e.QuestionId)
+                    .ValueGeneratedOnAdd();
+
+                entity.Property(e => e.Value)
+                    .HasColumnName("Question");
+            });
         }
     }
 }

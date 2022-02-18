@@ -76,7 +76,6 @@ namespace SafeFutureWebApplication.Services
             return ms.ToArray();
         }
 
-
         public bool CreateUser(User user, string requester)
         {
             user.Salt = authService.GetSalt();
