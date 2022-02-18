@@ -13,7 +13,5 @@ namespace SafeFutureWebApplication.Services.Models
         public string LastName { get; set; }
         public string ZipCode { get; set; }
         public int HouseholdSize { get; set; }
-        public DateTime EventDate { get; set; }
-        public string Notes { get; set; }
-    }
+        public DateTime EventDate { get; set; }    }
 }

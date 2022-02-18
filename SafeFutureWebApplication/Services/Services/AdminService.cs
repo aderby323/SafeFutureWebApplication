@@ -30,34 +30,33 @@ namespace SafeFutureWebApplication.Services
 
         public byte[] GetReport(DateTime from = default, DateTime to = default)
         {
-            IQueryable<Attendance> query = context.Attendances.AsQueryable();
+            IQueryable<Attendance> query = context.Attendances
+                .Include(x => x.Recipient)
+                .AsQueryable();
 
             if (from != DateTime.MinValue && to != DateTime.MinValue)
             {
                 query = query.Where(x => x.EventDate >= from && x.EventDate <= to);
             }
 
-            var data = query.Include(x => x.Recipient).ToList();
-            IEnumerable<AttendanceReportResult> result = data.Select(x => new AttendanceReportResult
+            IEnumerable<AttendanceReportResult> result = query.ToList().Select(x => new AttendanceReportResult
             {
                 AttendanceId = x.AttendanceId,
-                FirstName = x.Recipient.FirstName ?? string.Empty,
-                MiddleName = x.Recipient.MiddleName ?? string.Empty,
-                LastName = x.Recipient.LastName ?? string.Empty,
-                ZipCode = x.Recipient.ZipCode ?? string.Empty,
+                FirstName = x.Recipient.FirstName,
+                MiddleName = x.Recipient.MiddleName,
+                LastName = x.Recipient.LastName,
+                ZipCode = x.Recipient.ZipCode,
                 HouseholdSize = x.Recipient.HouseholdSize,
                 EventDate = x.EventDate,
-                Notes = x.Notes
             });
-
-            MemoryStream ms = new MemoryStream();
-
+   
+            using var ms = new MemoryStream();
             using var writer = new StreamWriter(ms);
-            using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
-            csv.WriteRecords(result);
-
-            ms.Flush();
-
+            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+            {
+                csv.WriteRecords(result);
+                ms.Flush();
+            }
             return ms.ToArray();
         }
 

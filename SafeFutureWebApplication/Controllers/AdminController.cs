@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authorization;
 using SafeFutureWebApplication.Services.Interfaces;
 using SafeFutureWebApplication.Models;
 using System.Globalization;
-using System.IO;
 
 namespace SafeFutureWebApplication.Controllers
 {
@@ -71,7 +70,6 @@ namespace SafeFutureWebApplication.Controllers
 
             byte[] ReportData = adminService.GetReport(from, to);
 
-            Response.StatusCode = 201;
             return File(ReportData, "text/csv");
         }
 
