@@ -42,12 +42,12 @@ namespace SafeFutureWebApplication.Services
             IEnumerable<AttendanceReportResult> result = query.ToList().Select(x => new AttendanceReportResult
             {
                 AttendanceId = x.AttendanceId,
+                EventDate = x.EventDate,                
                 FirstName = x.Recipient.FirstName,
                 MiddleName = x.Recipient.MiddleName,
                 LastName = x.Recipient.LastName,
                 ZipCode = x.Recipient.ZipCode,
                 HouseholdSize = x.Recipient.HouseholdSize,
-                EventDate = x.EventDate,
             });
    
             using var ms = new MemoryStream();
