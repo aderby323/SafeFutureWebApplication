@@ -35,14 +35,30 @@ $(function () {
     });
 })
 
-function getFromDate() {
-    return document.getElementById("fromDate").value;
-}
-
-function getToDate() {
-    return document.getElementById("toDate").value;
-}
-
 function getReport() {
+    var from = new Date(document.getElementById('fromDate').value).toISOString();
+    var to = new Date(document.getElementById('toDate').value).toISOString();
+    const hostName = window.location.host;
+    const reportUrl = `https://${hostName}/Admin/Report?fromDate=${from}&toDate=${to}`;
+    let today = new Date().toISOString().slice(0, 10);
+
+    fetch(reportUrl)
+        .then(resp => {
+            if (!resp.status === 200) {
+                throw new Error("Bad request");
+            }
+            return resp.blob();
+        })
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = `${today}_Report.csv`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+        })
+        .catch((error) => console.log(error));
 
 }

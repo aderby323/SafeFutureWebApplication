@@ -34,16 +34,17 @@ namespace SafeFutureWebApplication.Services
 
             if (from != DateTime.MinValue && to != DateTime.MinValue)
             {
-                query = query.Where(x => x.EventDate > from && x.EventDate < to);
+                query = query.Where(x => x.EventDate >= from && x.EventDate <= to);
             }
 
-            IEnumerable<AttendanceReportResult> result = query.ToList().Select(x => new AttendanceReportResult
+            var data = query.Include(x => x.Recipient).ToList();
+            IEnumerable<AttendanceReportResult> result = data.Select(x => new AttendanceReportResult
             {
                 AttendanceId = x.AttendanceId,
-                FirstName = x.Recipient.FirstName,
-                MiddleName = x.Recipient.MiddleName,
-                LastName = x.Recipient.LastName,
-                ZipCode = x.Recipient.ZipCode,
+                FirstName = x.Recipient.FirstName ?? string.Empty,
+                MiddleName = x.Recipient.MiddleName ?? string.Empty,
+                LastName = x.Recipient.LastName ?? string.Empty,
+                ZipCode = x.Recipient.ZipCode ?? string.Empty,
                 HouseholdSize = x.Recipient.HouseholdSize,
                 EventDate = x.EventDate,
                 Notes = x.Notes
