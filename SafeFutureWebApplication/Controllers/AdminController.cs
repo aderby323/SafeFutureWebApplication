@@ -49,6 +49,25 @@ namespace SafeFutureWebApplication.Controllers
             return View(recipients.Item1.ToList());
         }
 
+        // downloads recipient table
+        public IActionResult GetReport()
+        {
+            byte[] ReportData = adminService.GetReport();
+
+            return File(ReportData, "text/csv", "report.csv");
+        
+        }
+
+        // COLT REPORT TESTING
+        public IActionResult ColtReportTesting()
+        {
+            byte[] ReportData = adminService.ColtReportTesting();
+
+            return File(ReportData, "text/csv", "testReport.csv");
+
+        }
+
+
         public IActionResult Manage()
         {
             IEnumerable<User> users = adminService.GetUsers();
