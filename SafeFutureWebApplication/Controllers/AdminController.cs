@@ -51,7 +51,7 @@ namespace SafeFutureWebApplication.Controllers
         }
 
         [HttpGet]
-        public IActionResult Report([FromQuery(Name = "fromDate")] string fromDate, [FromQuery(Name = "toDate")] string toDate)
+        public IActionResult GetReport([FromQuery(Name = "fromDate")] string fromDate, [FromQuery(Name = "toDate")] string toDate)
         {
             if (!DateTime.TryParse(fromDate, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out DateTime from))
             {

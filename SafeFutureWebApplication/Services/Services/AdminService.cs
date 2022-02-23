@@ -39,15 +39,15 @@ namespace SafeFutureWebApplication.Services
                 query = query.Where(x => x.EventDate >= from && x.EventDate <= to);
             }
 
-            IEnumerable<AttendanceReportResult> result = query.ToList().Select(x => new AttendanceReportResult
+            IEnumerable<object> result = query.ToList().Select(x => new
             {
-                AttendanceId = x.AttendanceId,
-                EventDate = x.EventDate,                
-                FirstName = x.Recipient.FirstName,
-                MiddleName = x.Recipient.MiddleName,
-                LastName = x.Recipient.LastName,
-                ZipCode = x.Recipient.ZipCode,
-                HouseholdSize = x.Recipient.HouseholdSize,
+                x.AttendanceId,
+                x.EventDate,
+                x.Recipient.FirstName,
+                x.Recipient.MiddleName,
+                x.Recipient.LastName,
+                x.Recipient.ZipCode,
+                x.Recipient.HouseholdSize,
             });
    
             using var ms = new MemoryStream();

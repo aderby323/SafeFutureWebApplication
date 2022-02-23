@@ -39,13 +39,13 @@ function getReport() {
     var from = new Date(document.getElementById('fromDate').value).toISOString();
     var to = new Date(document.getElementById('toDate').value).toISOString();
     const hostName = window.location.host;
-    const reportUrl = `https://${hostName}/Admin/Report?fromDate=${from}&toDate=${to}`;
+    const reportUrl = `https://${hostName}/Admin/GetReport?fromDate=${from}&toDate=${to}`;
     let today = new Date().toISOString().slice(0, 10);
 
     fetch(reportUrl)
         .then(resp => {
             if (!resp.status === 200) {
-                throw new Error("Bad request");
+                throw new Error("An error occured when generating report");
             }
             return resp.blob();
         })
@@ -60,5 +60,4 @@ function getReport() {
             window.URL.revokeObjectURL(url);
         })
         .catch((error) => console.log(error));
-
 }
