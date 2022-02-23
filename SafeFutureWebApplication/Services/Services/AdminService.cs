@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using System.IO;
 using CsvHelper;
 using System.Globalization;
+using SafeFutureWebApplication.Services.Models;
 
 namespace SafeFutureWebApplication.Services
 {
@@ -27,17 +28,35 @@ namespace SafeFutureWebApplication.Services
 
         public User GetUserById(Guid id) => context.Users.AsNoTracking().FirstOrDefault(x => x.UserId == id);
 
-        public byte[] GetReport()
+        public byte[] GetReport(DateTime from = default, DateTime to = default)
         {
-            IEnumerable<Recipient> recipients = context.Recipients.ToList();
-            MemoryStream ms = new MemoryStream();
+            IQueryable<Attendance> query = context.Attendances
+                .Include(x => x.Recipient)
+                .AsQueryable();
 
+            if (from != DateTime.MinValue && to != DateTime.MinValue)
+            {
+                query = query.Where(x => x.EventDate >= from && x.EventDate <= to);
+            }
+
+            IEnumerable<object> result = query.ToList().Select(x => new
+            {
+                x.AttendanceId,
+                x.EventDate,
+                x.Recipient.FirstName,
+                x.Recipient.MiddleName,
+                x.Recipient.LastName,
+                x.Recipient.ZipCode,
+                x.Recipient.HouseholdSize,
+            });
+   
+            using var ms = new MemoryStream();
             using var writer = new StreamWriter(ms);
-            using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
-            csv.WriteRecords(recipients);
-
-            ms.Flush();
-
+            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+            {
+                csv.WriteRecords(result);
+                ms.Flush();
+            }
             return ms.ToArray();
         }
 
@@ -56,7 +75,6 @@ namespace SafeFutureWebApplication.Services
 
             return ms.ToArray();
         }
-
 
         public bool CreateUser(User user, string requester)
         {

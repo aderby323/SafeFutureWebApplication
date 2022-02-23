@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using SafeFutureWebApplication.Services.Interfaces;
 using SafeFutureWebApplication.Models;
+using System.Globalization;
 
 namespace SafeFutureWebApplication.Controllers
 {
@@ -49,13 +50,26 @@ namespace SafeFutureWebApplication.Controllers
             return View(recipients.Item1.ToList());
         }
 
-        // downloads recipient table
-        public IActionResult GetReport()
+        [HttpGet]
+        public IActionResult GetReport([FromQuery(Name = "fromDate")] string fromDate, [FromQuery(Name = "toDate")] string toDate)
         {
-            byte[] ReportData = adminService.GetReport();
+            if (!DateTime.TryParse(fromDate, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out DateTime from))
+            {
+                from = DateTime.MinValue;
+            }
+            if (!DateTime.TryParse(toDate, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out DateTime to))
+            {
+                to = DateTime.MinValue;
+            }
 
-            return File(ReportData, "text/csv", "report.csv");
-        
+            if (to <= from)
+            {
+                return BadRequest("Invalid date range provided");
+            }
+
+            byte[] ReportData = adminService.GetReport(from, to);
+
+            return File(ReportData, "text/csv");
         }
 
         // COLT REPORT TESTING
@@ -149,5 +163,6 @@ namespace SafeFutureWebApplication.Controllers
 
             return RedirectToAction("Manage");
         }
+
     }
 }
