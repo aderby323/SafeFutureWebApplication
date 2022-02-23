@@ -14,7 +14,6 @@ namespace SafeFutureWebApplication.Controllers
     {
         private readonly IAdminService adminService;
         private readonly IStaffService staffService;
-        private readonly CultureInfo enUs = new CultureInfo("en-US");
 
         public AdminController(IAdminService adminService, IStaffService staffService)
         {
