@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SafeFutureWebApplication.Models;
-using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using SafeFutureWebApplication.Models.ViewModels;
@@ -64,10 +63,24 @@ namespace SafeFutureWebApplication.Controllers
             return RedirectToAction("Index", "Staff");
         }
 
+        [HttpGet]
+        public IActionResult Recovery() => View();
+
+        [HttpPost]
+        public IActionResult Recovery(PasswordRecoveryViewModel viewModel)
+        {
+            if (!ModelState.IsValid) { return View(); }
+
+            return View();
+        }
+
         public IActionResult Privacy() => View();
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        [Route("/error")]
+        public IActionResult Error() => Problem();
+
+        //[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        //public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 
     }
 }

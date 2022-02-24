@@ -34,7 +34,7 @@ namespace SafeFutureWebApplication
  
                 if (string.IsNullOrEmpty(connectionString))
                 {
-                    throw new Exception("Connection string is empty");
+                    throw new ArgumentNullException("Connection string is empty");
                 }
 
                 var bytes = Convert.FromBase64String(connectionString);
@@ -84,6 +84,11 @@ namespace SafeFutureWebApplication
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseExceptionHandler("/error");
+            }
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
