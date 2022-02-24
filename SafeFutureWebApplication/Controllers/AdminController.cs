@@ -21,33 +21,9 @@ namespace SafeFutureWebApplication.Controllers
             this.staffService = staffService;
         }
 
-
         public IActionResult Index()
         {
             return View();
-        }
-
-        public IActionResult Reports([FromQuery] string searchString)
-        {
-            ViewData["CurrentSearch"] = searchString;
-            if (!string.IsNullOrEmpty(searchString)) { searchString.ToLower(); }
-            (IEnumerable<Recipient>, int maxPages) recipients = staffService.GetRecipients(searchString, 0);
-
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                int household = -1;
-                try 
-                {
-                    household = int.Parse(searchString);
-                    recipients.Item1 = recipients.Item1.Where(x => x.HouseholdSize == household);
-                    return View(recipients.Item1.ToList());
-
-                }
-                catch(Exception){ }
-                recipients.Item1 = recipients.Item1.Where(x => x.FirstName.Contains(searchString) || x.ZipCode.Contains(searchString));
-            }
-
-            return View(recipients.Item1.ToList());
         }
 
         [HttpGet]
@@ -80,7 +56,6 @@ namespace SafeFutureWebApplication.Controllers
             return File(ReportData, "text/csv", "testReport.csv");
 
         }
-
 
         public IActionResult Manage()
         {
