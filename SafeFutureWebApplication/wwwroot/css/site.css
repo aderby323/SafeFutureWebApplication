@@ -109,3 +109,24 @@ input[type=number] {
 .custom-button:hover {
     background-color: #4D4D4D;
 }
+
+.nav-link-text {
+    margin: 0 5px;
+    font-size: 1.5em;
+}
+
+.selection {
+    display: flex;
+    justify-content: center;
+    margin: 2em 0;
+}
+
+.selection-text {
+    font-size: 1.5em;
+    padding: 1.5em 3em;
+}
+
+.selection:hover {
+    transform: scale(1.2, 1.2);
+    transition: all 0.2s;
+}
