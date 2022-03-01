@@ -130,3 +130,10 @@ input[type=number] {
     transform: scale(1.2, 1.2);
     transition: all 0.2s;
 }
+
+.modal-textarea {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+}
