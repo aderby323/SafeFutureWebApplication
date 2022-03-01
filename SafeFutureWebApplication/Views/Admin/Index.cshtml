@@ -2,13 +2,17 @@
     ViewData["Title"] = "Admin Page";
 }
 
-<div class="container">
-    <div class="row">
-        @Html.ActionLink("Generate Reports", "Reports", "Admin", null, new { @class = "btn btn-success m-2" })
-        @Html.ActionLink("Manage Accounts", "Manage", "Admin", null, new { @class = "btn btn-success m-2" })
+    <div class="container">
+        <div class="selection">
+            <a asp-controller="Admin" asp-action="Reports" class="btn btn-success selection-text">Generate Reports</a>
+        </div>
+        <div class="selection">
+            <a asp-controller="Admin" asp-action="Manage" class="btn btn-success selection-text">Manage Accounts</a>
+        </div>
+        @*@Html.ActionLink("Generate Reports", "Reports", "Admin", null, new { @class = "btn btn-success m-2" })
+        @Html.ActionLink("Manage Accounts", "Manage", "Admin", null, new { @class = "btn btn-success m-2" })*@
     </div>
-</div>
 
 <div>
-    <button class="btn btn-outline-success m-2" asp-controller="Home" asp-action="Index">Back to Home</button>
+    <button class="btn btn-danger m-2" asp-controller="Staff" asp-action="Index">Go to Staff</button>
 </div>

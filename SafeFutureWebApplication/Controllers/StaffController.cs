@@ -61,7 +61,7 @@ namespace SafeFutureWebApplication.Controllers
             if (recipient is null) { return BadRequest(); }
 
             ViewBag.Recipient = recipient;
-            return View();
+            return PartialView("_AddAttendancePartial");
         }
 
         [HttpPost]
@@ -70,7 +70,7 @@ namespace SafeFutureWebApplication.Controllers
             attendance.AttendanceId = Guid.NewGuid();
             if (!ModelState.IsValid)
             {
-                return View("AddOrder", attendance);
+                return PartialView("_AddAttendancePartial", attendance);
             }
 
             bool result = StaffService.AddAttendance(attendance, User.Identity.Name);

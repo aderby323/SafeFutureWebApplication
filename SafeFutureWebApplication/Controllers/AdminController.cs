@@ -13,18 +13,19 @@ namespace SafeFutureWebApplication.Controllers
     public class AdminController : Controller
     {
         private readonly IAdminService adminService;
-        private readonly IStaffService staffService;
 
-        public AdminController(IAdminService adminService, IStaffService staffService)
+        public AdminController(IAdminService adminService)
         {
             this.adminService = adminService;
-            this.staffService = staffService;
         }
 
         public IActionResult Index()
         {
             return View();
         }
+
+        [HttpGet]
+        public IActionResult Reports() => View();
 
         [HttpGet]
         public IActionResult GetReport([FromQuery(Name = "fromDate")] string fromDate, [FromQuery(Name = "toDate")] string toDate)
