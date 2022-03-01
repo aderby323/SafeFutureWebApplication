@@ -10,7 +10,7 @@
 </head>
 <body>
     <header>
-         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
+         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3 custom-nav">
            <div class="container">
                 <a asp-controller="Home" asp-action="Index" class="navbar-brand">
                     <img src="~/thumbnail_image0.jpg" width="70" height="70" alt="Safe Future Foundation logo" class="d-inline-block align-middle mr-2">
@@ -42,9 +42,9 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2022 - Safe Future Foundation - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class="border-top footer text-muted custom-nav">
+        <div class="container" style="text-align: center;">
+            &copy; 2022 - Safe Future Foundation - <a asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
