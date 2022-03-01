@@ -9,7 +9,6 @@ using Microsoft.EntityFrameworkCore;
 using System.IO;
 using CsvHelper;
 using System.Globalization;
-using SafeFutureWebApplication.Services.Models;
 
 namespace SafeFutureWebApplication.Services
 {
