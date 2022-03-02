@@ -37,7 +37,7 @@
                         <td>@x.ZipCode</td>
                         <td>@x.HouseholdSize</td>
                         <td style="text-align: center">
-                            <div style="display: flex; align-items: center; justify-content: space-evenly">
+                            <div style="display: flex; align-items: center; justify-content: space-evenly; gap:5px;">
                                 <button type="button" class="btn btn-info" data-toggle="ajax-modal" data-target="#addAttendance" data-url="@Url.Action("AddAttendance", "Staff", new { recipientId = x.RecipientId })">Add Attendance</button>
                                 <a asp-action="ViewAttendances" asp-controller="Staff" asp-route-recipientId="@x.RecipientId" class="btn btn-info">View Attendances</a>
                             </div>
@@ -50,7 +50,7 @@
     <div class="container-fluid" style="margin: 1.5em 0;">
         <div class="row">
             <div class="col">
-                <button type="button" class="btn btn-info btn-lg" data-toggle="ajax-modal" data-target="#addRecipient" data-url="@Url.Action("AddRecipient")">Add Recipient</button>
+                <button type="button" class="btn btn-success btn-lg" data-toggle="ajax-modal" data-target="#addRecipient" data-url="@Url.Action("AddRecipient")">Add Recipient</button>
             </div>
             <div class="col">
                 <nav aria-label="Table pagination">
