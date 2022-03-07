@@ -39,7 +39,6 @@ namespace SafeFutureWebApplication.Repository
                     .HasColumnType("datetime");
 
                 entity.Property(e => e.Notes)
-                    .HasColumnName("ItemsDistributed")
                     .IsUnicode(false);
 
                 entity.HasOne(d => d.Recipient)
