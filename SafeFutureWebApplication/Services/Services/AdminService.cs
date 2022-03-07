@@ -47,6 +47,7 @@ namespace SafeFutureWebApplication.Services
                 x.Recipient.LastName,
                 x.Recipient.ZipCode,
                 x.Recipient.HouseholdSize,
+                x.Notes
             });
    
             using var ms = new MemoryStream();
