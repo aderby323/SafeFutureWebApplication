@@ -21,7 +21,6 @@
     <h2>Custom Reports</h2>
 
     <form name="customReport " id="customReport">
-        <!-- ADD VALIDATION LATER, PERHAPS JAVASCRIPT -->
         <div>
             <label for="fromDate">From:</label>
             <input type="date" id="fromDate" />
@@ -31,17 +30,12 @@
         <!-- Calls GetReport endpoint -->
         <button type="button" class="btn btn-success" onclick="getReport();">Generate Report (GetReport endpoint)</button>
 
-        <!-- COLT REPORT TESTING -->
-        <button type="submit" class="btn btn-secondary"asp-controller="Admin" asp-action="ColtReportTesting">Click HERE for Reports test (TESTING)</button>
-
     </form>
-
-    <hr style="border-width:5px; color:black" />
 
 </section>
 
 <footer>
-    @Html.ActionLink("Go Back", "Index", "Admin", null, new { @class = "btn btn-success m-2" })
+    @Html.ActionLink("Go Back", "Index", "Admin", null, new { @class = "btn btn-secondary m-2" })
 </footer>
 
 
