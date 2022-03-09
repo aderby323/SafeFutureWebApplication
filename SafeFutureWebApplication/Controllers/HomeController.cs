@@ -67,10 +67,39 @@ namespace SafeFutureWebApplication.Controllers
         public IActionResult Recovery() => View();
 
         [HttpPost]
-        public IActionResult Recovery(PasswordRecoveryViewModel viewModel)
+        public async Task<IActionResult> Recovery(string username)
         {
-            if (!ModelState.IsValid) { return View(); }
+            if (username.IsNullOrWhitespace()) { return View(); }
 
+            User user = await _authService.GetUser(username);
+
+            if (user is null)
+            {
+                ViewData["ErrorMessage"] = "Username is incorrect.";
+                return View();
+            }
+
+            return View(new PasswordRecoveryViewModel(username, user));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RecoveryViewModel(string username)
+        {
+            if (username.IsNullOrWhitespace()) 
+            {
+                ViewData["ErrorMessage"] = "Username is incorrect.";
+                return View(); 
+            }
+
+            User user = await _authService.GetUser(username);
+
+            if (user is null)
+            {
+                ViewData["ErrorMessage"] = "Username is incorrect.";
+                return View();
+            }
+
+            ViewData["RecoveryUser"] = user;
             return View();
         }
 
@@ -78,9 +107,5 @@ namespace SafeFutureWebApplication.Controllers
 
         [Route("/error")]
         public IActionResult Error() => Problem();
-
-        //[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        //public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-
     }
 }
