@@ -7,7 +7,7 @@
     <h2>Account Recovery</h2>
     @{
         User recoveryUser = ViewData["RecoveryUser"] as User;
-        if (recoveryUser is null || !recoveryUser is User)
+        if (recoveryUser is null || !(recoveryUser is User))
         {
             <div style="display:flex; align-items:center;justify-content:center;">
                 <form asp-controller="Home" asp-action="Recovery" method="post" style="margin-bottom: 5px;">
