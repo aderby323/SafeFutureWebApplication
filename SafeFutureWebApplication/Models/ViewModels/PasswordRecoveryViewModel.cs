@@ -1,17 +1,26 @@
-﻿namespace SafeFutureWebApplication.Models.ViewModels
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SafeFutureWebApplication.Models.ViewModels
 {
+    /// <summary>
+    /// Viewmodel for password recovery
+    /// </summary>
     public class PasswordRecoveryViewModel
     {
+        /// <summary>
+        /// Username of the user requesting password recovery
+        /// </summary>
         public string Username { get; set; }
 
-        public User User { get; set; }
+        /// <summary>
+        /// First security question tied to user
+        /// </summary>
+        public string Question1 { get; set; }
 
-        public PasswordRecoveryViewModel(){ }
-
-        public PasswordRecoveryViewModel(string username, User user)
-        {
-            User = user;
-            Username = username;
-        }
+        /// <summary>
+        /// Response given for answer to first security question
+        /// </summary>
+        [Required]
+        public string Question1Response { get; set; }
     }
 }
