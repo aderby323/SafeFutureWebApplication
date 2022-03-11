@@ -89,7 +89,7 @@ namespace SafeFutureWebApplication.Controllers
                 return View();
             }
 
-            var viewModel = new PasswordRecoveryViewModel() { Username = username, Question1 = user.Question.Value, QuestionId = user.QuestionId };
+            var viewModel = new PasswordRecoveryViewModel() { Username = username, Question1 = user.Question.Value };
 
             return View(viewModel);
         }
