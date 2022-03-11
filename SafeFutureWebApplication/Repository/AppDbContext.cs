@@ -17,6 +17,7 @@ namespace SafeFutureWebApplication.Repository
         public virtual DbSet<Attendance> Attendances { get; set; }
         public virtual DbSet<Recipient> Recipients { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Question> Questions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -41,6 +41,10 @@ namespace SafeFutureWebApplication.Controllers
         public IActionResult Login(LoginViewModel login)
         {
             ViewData["ErrorMessage"] = null;
+            if (login.ForgotPassword)
+            {
+                return RedirectToAction("Recovery", login.Username);
+            }
             User user = _authService.ValidateLogin(login);
             if (user is null)
             {
@@ -64,42 +68,55 @@ namespace SafeFutureWebApplication.Controllers
         }
 
         [HttpGet]
-        public IActionResult Recovery() => View();
-
-        [HttpPost]
-        public async Task<IActionResult> Recovery(string username)
+        public async Task<IActionResult> RecoveryAsync(string username) 
         {
-            if (username.IsNullOrWhitespace()) { return View(); }
-
-            User user = await _authService.GetUser(username);
-
-            if (user is null)
+            if (username.IsNullOrWhitespace())
             {
-                ViewData["ErrorMessage"] = "Username is incorrect.";
+                ViewData["ErrorMessage"] = "Invalid or malformed username given";
                 return View();
             }
 
-            return View(new PasswordRecoveryViewModel(username, user));
+            User user = await _authService.GetUser(username);
+            if (user is null)
+            {
+                ViewData["ErrorMessage"] = "Invalid or malformed username given";
+                return View();
+            }
+
+            if (user.QuestionId == 0)
+            {
+                ViewData["ErrorMessage"] = "User does not have any security questions";
+                return View();
+            }
+
+            var viewModel = new PasswordRecoveryViewModel() { Username = username, Question1 = user.Question.Value, QuestionId = user.QuestionId };
+
+            return View(viewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> RecoveryViewModel(string username)
+        public async Task<IActionResult> Recovery(PasswordRecoveryViewModel response)
         {
-            if (username.IsNullOrWhitespace()) 
+            if (response.Question1Response.IsNullOrWhitespace())
             {
-                ViewData["ErrorMessage"] = "Username is incorrect.";
-                return View(); 
-            }
-
-            User user = await _authService.GetUser(username);
-
-            if (user is null)
-            {
-                ViewData["ErrorMessage"] = "Username is incorrect.";
+                ViewData["ErrorMessage"] = "No repsonse given";
                 return View();
             }
 
-            ViewData["RecoveryUser"] = user;
+            User user = await _authService.GetUser(response.Username);
+            if (user is null)
+            {
+                ViewData["ErrorMessage"] = "Invalid or malformed username given";
+                return View();
+            }
+
+            bool result = await _authService.ValidatePasswordRecovery(user, response.Question1Response);
+            if (!result)
+            {
+                ViewData["ErrorMessage"] = "Invalid answer given";
+                return View();
+            }
+            //TODO: Add create new password page
             return View();
         }
 

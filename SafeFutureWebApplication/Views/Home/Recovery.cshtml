@@ -1,31 +1,24 @@
-﻿@{
+﻿@model SafeFutureWebApplication.Models.ViewModels.PasswordRecoveryViewModel
+@{
     ViewData["Title"] = "Account Recovery";
 }
 
-@{
-    <div class="container">
-    <h2>Account Recovery</h2>
-    @{
-        User recoveryUser = ViewData["RecoveryUser"] as User;
-        if (recoveryUser is null || !recoveryUser is User)
-        {
-            <div style="display:flex; align-items:center;justify-content:center;">
-                <form asp-controller="Home" asp-action="Recovery" method="post" style="margin-bottom: 5px;">
-                    <label for="Username">Please enter your username</label>
-                    <input type="text" class="form-control" style="margin:1em 0;" placeholder="Username">
-                    <button type="submit" class="btn btn-success">Submit</button>
-                </form>
-            </div>
 
-        }
-        else
-        {
-            <div>
-                <label></label>
-                <input />
-            </div>
-        }
+<div class="container">
+    <h2>Account Recovery</h2>
+    @if (ViewData["ErrorMessage"] != null)
+    {
+        <p style="color:red">@ViewData["ErrorMessage"]</p>
     }
+
+    <div style="display:flex; align-items:center;justify-content:center;">
+        <form asp-controller="Home" asp-action="Recovery" method="post" style="margin-bottom: 5px;">
+            <input asp-for="Username" type="hidden" value="@Model.Username">
+            <label asp-for="Question1Response">@Model.Question1</label>
+            <input asp-for="Question1Response" type="text" class="form-control">
+            <button type="submit" class="btn btn-success">Submit</button>
+        </form>
     </div>
-}
+</div>
+
 
