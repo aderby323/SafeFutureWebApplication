@@ -41,10 +41,10 @@ namespace SafeFutureWebApplication.Controllers
         public IActionResult Login(LoginViewModel login)
         {
             ViewData["ErrorMessage"] = null;
-            if (login.ForgotPassword)
-            {
-                return RedirectToAction("Recovery", login.Username);
-            }
+            //if (login.ForgotPassword)
+            //{
+            //    return RedirectToAction("Recovery", login.Username);
+            //}
             User user = _authService.ValidateLogin(login);
             if (user is null)
             {
