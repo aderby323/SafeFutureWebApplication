@@ -67,58 +67,58 @@ namespace SafeFutureWebApplication.Controllers
             return RedirectToAction("Index", "Staff");
         }
 
-        [HttpGet]
-        public async Task<IActionResult> RecoveryAsync(string username) 
-        {
-            if (username.IsNullOrWhitespace())
-            {
-                ViewData["ErrorMessage"] = "Invalid or malformed username given";
-                return View();
-            }
+        //[HttpGet]
+        //public async Task<IActionResult> RecoveryAsync(string username) 
+        //{
+        //    if (username.IsNullOrWhitespace())
+        //    {
+        //        ViewData["ErrorMessage"] = "Invalid or malformed username given";
+        //        return View();
+        //    }
 
-            User user = await _authService.GetUser(username);
-            if (user is null)
-            {
-                ViewData["ErrorMessage"] = "Invalid or malformed username given";
-                return View();
-            }
+        //    User user = await _authService.GetUser(username);
+        //    if (user is null)
+        //    {
+        //        ViewData["ErrorMessage"] = "Invalid or malformed username given";
+        //        return View();
+        //    }
 
-            if (user.QuestionId == 0)
-            {
-                ViewData["ErrorMessage"] = "User does not have any security questions";
-                return View();
-            }
+        //    if (user.QuestionId == 0)
+        //    {
+        //        ViewData["ErrorMessage"] = "User does not have any security questions";
+        //        return View();
+        //    }
 
-            var viewModel = new PasswordRecoveryViewModel() { Username = username, Question1 = user.Question.Value };
+        //    var viewModel = new PasswordRecoveryViewModel() { Username = username, Question1 = user.Question.Value };
 
-            return View(viewModel);
-        }
+        //    return View(viewModel);
+        //}
 
-        [HttpPost]
-        public async Task<IActionResult> Recovery(PasswordRecoveryViewModel response)
-        {
-            if (response.Question1Response.IsNullOrWhitespace())
-            {
-                ViewData["ErrorMessage"] = "No repsonse given";
-                return View();
-            }
+        //[HttpPost]
+        //public async Task<IActionResult> Recovery(PasswordRecoveryViewModel response)
+        //{
+        //    if (response.Question1Response.IsNullOrWhitespace())
+        //    {
+        //        ViewData["ErrorMessage"] = "No repsonse given";
+        //        return View();
+        //    }
 
-            User user = await _authService.GetUser(response.Username);
-            if (user is null)
-            {
-                ViewData["ErrorMessage"] = "Invalid or malformed username given";
-                return View();
-            }
+        //    User user = await _authService.GetUser(response.Username);
+        //    if (user is null)
+        //    {
+        //        ViewData["ErrorMessage"] = "Invalid or malformed username given";
+        //        return View();
+        //    }
 
-            bool result = await _authService.ValidatePasswordRecovery(user, response.Question1Response);
-            if (!result)
-            {
-                ViewData["ErrorMessage"] = "Invalid answer given";
-                return View();
-            }
-            //TODO: Add create new password page
-            return View();
-        }
+        //    bool result = await _authService.ValidatePasswordRecovery(user, response.Question1Response);
+        //    if (!result)
+        //    {
+        //        ViewData["ErrorMessage"] = "Invalid answer given";
+        //        return View();
+        //    }
+        //    //TODO: Add create new password page
+        //    return View();
+        //}
 
         public IActionResult Privacy() => View();
 

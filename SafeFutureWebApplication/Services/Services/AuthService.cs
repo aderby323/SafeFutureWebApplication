@@ -56,14 +56,14 @@ namespace SafeFutureWebApplication.Services
             return user.Password.Equals(hash) ? user : null;
         }
 
-        public async Task<bool> ValidatePasswordRecovery(User user, string question1Answer)
-        {
-            Question question = await context.Questions.FirstOrDefaultAsync(x => x.QuestionId == user.QuestionId);
-            if (question == null) { return false; }
+        //public async Task<bool> ValidatePasswordRecovery(User user, string question1Answer)
+        //{
+        //    Question question = await context.Questions.FirstOrDefaultAsync(x => x.QuestionId == user.QuestionId);
+        //    if (question == null) { return false; }
 
-            if (!user.Answer.Equals(question1Answer, StringComparison.InvariantCultureIgnoreCase)) { return false; }
+        //    if (!user.Answer.Equals(question1Answer, StringComparison.InvariantCultureIgnoreCase)) { return false; }
 
-            return true;
-        }
+        //    return true;
+        //}
     }
 }

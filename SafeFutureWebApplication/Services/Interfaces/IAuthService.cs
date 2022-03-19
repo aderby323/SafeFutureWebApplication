@@ -15,6 +15,6 @@ namespace SafeFutureWebApplication.Services.Interfaces
         string HashPassword(string password, string salt);
         string GetSalt();
         User ValidateLogin(LoginViewModel login);
-        Task<bool> ValidatePasswordRecovery(User user, string questionAnswer);
+        //Task<bool> ValidatePasswordRecovery(User user, string questionAnswer);
     }
 }

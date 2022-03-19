@@ -15,11 +15,11 @@ namespace SafeFutureWebApplication.Models
         public string Password { get; set; }
         public string Salt { get; set; }
         public Role Role { get; set; }
-        public int QuestionId { get; set; }
-        public string Answer { get; set; }
+       // public int QuestionId { get; set; }
+        //public string Answer { get; set; }
 
         #region Navigation
-        public virtual Question Question { get; set; }
+        //public virtual Question Question { get; set; }
         #endregion
     }
 }
