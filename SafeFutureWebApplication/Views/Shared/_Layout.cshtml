@@ -6,32 +6,32 @@
     <title>@ViewData["Title"] - SafeFutureWebApplication</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="shortcut icon" type="image/jpg" href="./favicon.jpg" />
+    <link rel="shortcut icon" type="image/jpg" href="~/favicon.jpg" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
-            <div class="container">
+         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3 custom-nav">
+           <div class="container">
                 <a asp-controller="Home" asp-action="Index" class="navbar-brand">
-                    <img src="~/thumbnail_image0.jpg" width="45" alt="" class="d-inline-block align-middle mr-2">
-                    <span>Safe Future Foundation</span>
-                 </a>
-                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                 <ul class="navbar-nav ml-auto">
-                    @{
-                        if (User.Claims.Any(x => (x.Type == System.Security.Claims.ClaimTypes.Role && x.Value == Role.Admin.ToString())))
-                        {
-                            <li class="nav-item active"><a asp-controller="Admin" asp-action="Index" class="nav-link">Admin<span class="sr-only">(current)</span></a></li>
+                    <img src="~/thumbnail_image0.jpg" width="70" height="70" alt="Safe Future Foundation logo" class="d-inline-block align-middle mr-2">
+                    <span class="nav-link-text">Safe Future Foundation</span>
+                </a>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav ml-auto">
+                        @{
+                            if (User.Claims.Any(x => (x.Type == System.Security.Claims.ClaimTypes.Role && x.Value == Role.Admin.ToString())))
+                            {
+                                <li class="nav-item active"><a asp-controller="Admin" asp-action="Index" class="nav-link nav-link-text">Admin<span class="sr-only">(current)</span></a></li>
+                            }
+                            if (User.Identity.IsAuthenticated)
+                            {
+                                <li class="nav-item active"><a asp-controller="Staff" asp-action="Index" class="nav-link nav-link-text">Staff<span class="sr-only">(current)</span></a></li>
+                                <li class="nav-item">
+                                    <span class="nav-link nav-link-text" style="cursor: default">Hello, @User.Identity.Name</span>
+                                </li>
+                            }
                         }
-                        if (User.Identity.IsAuthenticated)
-                        {
-                            <li class="nav-item active"><a asp-controller="Staff" asp-action="Index" class="nav-link">Staff<span class="sr-only">(current)</span></a></li>
-                            <li class="nav-item">
-                                <span class="nav-link" style="cursor: default">Hello, @User.Identity.Name</span>
-                            </li>
-                        }
-                        }
-                  </ul>
+                    </ul>
                 </div>
             </div>
         </nav>
@@ -42,9 +42,9 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2022 - Safe Future Foundation - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class="border-top footer text-muted custom-nav">
+        <div class="container" style="text-align: center;">
+            &copy; 2022 - Safe Future Foundation - <a asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

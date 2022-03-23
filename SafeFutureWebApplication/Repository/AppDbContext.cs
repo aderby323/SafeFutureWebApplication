@@ -17,6 +17,7 @@ namespace SafeFutureWebApplication.Repository
         public virtual DbSet<Attendance> Attendances { get; set; }
         public virtual DbSet<Recipient> Recipients { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Question> Questions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -39,7 +40,6 @@ namespace SafeFutureWebApplication.Repository
                     .HasColumnType("datetime");
 
                 entity.Property(e => e.Notes)
-                    .HasColumnName("ItemsDistributed")
                     .IsUnicode(false);
 
                 entity.HasOne(d => d.Recipient)
@@ -122,6 +122,17 @@ namespace SafeFutureWebApplication.Repository
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Question>(entity => 
+            {
+                entity.ToTable("Question");
+
+                entity.Property(e => e.QuestionId)
+                    .ValueGeneratedOnAdd();
+
+                entity.Property(e => e.Value)
+                    .HasColumnName("Question");
             });
         }
     }

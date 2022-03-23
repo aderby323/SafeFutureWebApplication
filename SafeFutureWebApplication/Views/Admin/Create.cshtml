@@ -24,9 +24,9 @@
                 <option value="Staff">Staff</option>
             </select>
         </div>
-        <p>
-            <button type="submit" class="btn btn-success">Create User</button> 
-            <button type="submit" class="btn btn-outline-success m-2" asp-action="Manage">Cancel</button>
-        </p>
+        <div>
+            <button type="submit" class="btn btn-success">Create User</button>
+            <a asp-controller="Admin" asp-action="Index" type="submit" class="btn btn-secondary m-2">Back to Admin Portal</a>
+        </div>
     </form>
 </div>

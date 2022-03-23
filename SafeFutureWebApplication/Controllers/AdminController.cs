@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using SafeFutureWebApplication.Services.Interfaces;
 using SafeFutureWebApplication.Models;
+using System.Globalization;
 
 namespace SafeFutureWebApplication.Controllers
 {
@@ -12,50 +13,40 @@ namespace SafeFutureWebApplication.Controllers
     public class AdminController : Controller
     {
         private readonly IAdminService adminService;
-        private readonly IStaffService staffService;
 
-        public AdminController(IAdminService adminService, IStaffService staffService)
+        public AdminController(IAdminService adminService)
         {
             this.adminService = adminService;
-            this.staffService = staffService;
         }
-
 
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult Reports([FromQuery] string searchString)
+        [HttpGet]
+        public IActionResult Reports() => View();
+
+        [HttpGet]
+        public IActionResult GetReport([FromQuery(Name = "fromDate")] string fromDate, [FromQuery(Name = "toDate")] string toDate)
         {
-            ViewData["CurrentSearch"] = searchString;
-            if (!string.IsNullOrEmpty(searchString)) { searchString.ToLower(); }
-            (IEnumerable<Recipient>, int maxPages) recipients = staffService.GetRecipients(searchString, 0);
-
-            if (!string.IsNullOrEmpty(searchString))
+            if (!DateTime.TryParse(fromDate, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out DateTime from))
             {
-                int household = -1;
-                try 
-                {
-                    household = int.Parse(searchString);
-                    recipients.Item1 = recipients.Item1.Where(x => x.HouseholdSize == household);
-                    return View(recipients.Item1.ToList());
-
-                }
-                catch(Exception){ }
-                recipients.Item1 = recipients.Item1.Where(x => x.FirstName.Contains(searchString) || x.ZipCode.Contains(searchString));
+                from = DateTime.MinValue;
+            }
+            if (!DateTime.TryParse(toDate, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out DateTime to))
+            {
+                to = DateTime.MinValue;
             }
 
-            return View(recipients.Item1.ToList());
-        }
+            if (to <= from)
+            {
+                return BadRequest("Invalid date range provided");
+            }
 
-        // downloads recipient table
-        public IActionResult GetReport()
-        {
-            byte[] ReportData = adminService.GetReport();
+            byte[] ReportData = adminService.GetReport(from, to);
 
-            return File(ReportData, "text/csv", "report.csv");
-        
+            return File(ReportData, "text/csv");
         }
 
         // COLT REPORT TESTING
@@ -66,7 +57,6 @@ namespace SafeFutureWebApplication.Controllers
             return File(ReportData, "text/csv", "testReport.csv");
 
         }
-
 
         public IActionResult Manage()
         {
@@ -149,5 +139,6 @@ namespace SafeFutureWebApplication.Controllers
 
             return RedirectToAction("Manage");
         }
+
     }
 }

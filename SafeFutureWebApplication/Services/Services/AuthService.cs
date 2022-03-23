@@ -6,6 +6,8 @@ using SafeFutureWebApplication.Models.ViewModels;
 using SafeFutureWebApplication.Repository;
 using SafeFutureWebApplication.Models;
 using SafeFutureWebApplication.Services.Interfaces;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace SafeFutureWebApplication.Services
 {
@@ -18,6 +20,10 @@ namespace SafeFutureWebApplication.Services
             this.context = context;
         }
 
+        /// <inheritdoc/>
+        public Task<User> GetUser(string username) => context.Users.FirstOrDefaultAsync(u => u.Username == username);
+
+        /// <inheritdoc/>
         public string HashPassword(string password, string salt)
         {
             byte[] saltBytes = Convert.FromBase64String(salt);
@@ -26,6 +32,7 @@ namespace SafeFutureWebApplication.Services
                 100000, 256 / 8));
         }
 
+        /// <inheritdoc/>
         public string GetSalt()
         {
             byte[] salt = new byte[128 / 8];
@@ -36,17 +43,8 @@ namespace SafeFutureWebApplication.Services
             return Convert.ToBase64String(salt);
         }
 
+        /// <inheritdoc/>
         public User ValidateLogin(LoginViewModel login)
-        {
-            if (login is null || login.Username.IsNullOrWhitespace() || login.Password.IsNullOrWhitespace()) { return default; }
-
-            User user = context.Users.FirstOrDefault(x => x.Username.Equals(login.Username) && x.Password.Equals(login.Password));
-
-            return user ?? null;
-        }
-
-        // Password and Salt testing
-        public User ValidateLogin2(LoginViewModel login)
         {
             if (login is null || string.IsNullOrEmpty(login.Username) || string.IsNullOrEmpty(login.Password)) { return default; }
 
@@ -57,5 +55,15 @@ namespace SafeFutureWebApplication.Services
 
             return user.Password.Equals(hash) ? user : null;
         }
+
+        //public async Task<bool> ValidatePasswordRecovery(User user, string question1Answer)
+        //{
+        //    Question question = await context.Questions.FirstOrDefaultAsync(x => x.QuestionId == user.QuestionId);
+        //    if (question == null) { return false; }
+
+        //    if (!user.Answer.Equals(question1Answer, StringComparison.InvariantCultureIgnoreCase)) { return false; }
+
+        //    return true;
+        //}
     }
 }
