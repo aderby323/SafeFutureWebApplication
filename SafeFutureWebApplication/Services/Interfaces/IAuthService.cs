@@ -12,9 +12,10 @@ namespace SafeFutureWebApplication.Services.Interfaces
         /// <param name="username"></param>
         /// <returns>User if user exists in the database. Otherwise, null.</returns>
         Task<User> GetUser(string username);
+        Task<bool> UpdateUser(string username, LoginViewModel login);
         string HashPassword(string password, string salt);
         string GetSalt();
         User ValidateLogin(LoginViewModel login);
-        //Task<bool> ValidatePasswordRecovery(User user, string questionAnswer);
+        Task<bool> ValidatePasswordRecovery(User user, string questionAnswer);
     }
 }

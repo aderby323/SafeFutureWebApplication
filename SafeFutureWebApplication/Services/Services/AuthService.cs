@@ -23,6 +23,27 @@ namespace SafeFutureWebApplication.Services
         /// <inheritdoc/>
         public Task<User> GetUser(string username) => context.Users.FirstOrDefaultAsync(u => u.Username == username);
 
+        public async Task<bool> UpdateUser(string username, LoginViewModel login)
+        {
+            if (login is null || login.Username.IsNullOrWhitespace() || login.Password.IsNullOrWhitespace()) { return default; }
+
+            User user = context.Users.FirstOrDefault(x => x.Username == login.Username);
+            if (user == null || !user.Username.Equals(login.Username)) { return default; }
+
+            user.Password = HashPassword(login.Password, user.Salt);
+
+            try
+            {
+                context.Users.Update(user);
+                await context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         /// <inheritdoc/>
         public string HashPassword(string password, string salt)
         {
@@ -56,14 +77,14 @@ namespace SafeFutureWebApplication.Services
             return user.Password.Equals(hash) ? user : null;
         }
 
-        //public async Task<bool> ValidatePasswordRecovery(User user, string question1Answer)
-        //{
-        //    Question question = await context.Questions.FirstOrDefaultAsync(x => x.QuestionId == user.QuestionId);
-        //    if (question == null) { return false; }
+        public async Task<bool> ValidatePasswordRecovery(User user, string question1Answer)
+        {
+            Question question = await context.Questions.FirstOrDefaultAsync(x => x.QuestionId == user.QuestionId);
+            if (question == null) { return false; }
 
-        //    if (!user.Answer.Equals(question1Answer, StringComparison.InvariantCultureIgnoreCase)) { return false; }
+            if (!user.Answer.Equals(question1Answer, StringComparison.InvariantCultureIgnoreCase)) { return false; }
 
-        //    return true;
-        //}
+            return true;
+        }
     }
 }

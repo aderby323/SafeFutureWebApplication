@@ -41,10 +41,11 @@ namespace SafeFutureWebApplication.Controllers
         public IActionResult Login(LoginViewModel login)
         {
             ViewData["ErrorMessage"] = null;
-            //if (login.ForgotPassword)
-            //{
-            //    return RedirectToAction("Recovery", login.Username);
-            //}
+            if (!login.RecoveryUsername.IsNullOrWhitespace())
+            {
+                return RedirectToAction("Recovery", login.RecoveryUsername);
+            }
+
             User user = _authService.ValidateLogin(login);
             if (user is null)
             {
@@ -67,62 +68,79 @@ namespace SafeFutureWebApplication.Controllers
             return RedirectToAction("Index", "Staff");
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> RecoveryAsync(string username) 
-        //{
-        //    if (username.IsNullOrWhitespace())
-        //    {
-        //        ViewData["ErrorMessage"] = "Invalid or malformed username given";
-        //        return View();
-        //    }
+        [HttpGet]
+        public async Task<IActionResult> Recovery(string username)
+        {
+            if (username.IsNullOrWhitespace())
+            {
+                ViewData["ErrorMessage"] = "Invalid or malformed username given";
+                return Error(ViewData["ErrorMessage"] as string);
+            }
 
-        //    User user = await _authService.GetUser(username);
-        //    if (user is null)
-        //    {
-        //        ViewData["ErrorMessage"] = "Invalid or malformed username given";
-        //        return View();
-        //    }
+            User user = await _authService.GetUser(username);
+            if (user is null)
+            {
+                ViewData["ErrorMessage"] = "Invalid or malformed username given";
+                return Error(ViewData["ErrorMessage"] as string);
+            }
 
-        //    if (user.QuestionId == 0)
-        //    {
-        //        ViewData["ErrorMessage"] = "User does not have any security questions";
-        //        return View();
-        //    }
+            var viewModel = new PasswordRecoveryViewModel() { Username = username, Question1 = user.Question.Value };
 
-        //    var viewModel = new PasswordRecoveryViewModel() { Username = username, Question1 = user.Question.Value };
+            return View(viewModel);
+        }
 
-        //    return View(viewModel);
-        //}
+        [HttpPost]
+        public async Task<IActionResult> Recovery(PasswordRecoveryViewModel response)
+        {
+            if (response.Question1Response.IsNullOrWhitespace())
+            {
+                ViewData["ErrorMessage"] = "No repsonse given";
+                return View();
+            }
 
-        //[HttpPost]
-        //public async Task<IActionResult> Recovery(PasswordRecoveryViewModel response)
-        //{
-        //    if (response.Question1Response.IsNullOrWhitespace())
-        //    {
-        //        ViewData["ErrorMessage"] = "No repsonse given";
-        //        return View();
-        //    }
+            User user = await _authService.GetUser(response.Username);
+            if (user is null)
+            {
+                ViewData["ErrorMessage"] = "Invalid or malformed username given";
+                return View();
+            }
 
-        //    User user = await _authService.GetUser(response.Username);
-        //    if (user is null)
-        //    {
-        //        ViewData["ErrorMessage"] = "Invalid or malformed username given";
-        //        return View();
-        //    }
+            bool result = await _authService.ValidatePasswordRecovery(user, response.Question1Response);
+            if (!result)
+            {
+                ViewData["ErrorMessage"] = "Invalid answer given";
+                return View();
+            }
 
-        //    bool result = await _authService.ValidatePasswordRecovery(user, response.Question1Response);
-        //    if (!result)
-        //    {
-        //        ViewData["ErrorMessage"] = "Invalid answer given";
-        //        return View();
-        //    }
-        //    //TODO: Add create new password page
-        //    return View();
-        //}
+            ClaimsIdentity identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+            identity.AddClaim(new Claim(ClaimTypes.Name, user.Username));
+            identity.AddClaim(new Claim(ClaimTypes.Role, user.Role.ToString()));
+
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+            HttpContext.Session.SetString("SessionKey", user.Username);
+
+            return PartialView("NewPassword", new LoginViewModel() { Username = user.Username });
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Staff, Admin, Dev")]
+        public async Task<IActionResult> NewPassword(LoginViewModel newLogin)
+        {
+            if (newLogin.Password.IsNullOrWhitespace()) { return BadRequest("No new password given"); }
+
+            bool result = await _authService.UpdateUser(User.Identity.Name, newLogin);
+            if (!result)
+            {
+                ViewData["Error"] = "Unable to set new password";
+                return PartialView();
+            }
+
+            return RedirectToAction("Index");
+        }
 
         public IActionResult Privacy() => View();
 
         [Route("/error")]
-        public IActionResult Error() => Problem();
+        public IActionResult Error(string error) => Problem(error);
     }
 }
