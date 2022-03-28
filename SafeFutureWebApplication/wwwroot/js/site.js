@@ -65,5 +65,8 @@ function toggleVisibility() {
         el.style.display = el.style.display === 'block' ? 'none' : 'block';
     });
 
+    if (forgotPasswordElement.innerText === "Cancel") {
+        document.getElementById('recovery-username-input').value = '';
+    }
     forgotPasswordElement.innerText = forgotPasswordElement.innerText === 'Forgot Password?' ? 'Cancel' : 'Forgot Password?';
 }

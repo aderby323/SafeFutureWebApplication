@@ -150,3 +150,7 @@ input[type=number] {
     box-sizing: border-box;
     width: 100%;
 }
+
+.text-hover:hover {
+    cursor: pointer;
+}
