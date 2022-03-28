@@ -21,7 +21,9 @@ namespace SafeFutureWebApplication.Services
         }
 
         /// <inheritdoc/>
-        public Task<User> GetUser(string username) => context.Users.FirstOrDefaultAsync(u => u.Username == username);
+        public Task<User> GetUser(string username) => context.Users
+            .Include(x => x.Question)
+            .FirstOrDefaultAsync(u => u.Username == username);
 
         public async Task<bool> UpdateUser(string username, LoginViewModel login)
         {

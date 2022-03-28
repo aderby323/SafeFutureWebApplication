@@ -30,7 +30,7 @@ namespace SafeFutureWebApplication
             if (Host.IsDevelopment())
             {
                 services.AddControllersWithViews().AddRazorRuntimeCompilation();
-                var connectionString = Environment.GetEnvironmentVariable("SFFDb");
+                var connectionString = "U2VydmVyPXRjcDpzZmZzZXJ2ZXIxLmRhdGFiYXNlLndpbmRvd3MubmV0LDE0MzM7SW5pdGlhbCBDYXRhbG9nPVNGRkRhdGFiYXNlO1BlcnNpc3QgU2VjdXJpdHkgSW5mbz1GYWxzZTtVc2VyIElEPXNlcnZlcmFkbWluO1Bhc3N3b3JkPUxUYyxANjV6O011bHRpcGxlQWN0aXZlUmVzdWx0U2V0cz1GYWxzZTtFbmNyeXB0PVRydWU7VHJ1c3RTZXJ2ZXJDZXJ0aWZpY2F0ZT1GYWxzZTtDb25uZWN0aW9uIFRpbWVvdXQ9MzA7";
  
                 if (string.IsNullOrEmpty(connectionString))
                 {
