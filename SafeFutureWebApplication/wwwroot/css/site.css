@@ -62,10 +62,16 @@ body {
 }
 .footer {
   position: absolute;
-  bottom: 0;
+  height: 10%;
   width: 100%;
   white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+  line-height: 60px;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    width: auto\9;
 }
 
 /* MANUALLY ADDED CSS */
@@ -113,22 +119,6 @@ input[type=number] {
     font-size: 1.5em;
 }
 
-/*.selection {
-    display: flex;
-    justify-content: center;
-    margin: 2em 0;
-}
-
-.selection-text {
-    font-size: 1.5em;
-    padding: 1.5em 3em;
-}
-
-.selection:hover {
-    transform: scale(1.2, 1.2);
-    transition: all 0.2s;
-}*/
-
 .panel-group {
     display: flex;
     flex-flow: row;
@@ -161,24 +151,6 @@ input[type=number] {
     width: 100%;
 }
 
-
-/* Testing gradient, do not remove*/
-/*.custom-nav {
-    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-    background-size: 400% 400%;
-    animation: gradient 20s ease infinite;
+.text-hover:hover {
+    cursor: pointer;
 }
-
-@keyframes gradient {
-    0% {
-        background-position: 0% 50%;
-    }
-
-    50% {
-        background-position: 100% 50%;
-    }
-
-    100% {
-        background-position: 0% 50%;
-    }
-}*/

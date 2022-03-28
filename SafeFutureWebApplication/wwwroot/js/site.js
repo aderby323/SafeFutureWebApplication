@@ -1,9 +1,4 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
-
-// Modal jQuery
+﻿// Modal jQuery
 $(function () {
     var placeholder = $('#Placeholder');
     $('button[data-toggle="ajax-modal"]').click(function (event) {
@@ -60,4 +55,18 @@ function getReport() {
             window.URL.revokeObjectURL(url);
         })
         .catch((error) => console.log(error));
+}
+
+var loginElements = document.getElementsByName("login-input");
+var forgotPasswordElement = document.getElementById('login-forgotpassword');
+
+function toggleVisibility() {
+    Array.from(loginElements).forEach((el) => {
+        el.style.display = el.style.display === 'block' ? 'none' : 'block';
+    });
+
+    if (forgotPasswordElement.innerText === "Cancel") {
+        document.getElementById('recovery-username-input').value = '';
+    }
+    forgotPasswordElement.innerText = forgotPasswordElement.innerText === 'Forgot Password?' ? 'Cancel' : 'Forgot Password?';
 }
