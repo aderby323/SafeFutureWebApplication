@@ -5,18 +5,21 @@
 
 
 <div class="container">
-    <h2>Account Recovery</h2>
     @if (ViewData["ErrorMessage"] != null)
     {
-        <p style="color:red">@ViewData["ErrorMessage"]</p>
+        <div class="alert alert-danger" role="alert">
+            @ViewData["ErrorMessage"].ToString()
+        </div>
     }
-
-    <div style="display:flex; align-items:center;justify-content:center;">
+    <h2>Account Recovery</h2>
+    <div>
         <form asp-controller="Home" asp-action="Recovery" method="post" style="margin-bottom: 5px;">
             <input asp-for="Username" type="hidden" value="@Model.Username">
-            <label asp-for="Question1Response">@Model.Question1</label>
-            <input asp-for="Question1Response" type="text" class="form-control">
-            <button type="submit" class="btn btn-success">Submit</button>
+            <div class="mb-3">
+                <label asp-for="Question1Response">@Model.Question1</label>
+                <input asp-for="Question1Response" type="text" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-success px-4 py-1">Submit</button>
         </form>
     </div>
 </div>

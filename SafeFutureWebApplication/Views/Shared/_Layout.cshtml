@@ -7,13 +7,15 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="shortcut icon" type="image/jpg" href="~/favicon.jpg" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
 </head>
 <body>
     <header>
-         <nav class="navbar navbar-expand-lg navbar-light border-bottom box-shadow mb-3 ">
+         <nav class="navbar navbar-expand-lg navbar-light border-bottom box-shadow mb-3">
            <div class="container">
                 <a asp-controller="Home" asp-action="Index" class="navbar-brand">
-                    <span class="nav-link-text">Safe Future Foundation</span>
+                    <img src="~/thumbnail_image0.jpg" width="45px" height="45px" alt="Safe Future Foundation logo" />
+                    Safe Future Foundation
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -23,17 +25,17 @@
                         @{
                             if (User.Claims.Any(x => (x.Type == System.Security.Claims.ClaimTypes.Role && x.Value == Role.Admin.ToString())))
                             {
-                                <li class="nav-item active">
+                                <li class="nav-item">
                                     <a asp-controller="Admin" asp-action="Index" class="nav-link nav-link-text">Admin<span class="sr-only">(current)</span></a>
                                 </li>
                             }
                             if (User.Identity.IsAuthenticated)
                             {
-                                <li class="nav-item active">
+                                <li class="nav-item">
                                     <a asp-controller="Staff" asp-action="Index" class="nav-link nav-link-text">Staff<span class="sr-only">(current)</span></a>
                                 </li>
                                 <li class="nav-item">
-                                    <span class="nav-link nav-link-text" style="cursor: default">Hello, @User.Identity.Name</span>
+                                    <a asp-controller="Home" asp-action="Logout" class="nav-link nav-link-text">Logout <i class="fas fa-sign-out-alt"></i><span class="sr-only">(current)</span></a>
                                 </li>
                             }
                         }
@@ -48,9 +50,9 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="fixed-bottom border-top footer text-muted">
         <div class="container" style="text-align: center;">
-            &copy; 2022 - Safe Future Foundation - <a asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2022 - Safe Future Foundation
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

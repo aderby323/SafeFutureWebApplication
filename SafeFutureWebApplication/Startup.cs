@@ -72,7 +72,7 @@ namespace SafeFutureWebApplication
             services.AddSession(options =>
             {
                 options.Cookie.Name = "SFFIS.Session";
-                options.IdleTimeout = TimeSpan.FromMinutes(5);
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
             });
 
         }

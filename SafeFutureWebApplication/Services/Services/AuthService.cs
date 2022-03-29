@@ -25,14 +25,14 @@ namespace SafeFutureWebApplication.Services
             .Include(x => x.Question)
             .FirstOrDefaultAsync(u => u.Username == username);
 
-        public async Task<bool> UpdateUser(string username, LoginViewModel login)
+        public async Task<bool> UpdateUserCredentials(string username, string password)
         {
-            if (login is null || login.Username.IsNullOrWhitespace() || login.Password.IsNullOrWhitespace()) { return default; }
+            if ( username.IsNullOrWhitespace() || password.IsNullOrWhitespace()) { return default; }
 
-            User user = context.Users.FirstOrDefault(x => x.Username == login.Username);
-            if (user == null || !user.Username.Equals(login.Username)) { return default; }
+            User user = context.Users.FirstOrDefault(x => x.Username == username);
+            if (user == null) { return default; }
 
-            user.Password = HashPassword(login.Password, user.Salt);
+            user.Password = Hash(password, user.Salt);
 
             try
             {
@@ -47,11 +47,20 @@ namespace SafeFutureWebApplication.Services
         }
 
         /// <inheritdoc/>
-        public string HashPassword(string password, string salt)
+        public string Hash(string input)
+        {
+            byte[] saltBytes = Convert.FromBase64String(GetSalt());
+            return Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                input, saltBytes, KeyDerivationPrf.HMACSHA256,
+                100000, 256 / 8));
+        }
+
+        /// <inheritdoc/>
+        public string Hash(string input, string salt)
         {
             byte[] saltBytes = Convert.FromBase64String(salt);
             return Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                password, saltBytes, KeyDerivationPrf.HMACSHA256,
+                input, saltBytes, KeyDerivationPrf.HMACSHA256,
                 100000, 256 / 8));
         }
 
@@ -74,14 +83,18 @@ namespace SafeFutureWebApplication.Services
             User user = context.Users.FirstOrDefault(x => x.Username == login.Username);
             if (user == null) { return default; }
 
-            string hash = HashPassword(login.Password, user.Salt);
+            string hash = Hash(login.Password, user.Salt);
 
             return user.Password.Equals(hash) ? user : null;
         }
 
         public async Task<bool> ValidatePasswordRecovery(User user, string question1Answer)
         {
+            if (question1Answer.IsNullOrWhitespace()) { return false; }
+
+            question1Answer = question1Answer.Trim();
             Question question = await context.Questions.FirstOrDefaultAsync(x => x.QuestionId == user.QuestionId);
+
             if (question == null) { return false; }
 
             if (!user.Answer.Equals(question1Answer, StringComparison.InvariantCultureIgnoreCase)) { return false; }

@@ -79,7 +79,7 @@ namespace SafeFutureWebApplication.Services
         public bool CreateUser(User user, string requester)
         {
             user.Salt = authService.GetSalt();
-            user.Password = authService.HashPassword(user.Password, user.Salt);
+            user.Password = authService.Hash(user.Password, user.Salt);
             
             try
             {
