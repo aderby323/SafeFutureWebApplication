@@ -81,7 +81,7 @@ function getWeeklyReport() {
             const a = document.createElement('a');
             a.style.display = 'none';
             a.href = url;
-            a.download = `${today}_Report.csv`;
+            a.download = `${today}_Weekly_Report.csv`;
             document.body.appendChild(a);
             a.click();
             window.URL.revokeObjectURL(url);
@@ -113,7 +113,7 @@ function getMonthlyReport() {
             const a = document.createElement('a');
             a.style.display = 'none';
             a.href = url;
-            a.download = `${today}_Report.csv`;
+            a.download = `${today}_Monthly_Report.csv`;
             document.body.appendChild(a);
             a.click();
             window.URL.revokeObjectURL(url);
@@ -145,7 +145,7 @@ function getQuarterlyReport() {
             const a = document.createElement('a');
             a.style.display = 'none';
             a.href = url;
-            a.download = `${today}_Report.csv`;
+            a.download = `${today}_Quarterly_Report.csv`;
             document.body.appendChild(a);
             a.click();
             window.URL.revokeObjectURL(url);
