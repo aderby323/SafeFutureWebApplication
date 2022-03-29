@@ -57,6 +57,102 @@ function getReport() {
         .catch((error) => console.log(error));
 }
 
+// COLT WEEKLY TESTING
+function getWeeklyReport() {
+    var to = new Date();
+    var from = new Date();
+    from.setDate(to.getDate() - 7);
+    to = to.toISOString();
+    from = from.toISOString();
+
+    const hostName = window.location.host;
+    const reportUrl = `https://${hostName}/Admin/GetReport?fromDate=${from}&toDate=${to}`;
+    let today = new Date().toISOString().slice(0, 10);
+
+    fetch(reportUrl)
+        .then(resp => {
+            if (!resp.status === 200) {
+                throw new Error("An error occured when generating report");
+            }
+            return resp.blob();
+        })
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = `${today}_Weekly_Report.csv`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+        })
+        .catch((error) => console.log(error));
+}
+
+// COLT MONTHLY TESTING
+function getMonthlyReport() {
+    var to = new Date();
+    var from = new Date();
+    from.setDate(to.getDate() - 30);
+    to = to.toISOString();
+    from = from.toISOString();
+
+    const hostName = window.location.host;
+    const reportUrl = `https://${hostName}/Admin/GetReport?fromDate=${from}&toDate=${to}`;
+    let today = new Date().toISOString().slice(0, 10);
+
+    fetch(reportUrl)
+        .then(resp => {
+            if (!resp.status === 200) {
+                throw new Error("An error occured when generating report");
+            }
+            return resp.blob();
+        })
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = `${today}_Monthly_Report.csv`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+        })
+        .catch((error) => console.log(error));
+}
+
+// COLT QUARTERLY TESTING
+function getQuarterlyReport() {
+    var to = new Date();
+    var from = new Date();
+    from.setDate(to.getDate() - 90);
+    to = to.toISOString();
+    from = from.toISOString();
+
+    const hostName = window.location.host;
+    const reportUrl = `https://${hostName}/Admin/GetReport?fromDate=${from}&toDate=${to}`;
+    let today = new Date().toISOString().slice(0, 10);
+
+    fetch(reportUrl)
+        .then(resp => {
+            if (!resp.status === 200) {
+                throw new Error("An error occured when generating report");
+            }
+            return resp.blob();
+        })
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = `${today}_Quarterly_Report.csv`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+        })
+        .catch((error) => console.log(error));
+}
+
 var loginElements = document.getElementsByName("login-input");
 var forgotPasswordElement = document.getElementById('login-forgotpassword');
 
