@@ -60,14 +60,10 @@ function getReport() {
 // COLT WEEKLY TESTING
 function getWeeklyReport() {
     var to = new Date();
-    console.log("to is: " + to);
     var from = new Date();
     from.setDate(to.getDate() - 7);
-    console.log("from is: " + from);
     to = to.toISOString();
     from = from.toISOString();
-    console.log("modified to is: " + to);
-    console.log("modified from is: " + from);
 
     const hostName = window.location.host;
     const reportUrl = `https://${hostName}/Admin/GetReport?fromDate=${from}&toDate=${to}`;
@@ -96,14 +92,10 @@ function getWeeklyReport() {
 // COLT MONTHLY TESTING
 function getMonthlyReport() {
     var to = new Date();
-    console.log("to is: " + to);
     var from = new Date();
     from.setDate(to.getDate() - 30);
-    console.log("from is: " + from);
     to = to.toISOString();
     from = from.toISOString();
-    console.log("modified to is: " + to);
-    console.log("modified from is: " + from);
 
     const hostName = window.location.host;
     const reportUrl = `https://${hostName}/Admin/GetReport?fromDate=${from}&toDate=${to}`;
@@ -132,14 +124,10 @@ function getMonthlyReport() {
 // COLT QUARTERLY TESTING
 function getQuarterlyReport() {
     var to = new Date();
-    console.log("to is: " + to);
     var from = new Date();
     from.setDate(to.getDate() - 90);
-    console.log("from is: " + from);
     to = to.toISOString();
     from = from.toISOString();
-    console.log("modified to is: " + to);
-    console.log("modified from is: " + from);
 
     const hostName = window.location.host;
     const reportUrl = `https://${hostName}/Admin/GetReport?fromDate=${from}&toDate=${to}`;
