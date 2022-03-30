@@ -1,6 +1,5 @@
 ﻿@model SafeFutureWebApplication.Models.ViewModels.GetRecipientsViewModel
 
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
 <div class="container">
     @if (Model == null || Model.Recipients.IsNullOrEmpty() || Model.Recipients.Count() < 1)
     {
@@ -10,14 +9,14 @@
     <div id="Placeholder"></div>
 
     <form asp-action="Index" method="get" style="margin-bottom: 5px;">
-        <div class="input-group mb-0">
-            <input type="text" class="form-control" placeholder="Search Recipients" name="searchString" value="@ViewData["CurrentSearch"]">
+        <div class="input-group mb-2">
+            <input type="text" class="form-control form-control-lg" placeholder="Search Recipients" name="searchString" value="@ViewData["CurrentSearch"]">
             <div class="input-group-append" style="margin-left: 5px;">
-                <button class="btn btn-secondary" type="submit"><i class="fas fa-search"></i></button>
+                <button class="btn btn-light" type="submit"><i class="fas fa-search"></i></button>
             </div>
         </div>
     </form>
-    <div class="table-responsive table-body">
+    <div class="table-responsive table-body mb-4">
         <table class="table table-hover recipients-table">
             <thead class="thead-light">
                 <tr>
@@ -37,7 +36,7 @@
                         <td>@x.ZipCode</td>
                         <td>@x.HouseholdSize</td>
                         <td style="text-align: center">
-                            <div style="display: flex; align-items: center; justify-content: space-evenly; gap:5px;">
+                            <div style="display: flex; align-items: center; justify-content: space-evenly; gap:3px;">
                                 <button type="button" class="btn btn-info" data-toggle="ajax-modal" data-target="#addAttendance" data-url="@Url.Action("AddAttendance", "Staff", new { recipientId = x.RecipientId })">Add Attendance</button>
                                 <a asp-action="ViewAttendances" asp-controller="Staff" asp-route-recipientId="@x.RecipientId" class="btn btn-info">View Attendances</a>
                             </div>
@@ -47,7 +46,7 @@
             </tbody>
         </table>
     </div>
-    <div class="container-fluid" style="margin: 1.5em 0;">
+    <div class="container-fluid ">
         <div class="row">
             <div class="col">
                 <button type="button" class="btn btn-success btn-lg" data-toggle="ajax-modal" data-target="#addRecipient" data-url="@Url.Action("AddRecipient")">Add Recipient</button>

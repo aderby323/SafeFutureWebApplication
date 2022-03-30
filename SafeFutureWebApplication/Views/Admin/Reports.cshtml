@@ -8,9 +8,9 @@
 <section class="container">
     <h2>Default Reports</h2>
 
-    @Html.ActionLink("Weekly", "Reports", "Admin", null, new { @class = "btn btn-success m-2" })
-    @Html.ActionLink("Monthly", "Reports", "Admin", null, new { @class = "btn btn-success m-2" })
-    @Html.ActionLink("Quarterly", "Reports", "Admin", null, new { @class = "btn btn-success m-2" })
+    <button type="button" class="btn btn-success" onclick="getWeeklyReport();">Weekly</button>
+    <button type="button" class="btn btn-success" onclick="getMonthlyReport();">Monthly</button>
+    <button type="button" class="btn btn-success" onclick="getQuarterlyReport();">Quarterly</button>
 
     <hr style="border-width:5px; color:black" />
 

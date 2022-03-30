@@ -1,13 +1,13 @@
 ﻿@model SafeFutureWebApplication.Models.ViewModels.LoginViewModel
 
 <section >
+@if (ViewData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger mt-2" role="alert">
+        @ViewData["ErrorMessage"].ToString()
+    </div>
+}
 <div class="container py-5 h-75">
-    @if (ViewData["ErrorMessage"] != null)
-    {
-        <div class="alert alert-danger" role="alert">
-            @ViewData["ErrorMessage"].ToString()
-        </div>
-    }
     <div class="row d-flex align-items-center justify-content-center h-100">
       <div class="col-md-8 col-lg-7 col-xl-6">
         <img src="~/thumbnail_image0.jpg" class="img-fluid" alt="Safe Future Foundation logo">

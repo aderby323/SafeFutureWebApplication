@@ -2,17 +2,17 @@
     ViewData["Title"] = "Admin Page";
 }
 
-    <div style="height: 100%;">
-        <div class="panel-group">
-            <a asp-controller="Admin" asp-action="Reports" class="custom-panel">
-                Generate Reports
-            </a>
-            <a asp-controller="Admin" asp-action="Manage" class="custom-panel">
-                Manage Accounts
-            </a>
-        </div>
+<div class="container-fluid mt-5">
+    <div class="panel-group">
+        <a asp-controller="Admin" asp-action="Reports" class="custom-panel">
+            Generate Reports
+        </a>
+        <a asp-controller="Admin" asp-action="Manage" class="custom-panel">
+            Manage Accounts
+        </a>
     </div>
-
-<div>
-    <a class="btn btn-secondary m-2" asp-controller="Staff" asp-action="Index">Go to Staff</a>
+    <div>
+        <a class="btn btn-secondary btn-lg mt-2" asp-controller="Staff" asp-action="Index">Go to Staff</a>
+    </div>
 </div>
+

@@ -122,6 +122,10 @@ namespace SafeFutureWebApplication.Repository
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.HasOne(x => x.Question)
+                    .WithMany(x => x.Users);
+
             });
 
             modelBuilder.Entity<Question>(entity => 
