@@ -82,14 +82,14 @@ namespace SafeFutureWebApplication.Controllers
             if (username.IsNullOrWhitespace())
             {
                 ViewData["ErrorMessage"] = "Invalid or malformed username given";
-                return Error(ViewData["ErrorMessage"] as string);
+                return View("Login");
             }
 
             User user = await _authService.GetUser(username);
             if (user is null)
             {
                 ViewData["ErrorMessage"] = "Invalid or malformed username given";
-                return Error(ViewData["ErrorMessage"] as string);
+                return View("Login");
             }
 
             
