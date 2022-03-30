@@ -73,19 +73,16 @@ namespace SafeFutureWebApplication.Controllers
         [HttpPost]
         public IActionResult Create(User user)
         {
-            if (ModelState.IsValid)
-            {
-                bool result = adminService.CreateUser(user, User.Identity.Name);
-                if (!result)
-                {
-                    return View();
-                }
-                return RedirectToAction("Index");
-            }
-            else
+            if (!ModelState.IsValid)
             {
                 return View();
             }
+            bool result = adminService.CreateUser(user, User.Identity.Name);
+            if (!result)
+            {
+                return View();
+            }
+            return RedirectToAction("Index");
         }
 
         [HttpGet]

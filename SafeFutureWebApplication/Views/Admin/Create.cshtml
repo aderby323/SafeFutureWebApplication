@@ -7,27 +7,28 @@
 
 <div class="container">
     <form asp-controller="Admin" asp-action="Create" method="post">
-        <div asp-validation-summary="All"></div>
         <div class="mb-3">
             <label asp-for="Username">Username:</label>
-            <input asp-for="Username" type="text" class="form-control" />
+            <input asp-for="Username" type="text" class="form-control"/>
+            <span asp-validation-for="Username" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label asp-for="Password">Password:</label>
-            <input asp-for="Password" type="password" class="form-control" />
+            <input asp-for="Password" type="password" class="form-control"/>
+            <span asp-validation-for="Password" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label asp-for="Role">Role:</label>
             <select asp-for="Role" class="form-control">
-                <option value="">Choose a role:</option>
+                <option value="" disabled selected>Choose a role:</option>
                 <option value="Admin">Admin</option>
                 <option value="Staff">Staff</option>
             </select>
         </div>
         <div class="mb-3">
             <label asp-for="QuestionId">Security Question:</label>
-            <select asp-for="QuestionId" class="form-control">
-                <option value="">Choose a security question:</option>
+            <select asp-for="QuestionId" class="form-control" >
+                <option value="" disabled selected>Choose a security question:</option>
                 <option value=2>What was the name of your childhood best friend?</option>
                 <option value=3>In what city or town did you meet your spouse/significant other?</option>
                 <option value=4>In what city or town did your mother and father meet?</option>
@@ -42,7 +43,8 @@
         </div>
         <div class="mb-3">
             <label asp-for="Answer">Answer:</label>
-            <input asp-for="Answer" type="text" class="form-control" />
+            <input asp-for="Answer" type="text" class="form-control"/>
+            <span asp-validation-for="Answer" class="text-danger"></span>
         </div>
 
         <div>
