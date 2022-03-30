@@ -7,10 +7,10 @@
 
 <div class="container">
     <form asp-controller="Admin" asp-action="Create" method="post">
-       <div asp-validation-summary="All"></div>
+        <div asp-validation-summary="All"></div>
         <div class="mb-3">
             <label asp-for="Username">Username:</label>
-            <input asp-for="Username" type="text" class="form-control"/>
+            <input asp-for="Username" type="text" class="form-control" />
         </div>
         <div class="mb-3">
             <label asp-for="Password">Password:</label>
@@ -18,15 +18,36 @@
         </div>
         <div class="mb-3">
             <label asp-for="Role">Role:</label>
-            <select asp-for="Role" class="form-control" >
+            <select asp-for="Role" class="form-control">
                 <option value="">Choose a role:</option>
                 <option value="Admin">Admin</option>
                 <option value="Staff">Staff</option>
             </select>
         </div>
+        <div class="mb-3">
+            <label asp-for="QuestionId">Security Question:</label>
+            <select asp-for="QuestionId" class="form-control">
+                <option value="">Choose a security question:</option>
+                <option value=2>What was the name of your childhood best friend?</option>
+                <option value=3>In what city or town did you meet your spouse/significant other?</option>
+                <option value=4>In what city or town did your mother and father meet?</option>
+                <option value=5>What is your oldest cousin's first and last name?</option>
+                <option value=6>What is the middle name of your youngest child?</option>
+                <option value=7>What school did you attend for sixth grade?</option>
+                <option value=8>In what city or town was your first job?</option>
+                <option value=9>What street did you live on in tenth grade?</option>
+                <option value=10>What was the make and model of your first car?</option>
+                <option value=11>What is the name of your favorite childhood teacher?</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Answer">Answer:</label>
+            <input asp-for="Answer" type="text" class="form-control" />
+        </div>
+
         <div>
             <button type="submit" class="btn btn-success">Create User</button>
-            <a asp-controller="Admin" asp-action="Index" type="submit" class="btn btn-secondary m-2">Back to Admin Portal</a>
+            <a asp-controller="Admin" asp-action="Manage" type="submit" class="btn btn-secondary m-2">Back to Accounts</a>
         </div>
     </form>
 </div>
