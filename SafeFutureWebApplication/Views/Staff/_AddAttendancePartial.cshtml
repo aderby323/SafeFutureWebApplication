@@ -10,7 +10,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form action="Staff/AddAttendance">
+        <form action="Staff/AddAttendance" method="post">
 
             <input name="IsValid" type="hidden" value="@ViewBag.ValidAttendance" />
             <input asp-for="RecipientId" type="hidden" value="@ViewBag.Recipient.RecipientId"/>

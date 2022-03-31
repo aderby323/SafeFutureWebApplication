@@ -26,6 +26,8 @@ $(function () {
                 placeholder.find('.modal').modal('hide');
                 window.location.reload();
             };
+        }).fail(function () {
+            console.log("Something went wrong");
         })
     });
 })

@@ -19,10 +19,7 @@ namespace SafeFutureWebApplication.Controllers
             this.adminService = adminService;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+        public IActionResult Index() => View();
 
         [HttpGet]
         public IActionResult Reports() => View();
@@ -49,26 +46,14 @@ namespace SafeFutureWebApplication.Controllers
             return File(ReportData, "text/csv");
         }
 
-        // COLT REPORT TESTING
-        public IActionResult ColtReportTesting()
-        {
-            byte[] ReportData = adminService.ColtReportTesting();
-
-            return File(ReportData, "text/csv", "testReport.csv");
-
-        }
-
         public IActionResult Manage()
         {
             IEnumerable<User> users = adminService.GetUsers();
             return View(users);
         }
-        
+
         [HttpGet]
-        public IActionResult Create()
-        {
-            return View();
-        }
+        public IActionResult Create() => View();
 
         [HttpPost]
         public IActionResult Create(User user)
@@ -82,7 +67,7 @@ namespace SafeFutureWebApplication.Controllers
             {
                 return View();
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Manage");
         }
 
         [HttpGet]

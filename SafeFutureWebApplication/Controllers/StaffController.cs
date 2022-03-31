@@ -29,10 +29,7 @@ namespace SafeFutureWebApplication.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddRecipient()
-        {
-            return PartialView("_AddRecipientPartial");
-        }
+        public IActionResult AddRecipient() => PartialView("_AddRecipientPartial");
 
         [HttpPost]
         public IActionResult AddRecipient(Recipient Recipient)
@@ -70,13 +67,19 @@ namespace SafeFutureWebApplication.Controllers
             attendance.AttendanceId = Guid.NewGuid();
             if (!ModelState.IsValid)
             {
+                ViewBag.ValidAttendance = "False";
                 return PartialView("_AddAttendancePartial", attendance);
             }
 
             bool result = StaffService.AddAttendance(attendance, User.Identity.Name);
-            if (!result) { return BadRequest(); }
+            if (!result) 
+            {
+                return PartialView("_AddAttendancePartial", attendance);
+            }
 
-            return RedirectToAction("Index");
+            ViewBag.ValidAttendance = "True";
+            ViewBag.Recipient = new Recipient() { RecipientId = Guid.Empty };
+            return PartialView("_AddAttendancePartial");
         }
 
         [HttpGet]
