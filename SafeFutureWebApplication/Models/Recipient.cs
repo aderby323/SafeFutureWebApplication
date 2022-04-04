@@ -16,14 +16,9 @@ namespace SafeFutureWebApplication.Models
         [Required(ErrorMessage = "First name is required")]
         public string FirstName { get; set; }
 
-        public string MiddleName { get; set; }
-
         [Required(ErrorMessage = "Last name is required")]
 
         public string LastName { get; set; }
-        public string Address1 { get; set; }
-
-        public string Address2 { get; set; }
 
         [Required(ErrorMessage = "Zip code is required")]
         

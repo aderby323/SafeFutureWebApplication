@@ -43,8 +43,8 @@ namespace SafeFutureWebApplication.Services
                 x.AttendanceId,
                 x.EventDate,
                 x.Recipient.FirstName,
-                x.Recipient.MiddleName,
                 x.Recipient.LastName,
+                x.Recipient.Email,
                 x.Recipient.ZipCode,
                 x.Recipient.HouseholdSize,
                 x.Notes

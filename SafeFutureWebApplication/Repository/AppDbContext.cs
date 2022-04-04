@@ -56,14 +56,6 @@ namespace SafeFutureWebApplication.Repository
                 entity.Property(e => e.RecipientId)
                     .ValueGeneratedOnAdd();
 
-                entity.Property(e => e.Address1)
-                    .HasMaxLength(200)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Address2)
-                    .HasMaxLength(200)
-                    .IsUnicode(false);
-
                 entity.Property(e => e.CreatedBy)
                     .IsRequired()
                     .HasMaxLength(50)
@@ -82,10 +74,6 @@ namespace SafeFutureWebApplication.Repository
 
                 entity.Property(e => e.LastName)
                     .IsRequired()
-                    .HasMaxLength(150)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.MiddleName)
                     .HasMaxLength(150)
                     .IsUnicode(false);
 
