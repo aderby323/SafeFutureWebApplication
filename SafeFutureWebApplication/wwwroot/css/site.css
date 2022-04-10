@@ -110,6 +110,10 @@ input[type=number] {
     padding: 1em 4em;
 }
 
+.custom-button-spacing {
+    padding: 1em 3em;
+}
+
 .custom-button:hover {
     background-color: #4D4D4D;
 }

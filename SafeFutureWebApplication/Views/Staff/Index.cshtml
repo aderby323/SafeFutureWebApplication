@@ -37,8 +37,8 @@
                         <td>@x.HouseholdSize</td>
                         <td style="text-align: center">
                             <div style="display: flex; align-items: center; justify-content: space-evenly; gap:3px;">
-                                <button type="button" class="btn btn-info" data-toggle="ajax-modal" data-target="#addAttendance" data-url="@Url.Action("AddAttendance", "Staff", new { recipientId = x.RecipientId })">Add Attendance</button>
-                                <a asp-action="ViewAttendances" asp-controller="Staff" asp-route-recipientId="@x.RecipientId" class="btn btn-info">View Attendances</a>
+                                <button type="button" class="btn btn-info custom-button-spacing" data-toggle="ajax-modal" data-target="#addAttendance" data-url="@Url.Action("AddAttendance", "Staff", new { recipientId = x.RecipientId })">Add Attendance</button>
+                                <a asp-action="ViewAttendances" asp-controller="Staff" asp-route-recipientId="@x.RecipientId" class="btn btn-info custom-button-spacing">View Attendances</a>
                             </div>
                         </td>
                     </tr>
