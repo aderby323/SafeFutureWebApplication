@@ -11,7 +11,6 @@ namespace SafeFutureWebApplication.Services
     public class StaffService : IStaffService
     {
         private readonly AppDbContext context;
-        private const int DEFAULT_PAGE_SIZE = 5;
 
         public StaffService(AppDbContext context)
         {
@@ -25,7 +24,11 @@ namespace SafeFutureWebApplication.Services
             if (page < 1) { page = 1; }
             if (!string.IsNullOrWhiteSpace(search))
             {
-                query = query.Where(x => x.FirstName.Contains(search) || x.LastName.Contains(search) || x.ZipCode.Contains(search));
+                string[] terms = search.Trim().Split(' ');
+                for (int i = 0; i < ServiceExtensions.MAX_SEARCH_TERMS; ++i)
+                {
+                    query = query.Where(x => x.FirstName.Contains(terms[i]) || x.LastName.Contains(terms[i]) || x.Email.Contains(terms[i]) || x.ZipCode.Contains(terms[i]));
+                }
             }
 
             IEnumerable<Recipient> recipients = query
@@ -33,9 +36,9 @@ namespace SafeFutureWebApplication.Services
                 .AsNoTracking()
                 .ToList();
 
-            decimal pages = (recipients.Count() / DEFAULT_PAGE_SIZE) + 1;
+            decimal pages = (recipients.Count() / ServiceExtensions.DEFAULT_PAGE_SIZE) + 1;
             int maxPages = (int)Math.Ceiling(pages);
-            return (recipients.Skip((page - 1) * DEFAULT_PAGE_SIZE).Take(DEFAULT_PAGE_SIZE), maxPages);
+            return (recipients.Skip((page - 1) * ServiceExtensions.DEFAULT_PAGE_SIZE).Take(ServiceExtensions.DEFAULT_PAGE_SIZE), maxPages);
 
         }
 

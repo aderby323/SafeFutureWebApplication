@@ -5,8 +5,10 @@ namespace SafeFutureWebApplication.Services
 {
     public static class ServiceExtensions
     {
+        public const int DEFAULT_PAGE_SIZE = 5;
+        public const int MAX_SEARCH_TERMS = 2;
 
-       public static IServiceCollection AddProjectServices(this IServiceCollection services)
+        public static IServiceCollection AddProjectServices(this IServiceCollection services)
         {
             services.AddScoped<IStaffService, StaffService>();
             services.AddScoped<IAdminService, AdminService>();
