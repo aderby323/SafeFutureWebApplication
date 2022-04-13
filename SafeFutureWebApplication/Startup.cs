@@ -9,6 +9,7 @@ using SafeFutureWebApplication.Services;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
+using SafeFutureWebApplication.Models.Options;
 
 namespace SafeFutureWebApplication
 {
@@ -30,7 +31,7 @@ namespace SafeFutureWebApplication
             if (Host.IsDevelopment())
             {
                 services.AddControllersWithViews().AddRazorRuntimeCompilation();
-                var connectionString = "U2VydmVyPXRjcDpzZmZzZXJ2ZXIxLmRhdGFiYXNlLndpbmRvd3MubmV0LDE0MzM7SW5pdGlhbCBDYXRhbG9nPVNGRkRhdGFiYXNlO1BlcnNpc3QgU2VjdXJpdHkgSW5mbz1GYWxzZTtVc2VyIElEPXNlcnZlcmFkbWluO1Bhc3N3b3JkPUxUYyxANjV6O011bHRpcGxlQWN0aXZlUmVzdWx0U2V0cz1GYWxzZTtFbmNyeXB0PVRydWU7VHJ1c3RTZXJ2ZXJDZXJ0aWZpY2F0ZT1GYWxzZTtDb25uZWN0aW9uIFRpbWVvdXQ9MzA7";
+                var connectionString = Environment.GetEnvironmentVariable("SFFDb");
  
                 if (string.IsNullOrEmpty(connectionString))
                 {
@@ -60,13 +61,19 @@ namespace SafeFutureWebApplication
                     options.Cookie.Name = "SFFISLogin";
                 });
 
+            AuthOptions authOptions = new AuthOptions();
+            Configuration.GetSection(AuthOptions.Key).Bind(authOptions);
+
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("Admin",
-                    policy => policy.RequireClaim(ClaimTypes.Role, new string[] { "Admin", "Dev" }));
+                    policy => policy.RequireClaim(ClaimTypes.Role, authOptions.AdminGroup));
 
                 options.AddPolicy("Staff",
-                    policy => policy.RequireClaim(ClaimTypes.Role, new string[] { "Staff", "Dev" }));
+                    policy => policy.RequireClaim(ClaimTypes.Role, authOptions.StaffGroup));
+
+                options.AddPolicy("Dev",
+                    policy => policy.RequireClaim(ClaimTypes.Role, authOptions.DevGroup));
             });
 
             services.AddSession(options =>
