@@ -27,13 +27,16 @@ namespace SafeFutureWebApplication.Services
                 string[] terms = search.Trim().Split(' ');
                 for (int i = 0; i < ServiceExtensions.MAX_SEARCH_TERMS; ++i)
                 {
+                    if (i == terms.Length) { break; }
                     query = query.Where(x => x.FirstName.Contains(terms[i]) || x.LastName.Contains(terms[i]) || x.Email.Contains(terms[i]) || x.ZipCode.Contains(terms[i]));
                 }
             }
 
+            string sql = query.ToString();
+
             IEnumerable<Recipient> recipients = query
-                .OrderBy(x => x.LastName)
                 .AsNoTracking()
+                .OrderBy(x => x.LastName)
                 .ToList();
 
             decimal pages = (recipients.Count() / ServiceExtensions.DEFAULT_PAGE_SIZE) + 1;
@@ -70,7 +73,7 @@ namespace SafeFutureWebApplication.Services
             Recipient recipient = context.Recipients.FirstOrDefault(x => x.RecipientId == attendance.RecipientId);
             if (recipient is null) { return false; }
 
-            attendance.EventDate = DateTime.UtcNow;
+            attendance.EventDate = DateTime.Now;
             attendance.Notes = attendance.Notes ?? "N/A";
             attendance.Notes.Trim();
 

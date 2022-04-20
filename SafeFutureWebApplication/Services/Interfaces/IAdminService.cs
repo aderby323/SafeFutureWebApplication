@@ -12,14 +12,11 @@ namespace SafeFutureWebApplication.Services.Interfaces
         /// <summary>Generates an array of bytes representing the CSV file</summary>
         byte[] GetReport(DateTime from, DateTime to);
 
-        /// COLT REPORT TESTING <summary>Generates an array of bytes representing the CSV file</summary>
-        byte[] ColtReportTesting();
-
         /// <summary>Returns a specific user by their user id</summary>
         User GetUserById(Guid id);
 
         /// <summary>Adds a new user to the database</summary>
-        bool CreateUser(User user, string requester);
+        bool CreateUser(User user);
 
         /// <summary>Updates an existing user to the database</summary>
         bool UpdateUser(User user);

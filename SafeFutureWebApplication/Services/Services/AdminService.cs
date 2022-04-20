@@ -60,27 +60,17 @@ namespace SafeFutureWebApplication.Services
             return ms.ToArray();
         }
 
-        // COLT TESTING FOR REPORT GENERATION
-        public byte[] ColtReportTesting()
+        public bool CreateUser(User user)
         {
-            IEnumerable<Recipient> recipients = context.Recipients.ToList();
-            IEnumerable<Attendance> attendances = context.Attendances.ToList();
-            MemoryStream ms = new MemoryStream();
+            Question question = context.Questions.FirstOrDefault(x => x.QuestionId == user.QuestionId);
+            if (question is null || user.Answer.IsNullOrWhitespace())
+            {
+                return false;
+            }
 
-            using var writer = new StreamWriter(ms);
-            using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
-            csv.WriteRecords(attendances);
-
-            ms.Flush();
-
-            return ms.ToArray();
-        }
-
-        public bool CreateUser(User user, string requester)
-        {
             user.Salt = authService.GetSalt();
             user.Password = authService.Hash(user.Password, user.Salt);
-            
+
             try
             {
                 context.Add(user);
@@ -99,8 +89,16 @@ namespace SafeFutureWebApplication.Services
 
             if (existing == null) { return false; }
 
+            Question question = context.Questions.FirstOrDefault(x => x.QuestionId == update.QuestionId);
+            if (question is null || update.Answer.IsNullOrWhitespace())
+            {
+                return false;
+            }
+
             existing.Username = SanitizeText(update.Username);
             existing.Role = update.Role;
+            existing.QuestionId = update.QuestionId;
+            existing.Answer = SanitizeText(update.Answer);
 
             try
             {

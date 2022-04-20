@@ -62,7 +62,7 @@ namespace SafeFutureWebApplication.Controllers
             {
                 return View();
             }
-            bool result = adminService.CreateUser(user, User.Identity.Name);
+            bool result = adminService.CreateUser(user);
             if (!result)
             {
                 return View();

@@ -13,7 +13,7 @@ namespace SafeFutureWebApplication
 
         public static void SetModified<T>(this T x, string requester) where T: IAuditable
         {
-            x.CreatedOn = DateTime.UtcNow;
+            x.CreatedOn = DateTime.Now;
             x.CreatedBy = requester;
         }
     }
