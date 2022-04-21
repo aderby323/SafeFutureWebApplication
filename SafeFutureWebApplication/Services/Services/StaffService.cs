@@ -24,18 +24,19 @@ namespace SafeFutureWebApplication.Services
             if (page < 1) { page = 1; }
             if (!string.IsNullOrWhiteSpace(search))
             {
-                string[] terms = search.Trim().Split(' ');
-                for (int i = 0; i < ServiceExtensions.MAX_SEARCH_TERMS; ++i)
+                string[] terms = search
+                    .Trim()
+                    .Split(' ')
+                    .Take(ServiceExtensions.MAX_SEARCH_TERMS)
+                    .ToArray();
+
+                foreach (string term in terms)
                 {
-                    if (i == terms.Length) { break; }
-                    query = query.Where(x => x.FirstName.Contains(terms[i]) || x.LastName.Contains(terms[i]) || x.Email.Contains(terms[i]) || x.ZipCode.Contains(terms[i]));
+                    query = query.Where(x => x.FirstName.Contains(term) || x.LastName.Contains(term) || (x.Email != null && x.Email.Contains(term)));
                 }
             }
 
-            string sql = query.ToString();
-
             IEnumerable<Recipient> recipients = query
-                .AsNoTracking()
                 .OrderBy(x => x.LastName)
                 .ToList();
 
