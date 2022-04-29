@@ -1,44 +1,38 @@
 ﻿@model List<SafeFutureWebApplication.Models.Recipient>
 
 <div class="container">
-    <h1>Generate Reports</h1>
-</div>
+    <h1 class="mb-3">Generate Reports</h1>
 
-<!-- DEFAULT REPORTS -->
-<section class="container">
-    <h2>Default Reports</h2>
+    <!-- DEFAULT REPORTS -->
+    <div class="mb-3">
+        <h2>Default Reports</h2>
 
-    <button type="button" class="btn btn-success" onclick="getWeeklyReport();">Weekly</button>
-    <button type="button" class="btn btn-success" onclick="getMonthlyReport();">Monthly</button>
-    <button type="button" class="btn btn-success" onclick="getQuarterlyReport();">Quarterly</button>
+        <div class="d-flex justify-content-start" style="gap: 2em">
+            <button type="button" class="btn btn-success px-5 py-2" onclick="getWeeklyReport();">Weekly</button>
+            <button type="button" class="btn btn-success px-5 py-2" onclick="getMonthlyReport();">Monthly</button>
+            <button type="button" class="btn btn-success px-5 py-2" onclick="getQuarterlyReport();">Quarterly</button>
+        </div>
+    </div>
 
     <hr style="border-width:5px; color:black" />
 
-</section>
+    <!-- CUSTOM REPORTS -->
+    <div class="mb-3">
+        <h2>Custom Reports</h2>
+        <form name="customReport " id="customReport">
+            <div>
+                <label for="fromDate">From:</label>
+                <input type="date" id="fromDate" />
+                <label for="toDate">To:</label>
+                <input type="date" id="toDate" />
+            </div>
+            <br />
+            <button type="button" class="btn btn-success px-5 py-2" onclick="getReport();">Generate Report</button>
+        </form>
+    </div>
 
-<!-- CUSTOM REPORTS -->
-<section class="container">
-    <h2>Custom Reports</h2>
+    @Html.ActionLink("Go Back", "Index", "Admin", null, new { @class = "btn btn-secondary mt-5 px-5 py-2" })
+</div>
 
-    <form name="customReport " id="customReport">
-        <div>
-            <label for="fromDate">From:</label>
-            <input type="date" id="fromDate" />
-            <label for="toDate">To:</label>
-            <input type="date" id="toDate" />
-        </div>
-        <!-- Calls GetReport endpoint -->
-        <br />
-        <button type="button" class="btn btn-success" onclick="getReport();">Generate Report (GetReport endpoint)</button>
-
-    </form>
-
-</section>
-
-<br /><br />
-
-<footer>
-    @Html.ActionLink("Go Back", "Index", "Admin", null, new { @class = "btn btn-secondary m-2" })
-</footer>
 
 

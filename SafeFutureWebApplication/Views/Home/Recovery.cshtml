@@ -4,22 +4,22 @@
 }
 
 
-<div class="container">
+<div class="container mt-5">
     @if (ViewData["ErrorMessage"] != null)
     {
-        <div class="alert alert-danger" role="alert">
-            @ViewData["ErrorMessage"].ToString()
-        </div>
+    <div class="alert alert-danger" role="alert">
+        @ViewData["ErrorMessage"].ToString()
+    </div>
     }
-    <h2>Account Recovery</h2>
-    <div>
+    <div class="mb-3">
+        <h2 style="text-align:center">Account Recovery</h2>
         <form asp-controller="Home" asp-action="Recovery" method="post" style="margin-bottom: 5px;">
             <input asp-for="Username" type="hidden" value="@Model.Username">
             <div class="mb-3">
                 <label asp-for="Question1Response">@Model.Question1</label>
                 <input asp-for="Question1Response" type="text" class="form-control">
             </div>
-            <button type="submit" class="btn btn-success px-4 py-1">Submit</button>
+            <button type="submit" class="btn btn-success px-5 py-2">Submit</button>
         </form>
     </div>
 </div>
