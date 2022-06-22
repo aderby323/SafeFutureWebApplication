@@ -52,7 +52,17 @@
 
     <footer class="fixed-bottom border-top footer text-muted">
         <div class="container" style="text-align: center;">
-            &copy; 2022 - Safe Future Foundation
+            &copy; 2022 - Safe Future Foundation | 
+            @{
+                if (User.Claims.Any(x => (x.Type == System.Security.Claims.ClaimTypes.Role && x.Value == Role.Admin.ToString())))
+                {
+                    <a href="/SFFIS Admin Manual.pdf">User Manual</a>
+                }
+                else
+                {
+                    <a href="/SFFIS Staff Manual.pdf">User Manual</a>
+                }
+            }
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
